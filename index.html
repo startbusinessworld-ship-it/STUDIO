@@ -2,400 +2,545 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>SBW Studio</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --black:#0C0C0A;--red:#C8192A;--red-dim:rgba(200,25,42,0.1);
-  --off-white:#F0ECE4;--grey:#6B6B65;--grey-light:#1e1e1b;
-  --card:#111110;--font:'Plus Jakarta Sans',sans-serif;
+  --bg:#0C0C0A; --card:#111110; --border:#1e1e1b;
+  --red:#C8192A; --red-dim:rgba(200,25,42,0.1);
+  --white:#F0ECE4; --grey:#6B6B65; --grey2:#2a2a27;
+  --green:#3a7a3a; --blue:#2a5a8a;
+  --font:'Plus Jakarta Sans',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{height:100%;background:var(--black);color:var(--off-white);font-family:var(--font);}
+html,body{height:100%;background:var(--bg);color:var(--white);font-family:var(--font);overflow:hidden;}
 
-/* ── TOPNAV ── */
-#topnav{
-  padding:12px 16px;border-bottom:1px solid var(--grey-light);
-  display:flex;align-items:center;gap:10px;
-  position:sticky;top:0;z-index:50;background:var(--black);
+/* ── LAYOUT ── */
+#app{display:flex;flex-direction:column;height:100vh;}
+
+/* ── HEADER ── */
+header{
+  padding:12px 16px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
 }
-.nav-brand{font-size:9px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--red);}
-.nav-title{font-size:15px;font-weight:700;}
-.nav-right{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;}
-.nbtn{
-  background:none;border:1px solid var(--grey-light);color:var(--grey);
+.logo{font-size:9px;font-weight:800;letter-spacing:.25em;text-transform:uppercase;color:var(--red);}
+.app-title{font-size:16px;font-weight:700;}
+.hbtn{
+  background:none;border:1px solid var(--border);color:var(--grey);
   font-family:var(--font);font-size:10px;font-weight:600;letter-spacing:.08em;
   text-transform:uppercase;padding:7px 12px;cursor:pointer;border-radius:5px;transition:all .2s;
 }
-.nbtn:hover{border-color:var(--red);color:var(--off-white);}
-.nbtn.red{background:var(--red);border-color:var(--red);color:#fff;}
-.nbtn.red:hover{opacity:.88;}
+.hbtn:hover{border-color:var(--red);color:var(--white);}
+.hbtn.primary{background:var(--red);border-color:var(--red);color:#fff;}
 
-/* ── FILTER TABS ── */
-#filter-tabs{
-  display:flex;gap:0;border-bottom:1px solid var(--grey-light);
-  overflow-x:auto;background:var(--black);position:sticky;top:53px;z-index:49;
+/* ── TABS ── */
+nav{
+  display:flex;border-bottom:1px solid var(--border);flex-shrink:0;
+  overflow-x:auto;background:var(--bg);
 }
-#filter-tabs::-webkit-scrollbar{height:2px;}
-#filter-tabs::-webkit-scrollbar-thumb{background:var(--grey-light);}
-.ftab{
+nav::-webkit-scrollbar{height:0;}
+.tab{
   background:none;border:none;border-bottom:2px solid transparent;
+  color:var(--grey);font-family:var(--font);font-size:11px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;padding:11px 18px;
+  cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0;
+}
+.tab:hover{color:var(--white);}
+.tab.active{color:var(--white);border-bottom-color:var(--red);}
+
+/* ── VIEWS ── */
+.view{display:none;flex:1;overflow-y:auto;flex-direction:column;}
+.view.active{display:flex;}
+.view::-webkit-scrollbar{width:3px;}
+.view::-webkit-scrollbar-thumb{background:var(--border);}
+
+/* ══════════════════════════════════════
+   AGENDA PERSO
+══════════════════════════════════════ */
+#agenda-perso{padding:16px;}
+
+.month-nav{
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;
+}
+.month-nav button{
+  background:none;border:1px solid var(--border);color:var(--grey);
+  font-size:18px;width:34px;height:34px;cursor:pointer;border-radius:5px;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.month-nav button:hover{border-color:var(--red);color:var(--white);}
+.month-title{font-size:18px;font-weight:700;}
+
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:16px;}
+.cal-head{
+  text-align:center;font-size:9px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--grey);padding:6px 0;
+}
+.cal-day{
+  aspect-ratio:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;border-radius:5px;cursor:pointer;
+  position:relative;transition:all .2s;background:var(--card);
+  border:1px solid var(--border);
+}
+.cal-day:hover{border-color:var(--grey);}
+.cal-day.empty{background:transparent;border-color:transparent;cursor:default;}
+.cal-day.today{border-color:var(--red)!important;}
+.cal-day.today .cal-num{color:var(--red);font-weight:800;}
+.cal-day.selected{background:var(--red-dim);border-color:var(--red);}
+.cal-num{font-size:13px;font-weight:500;}
+.cal-dots{display:flex;gap:2px;margin-top:2px;}
+.cal-dot{width:4px;height:4px;border-radius:50%;}
+.dot-tournage{background:var(--red);}
+.dot-montage{background:#4a9a4a;}
+.dot-pub{background:#7ab0d4;}
+.dot-perso{background:#d4b050;}
+
+/* DAY DETAIL */
+.day-detail{
+  background:var(--card);border:1px solid var(--border);border-radius:8px;
+  padding:16px;margin-top:8px;
+}
+.day-detail-title{font-size:15px;font-weight:700;margin-bottom:12px;}
+.day-events{display:flex;flex-direction:column;gap:8px;}
+.event{
+  display:flex;align-items:flex-start;gap:10px;padding:10px 12px;
+  border-radius:6px;border:1px solid var(--border);cursor:pointer;transition:all .2s;
+}
+.event:hover{border-color:var(--grey);}
+.event-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.event-body{flex:1;}
+.event-type{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);margin-bottom:2px;}
+.event-title{font-size:13px;font-weight:500;line-height:1.35;}
+.event-time{font-size:10px;color:var(--grey);margin-top:2px;}
+.add-event-btn{
+  width:100%;margin-top:10px;background:none;border:1px dashed var(--grey2);
+  color:var(--grey);font-family:var(--font);font-size:11px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;padding:10px;cursor:pointer;
+  border-radius:6px;transition:all .2s;
+}
+.add-event-btn:hover{border-color:var(--red);color:var(--white);}
+.no-events{font-size:13px;color:var(--grey);text-align:center;padding:20px;}
+
+/* LEGEND */
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--grey);}
+.legend-dot{width:8px;height:8px;border-radius:50%;}
+
+/* ══════════════════════════════════════
+   AGENDA PUBLICATION
+══════════════════════════════════════ */
+#agenda-pub{padding:16px;}
+
+.week-nav{
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;
+}
+.week-nav button{
+  background:none;border:1px solid var(--border);color:var(--grey);
+  font-size:16px;width:32px;height:32px;cursor:pointer;border-radius:5px;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.week-nav button:hover{border-color:var(--red);color:var(--white);}
+.week-label{font-size:15px;font-weight:700;}
+
+.pub-days{display:flex;flex-direction:column;gap:10px;}
+.pub-day{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.pub-day-hdr{
+  padding:12px 14px;display:flex;align-items:center;gap:10px;
+  cursor:pointer;border-bottom:1px solid var(--border);
+}
+.pub-day-name{font-size:14px;font-weight:700;}
+.pub-day-date{font-size:11px;color:var(--grey);}
+.pub-day-count{margin-left:auto;font-size:10px;color:var(--grey);font-weight:600;}
+.pub-day-today{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);background:var(--red-dim);padding:2px 7px;border-radius:10px;}
+.pub-day-body{display:none;padding:10px 14px;gap:8px;flex-direction:column;}
+.pub-day-body.open{display:flex;}
+
+.pub-item{
+  background:#0a0a09;border:1px solid var(--border);border-left:3px solid transparent;
+  border-radius:6px;padding:11px 13px;cursor:pointer;transition:all .2s;
+}
+.pub-item:hover{border-color:var(--grey);}
+.pub-item.short-item{border-left-color:var(--red);}
+.pub-item.video-item{border-left-color:#7ab0d4;}
+.pub-item.pub-item-type{border-left-color:#4a9a4a;}
+.pub-item-top{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+.pub-badge{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:10px;}
+.badge-s{background:var(--red-dim);color:#e07070;}
+.badge-v{background:rgba(70,130,180,.1);color:#7ab0d4;}
+.badge-p{background:rgba(74,154,74,.1);color:#70c490;}
+.pub-pillar{font-size:8px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:10px;}
+.p-ie{background:rgba(200,25,42,.08);color:#e07070;}
+.p-fi{background:rgba(70,130,180,.08);color:#7ab0d4;}
+.p-hk{background:rgba(200,160,30,.08);color:#d4b050;}
+.p-ec{background:rgba(70,180,120,.08);color:#70c490;}
+.p-ms{background:rgba(180,100,200,.08);color:#c080d8;}
+.p-ex{background:rgba(200,120,50,.08);color:#d49060;}
+.p-im{background:rgba(100,180,200,.08);color:#70c0d4;}
+.pub-item-title{font-size:13px;font-weight:500;line-height:1.35;color:var(--white);}
+.pub-item-preview{font-size:11px;color:var(--grey);margin-top:4px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.add-pub-btn{
+  width:100%;background:none;border:1px dashed var(--grey2);
   color:var(--grey);font-family:var(--font);font-size:10px;font-weight:600;
-  letter-spacing:.08em;text-transform:uppercase;
-  padding:10px 14px;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0;
+  letter-spacing:.08em;text-transform:uppercase;padding:9px;cursor:pointer;
+  border-radius:6px;transition:all .2s;margin-top:4px;
 }
-.ftab:hover{color:var(--off-white);}
-.ftab.active{color:var(--off-white);border-bottom-color:var(--red);}
+.add-pub-btn:hover{border-color:var(--red);color:var(--white);}
 
-/* ── SCRIPT LIST ── */
-#script-list{padding:14px 16px 100px;}
+/* ══════════════════════════════════════
+   TELEPROMPTER
+══════════════════════════════════════ */
+#teleprompter-view{padding:0;overflow:hidden;}
+#teleprompter-view.active{display:flex;}
 
-.script-card{
-  background:var(--card);border:1px solid var(--grey-light);
-  border-left:3px solid transparent;
-  border-radius:6px;margin-bottom:8px;cursor:pointer;
-  transition:all .2s;overflow:hidden;
+.tp-empty{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:12px;color:var(--grey);padding:40px;text-align:center;
 }
-.script-card:hover{border-color:var(--red);transform:translateY(-1px);}
-.script-card.type-short{border-left-color:var(--red);}
-.script-card.type-video{border-left-color:#7ab0d4;}
-.script-card.type-pub{border-left-color:#4a9a4a;}
+.tp-empty .big{font-size:40px;}
+.tp-empty .title{font-size:16px;font-weight:600;color:var(--white);}
+.tp-empty .sub{font-size:13px;line-height:1.6;}
 
-.card-top{display:flex;align-items:center;gap:10px;padding:12px 14px;}
-.card-badge{
-  font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-  padding:3px 8px;border-radius:20px;flex-shrink:0;
+.tp-main{display:flex;flex-direction:column;flex:1;overflow:hidden;}
+.tp-top{
+  padding:10px 16px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+  background:#080807;
 }
-.badge-short{background:var(--red-dim);color:#e07070;}
-.badge-video{background:rgba(70,130,180,.1);color:#7ab0d4;}
-.badge-pub{background:rgba(74,154,74,.1);color:#4a9a4a;}
-
-.pill{
-  font-size:8px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
-  padding:2px 7px;border-radius:20px;flex-shrink:0;
+.tp-script-name{font-size:12px;font-weight:600;color:var(--white);max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tp-guide-line{
+  position:absolute;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(200,25,42,.25),transparent);
+  top:30vh;pointer-events:none;z-index:5;
 }
-.p-ie{background:rgba(200,25,42,.1);color:#e07070;}
-.p-fi{background:rgba(70,130,180,.1);color:#7ab0d4;}
-.p-hk{background:rgba(200,160,30,.1);color:#d4b050;}
-.p-ec{background:rgba(70,180,120,.1);color:#70c490;}
-.p-ms{background:rgba(180,100,200,.1);color:#c080d8;}
-.p-ex{background:rgba(200,120,50,.1);color:#d49060;}
-.p-im{background:rgba(100,180,200,.1);color:#70c0d4;}
-
-.card-title{font-size:13px;font-weight:500;color:var(--off-white);flex:1;line-height:1.35;}
-.card-arrow{color:var(--grey);font-size:14px;flex-shrink:0;}
-
-/* ── EMPTY STATE ── */
-.empty-state{text-align:center;padding:60px 20px;color:var(--grey);}
-.empty-state .big{font-size:36px;margin-bottom:12px;}
-.empty-state .title{font-size:16px;font-weight:600;color:var(--off-white);margin-bottom:6px;}
-.empty-state .sub{font-size:13px;line-height:1.6;}
-
-/* ── OVERLAY ── */
-.overlay{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);
-  z-index:200;align-items:flex-end;justify-content:center;
-  backdrop-filter:blur(6px);
-}
-.overlay.on{display:flex;}
-
-/* ── SCRIPT DRAWER ── */
-.drawer{
-  background:#111110;border-top:2px solid var(--red);
-  width:100%;max-width:800px;max-height:92vh;
-  display:flex;flex-direction:column;border-radius:12px 12px 0 0;
-  animation:slideUp .22s ease;
-}
-@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-
-.drawer-hdr{
-  padding:14px 16px;border-bottom:1px solid var(--grey-light);
-  display:flex;align-items:flex-start;gap:10px;flex-shrink:0;
-}
-.drawer-meta{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--red);margin-bottom:3px;}
-.drawer-title{font-size:15px;font-weight:600;line-height:1.3;}
-.drawer-actions{display:flex;gap:6px;flex-shrink:0;margin-left:auto;flex-wrap:wrap;justify-content:flex-end;}
-.dact{
-  border:none;font-family:var(--font);font-size:9px;font-weight:700;
-  letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;
-  cursor:pointer;border-radius:4px;transition:all .2s;white-space:nowrap;
-}
-.dact-edit{background:#1a1a17;border:1px solid #2a2a27;color:var(--grey);}
-.dact-edit:hover{border-color:var(--red);color:var(--off-white);}
-.dact-tp{background:#1a1a17;border:1px solid #2a2a27;color:var(--off-white);}
-.dact-tp:hover{border-color:var(--red);color:var(--red);}
-.dact-copy{background:var(--red);color:#fff;}
-.dact-copy:hover{opacity:.85;}
-.dact-copy.ok{background:#2a7a2a;}
-.dact-del{background:none;border:1px solid #2a2a27;color:#884444;font-size:11px;padding:7px 9px;}
-.dact-del:hover{border-color:#aa4444;color:#cc6666;}
-.dact-close{background:none;border:1px solid #2a2a27;color:var(--grey);width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:13px;}
-.dact-close:hover{border-color:var(--red);color:var(--red);}
-
-.drawer-body{flex:1;overflow-y:auto;padding:18px 16px;}
-.drawer-body::-webkit-scrollbar{width:3px;}
-.drawer-body::-webkit-scrollbar-thumb{background:#2a2a27;}
-#view-text{font-size:16px;font-weight:400;line-height:1.95;color:var(--off-white);white-space:pre-line;}
-#edit-area{
-  width:100%;background:#0a0a09;border:1px solid var(--red);
-  color:var(--off-white);font-family:var(--font);font-size:15px;
-  font-weight:400;line-height:1.9;padding:14px;outline:none;
-  border-radius:6px;resize:vertical;min-height:280px;display:none;
-}
-.edit-footer{display:none;gap:8px;margin-top:12px;}
-.btn-save{background:var(--red);border:none;color:#fff;font-family:var(--font);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:10px 20px;cursor:pointer;border-radius:5px;}
-.btn-cancel{background:#1a1a17;border:1px solid #2a2a27;color:var(--grey);font-family:var(--font);font-size:11px;font-weight:500;padding:10px 16px;cursor:pointer;border-radius:5px;}
-
-/* ── NEW SCRIPT MODAL ── */
-#new-overlay{z-index:300;align-items:center;justify-content:center;padding:16px;}
-.new-box{
-  background:#111110;border:1px solid #252523;border-top:2px solid var(--red);
-  width:100%;max-width:500px;border-radius:8px;padding:20px;
-  animation:popIn .2s ease;
-}
-@keyframes popIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
-.new-title{font-size:17px;font-weight:700;margin-bottom:16px;}
-.new-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);margin-bottom:6px;display:block;}
-.new-input{
-  width:100%;background:#0a0a09;border:1px solid var(--grey-light);
-  color:var(--off-white);font-family:var(--font);font-size:14px;
-  padding:11px 14px;outline:none;border-radius:6px;transition:border-color .2s;margin-bottom:14px;
-}
-.new-input:focus{border-color:var(--red);}
-.new-input::placeholder{color:#3a3a37;}
-.new-select{
-  width:100%;background:#0a0a09;border:1px solid var(--grey-light);
-  color:var(--off-white);font-family:var(--font);font-size:14px;
-  padding:11px 14px;outline:none;border-radius:6px;margin-bottom:14px;
-  cursor:pointer;
-}
-.new-select:focus{border-color:var(--red);}
-.new-actions{display:flex;gap:8px;margin-top:4px;}
-.btn-create{flex:1;background:var(--red);border:none;color:#fff;font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:12px;cursor:pointer;border-radius:6px;}
-.btn-create:hover{opacity:.88;}
-.btn-new-cancel{background:none;border:1px solid var(--grey-light);color:var(--grey);font-family:var(--font);font-size:12px;font-weight:500;padding:12px 16px;cursor:pointer;border-radius:6px;}
-
-/* ── TELEPROMPTER ── */
-#teleprompter{
-  display:none;position:fixed;inset:0;background:#050504;z-index:500;flex-direction:column;
-}
-#teleprompter.on{display:flex;}
-.tp-nav{
-  padding:10px 16px;border-bottom:1px solid #1a1a17;
-  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:#080807;
-}
-.tp-brand{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);}
-.tp-name{font-size:11px;color:var(--grey);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.tp-close-btn{background:none;border:1px solid #2a2a27;color:var(--grey);font-family:var(--font);font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;cursor:pointer;border-radius:4px;transition:all .2s;}
-.tp-close-btn:hover{border-color:var(--red);color:var(--red);}
-.tp-guide{position:fixed;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(200,25,42,.2),transparent);top:30vh;pointer-events:none;z-index:5;}
-.tp-scroll{flex:1;overflow-y:auto;padding:5vh 8% 40vh;}
-.tp-scroll::-webkit-scrollbar{width:3px;}
-.tp-scroll::-webkit-scrollbar-thumb{background:#1a1a17;}
-#tp-lines{font-weight:400;color:#444441;}
-.tp-line{display:block;padding:11px 0;cursor:pointer;transition:color .25s,opacity .25s;line-height:1.55;}
-.tp-line.spoken{color:#252522;opacity:.35;}
-.tp-line.current{color:var(--off-white);font-weight:600;opacity:1;}
-.tp-line.upcoming{color:#504f4c;opacity:.6;}
+.tp-content{flex:1;overflow-y:auto;padding:5vh 8% 40vh;position:relative;}
+.tp-content::-webkit-scrollbar{width:3px;}
+.tp-content::-webkit-scrollbar-thumb{background:var(--border);}
+#tp-text{color:#3a3a37;}
+.tp-line{display:block;padding:11px 0;cursor:pointer;transition:color .2s,opacity .2s;line-height:1.6;}
+.tp-line.done{color:#202020;opacity:.3;}
+.tp-line.active{color:var(--white);font-weight:600;}
+.tp-line.next{color:#4a4a47;opacity:.7;}
 .tp-line.empty{padding:4px 0;cursor:default;pointer-events:none;}
-.tp-bar{
-  position:fixed;bottom:0;left:0;right:0;
-  background:rgba(5,5,4,.97);border-top:1px solid #1a1a17;
-  padding:10px 16px;z-index:10;backdrop-filter:blur(10px);
+
+.tp-controls{
+  border-top:1px solid var(--border);padding:12px 16px;flex-shrink:0;
+  background:rgba(5,5,4,.97);backdrop-filter:blur(10px);
 }
-.tp-row1{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px;}
-.tp-row2{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;}
-.tp-btn{
+.tp-ctrl-row1{display:flex;justify-content:center;gap:8px;margin-bottom:10px;}
+.tp-ctrl-row2{display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap;}
+.tc{
   border:none;font-family:var(--font);font-size:10px;font-weight:700;
   letter-spacing:.08em;text-transform:uppercase;padding:9px 16px;
   cursor:pointer;border-radius:5px;transition:all .2s;
 }
-.tp-btn.voice{background:var(--red);color:#fff;}
-.tp-btn.voice.on{background:#8B1019;animation:pulse 1.5s infinite;}
-.tp-btn.auto{background:#1a1a17;border:1px solid #2a2a27;color:var(--off-white);}
-.tp-btn.auto.playing{border-color:var(--red);color:var(--red);}
-.tp-btn.rst{background:#1a1a17;border:1px solid #2a2a27;color:var(--grey);}
+.tc.v{background:var(--red);color:#fff;}
+.tc.v.on{background:#8b1019;animation:pulse 1.5s infinite;}
+.tc.a{background:var(--card);border:1px solid var(--grey2);color:var(--white);}
+.tc.a.on{border-color:var(--red);color:var(--red);}
+.tc.r{background:var(--card);border:1px solid var(--grey2);color:var(--grey);}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
-.tp-ctrl{display:flex;align-items:center;gap:6px;}
-.tp-ctrl-lbl{font-size:9px;font-weight:600;color:var(--grey);letter-spacing:.06em;text-transform:uppercase;}
-.tp-slider{-webkit-appearance:none;appearance:none;width:80px;height:3px;background:#2a2a27;outline:none;border-radius:2px;cursor:pointer;}
-.tp-slider::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;background:var(--red);border-radius:50%;cursor:pointer;}
-.tp-sz{background:#1a1a17;border:1px solid #2a2a27;color:var(--grey);font-family:var(--font);font-size:10px;font-weight:700;width:26px;height:26px;cursor:pointer;border-radius:4px;display:flex;align-items:center;justify-content:center;}
-.tp-sz:hover{border-color:var(--red);color:var(--off-white);}
-.tp-voice-ind{
-  position:fixed;top:56px;left:50%;transform:translateX(-50%);
-  background:rgba(200,25,42,.9);color:#fff;font-size:10px;font-weight:700;
+.tc-group{display:flex;align-items:center;gap:6px;}
+.tc-lbl{font-size:9px;font-weight:700;color:var(--grey);letter-spacing:.06em;text-transform:uppercase;}
+.tc-slider{-webkit-appearance:none;width:80px;height:3px;background:var(--grey2);outline:none;border-radius:2px;cursor:pointer;}
+.tc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;background:var(--red);border-radius:50%;}
+.tc-sz{background:var(--card);border:1px solid var(--grey2);color:var(--grey);font-family:var(--font);font-size:10px;font-weight:700;width:26px;height:26px;cursor:pointer;border-radius:4px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.tc-sz:hover{border-color:var(--red);color:var(--white);}
+
+.tp-voice-badge{
+  display:none;position:fixed;top:60px;left:50%;transform:translateX(-50%);
+  background:rgba(200,25,42,.92);color:#fff;font-size:10px;font-weight:700;
   letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:20px;
-  display:none;z-index:20;align-items:center;gap:5px;
+  align-items:center;gap:5px;z-index:10;white-space:nowrap;
 }
-.tp-voice-ind.on{display:flex;}
-.tp-dot{width:6px;height:6px;background:#fff;border-radius:50%;animation:blink .8s infinite;}
+.tp-voice-badge.on{display:flex;}
+.vdot{width:6px;height:6px;background:#fff;border-radius:50%;animation:blink .8s infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
-/* TOAST */
-.toast{
-  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
-  background:#2a7a2a;color:#fff;font-size:12px;font-weight:600;
-  padding:8px 18px;border-radius:20px;z-index:999;
-  animation:popIn .2s ease;white-space:nowrap;
+/* ══════════════════════════════════════
+   MODALS
+══════════════════════════════════════ */
+.modal-bg{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);
+  z-index:100;align-items:flex-end;justify-content:center;
+  backdrop-filter:blur(6px);
 }
+.modal-bg.on{display:flex;}
 
-@media(max-width:600px){
-  .drawer-actions{gap:4px;}
-  .dact{padding:6px 9px;font-size:8px;}
-  #tp-lines{font-size:26px!important;}
-  .tp-row2{gap:8px;}
+.modal{
+  background:var(--card);border-top:2px solid var(--red);
+  width:100%;max-width:620px;max-height:90vh;
+  border-radius:12px 12px 0 0;display:flex;flex-direction:column;
+  animation:up .22s ease;
+}
+@keyframes up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+
+.modal-hdr{
+  padding:14px 16px;border-bottom:1px solid var(--border);
+  display:flex;align-items:flex-start;gap:10px;flex-shrink:0;
+}
+.modal-hdr-info{flex:1;min-width:0;}
+.modal-label{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--red);margin-bottom:3px;}
+.modal-title{font-size:15px;font-weight:700;line-height:1.3;}
+.modal-acts{display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap;}
+.ma{
+  border:none;font-family:var(--font);font-size:9px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;padding:7px 11px;
+  cursor:pointer;border-radius:4px;transition:all .2s;white-space:nowrap;
+}
+.ma-tp{background:var(--card);border:1px solid var(--grey2);color:var(--white);}
+.ma-tp:hover{border-color:var(--red);color:var(--red);}
+.ma-copy{background:var(--red);color:#fff;}
+.ma-copy:hover{opacity:.85;}
+.ma-copy.ok{background:#2a7a2a;}
+.ma-edit{background:var(--card);border:1px solid var(--grey2);color:var(--grey);}
+.ma-edit:hover{border-color:var(--white);color:var(--white);}
+.ma-x{background:none;border:1px solid var(--grey2);color:var(--grey);width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:13px;}
+.ma-x:hover{border-color:var(--red);color:var(--red);}
+
+.modal-body{flex:1;overflow-y:auto;padding:16px;}
+.modal-body::-webkit-scrollbar{width:3px;}
+.modal-body::-webkit-scrollbar-thumb{background:var(--grey2);}
+#modal-script-text{font-size:16px;font-weight:400;line-height:1.95;color:var(--white);white-space:pre-line;}
+#modal-edit-area{
+  width:100%;background:#0a0a09;border:1px solid var(--red);
+  color:var(--white);font-family:var(--font);font-size:15px;
+  font-weight:400;line-height:1.9;padding:14px;outline:none;
+  border-radius:6px;resize:vertical;min-height:250px;display:none;
+}
+.modal-edit-footer{display:none;gap:8px;margin-top:12px;}
+.btn-sv{background:var(--red);border:none;color:#fff;font-family:var(--font);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:10px 20px;cursor:pointer;border-radius:5px;}
+.btn-cn{background:var(--card);border:1px solid var(--grey2);color:var(--grey);font-family:var(--font);font-size:11px;font-weight:500;padding:10px 16px;cursor:pointer;border-radius:5px;}
+
+/* ADD EVENT/SCRIPT MODAL */
+.add-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:200;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(6px);}
+.add-modal-bg.on{display:flex;}
+.add-modal{background:var(--card);border:1px solid var(--grey2);border-top:2px solid var(--red);width:100%;max-width:480px;border-radius:8px;padding:20px;animation:popIn .2s ease;}
+@keyframes popIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
+.add-modal h3{font-size:17px;font-weight:700;margin-bottom:16px;}
+.f-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);margin-bottom:6px;display:block;margin-top:12px;}
+.f-label:first-of-type{margin-top:0;}
+.f-input{width:100%;background:#0a0a09;border:1px solid var(--border);color:var(--white);font-family:var(--font);font-size:14px;padding:11px 14px;outline:none;border-radius:6px;transition:border-color .2s;}
+.f-input:focus{border-color:var(--red);}
+.f-input::placeholder{color:#3a3a37;}
+.f-select{width:100%;background:#0a0a09;border:1px solid var(--border);color:var(--white);font-family:var(--font);font-size:14px;padding:11px 14px;outline:none;border-radius:6px;cursor:pointer;}
+.f-select:focus{border-color:var(--red);}
+.f-textarea{width:100%;background:#0a0a09;border:1px solid var(--border);color:var(--white);font-family:var(--font);font-size:13px;padding:11px 14px;outline:none;border-radius:6px;resize:vertical;height:90px;transition:border-color .2s;line-height:1.7;}
+.f-textarea:focus{border-color:var(--red);}
+.f-textarea::placeholder{color:#3a3a37;}
+.f-actions{display:flex;gap:8px;margin-top:16px;}
+.f-btn-create{flex:1;background:var(--red);border:none;color:#fff;font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:12px;cursor:pointer;border-radius:6px;}
+.f-btn-cancel{background:none;border:1px solid var(--border);color:var(--grey);font-family:var(--font);font-size:12px;font-weight:500;padding:12px 16px;cursor:pointer;border-radius:6px;}
+
+/* TOAST */
+.toast-el{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#2a7a2a;color:#fff;font-size:12px;font-weight:600;padding:8px 18px;border-radius:20px;z-index:999;white-space:nowrap;animation:popIn .2s ease;}
+
+@media(max-width:500px){
+  .ma{padding:6px 8px;font-size:8px;}
+  #tp-text{font-size:26px!important;}
 }
 </style>
 </head>
 <body>
+<div id="app">
 
-<!-- TOPNAV -->
-<div id="topnav">
-  <div>
-    <div class="nav-brand">Start Business World</div>
-    <div class="nav-title">SBW Studio</div>
-  </div>
-  <div class="nav-right">
-    <button class="nbtn red" onclick="openNew()">+ Nouveau script</button>
-    <button class="nbtn" onclick="downloadApp()">⬇ Télécharger</button>
-    <button class="nbtn" onclick="openSettings()">⚙</button>
-  </div>
-</div>
-
-<!-- FILTER TABS -->
-<div id="filter-tabs">
-  <button class="ftab active" onclick="setFilter('all')">Tous</button>
-  <button class="ftab" onclick="setFilter('short')">Shorts</button>
-  <button class="ftab" onclick="setFilter('video')">Vidéos longues</button>
-  <button class="ftab" onclick="setFilter('pub')">Publications</button>
-  <button class="ftab" onclick="setFilter('Import / Export')">Import/Export</button>
-  <button class="ftab" onclick="setFilter('Fiscalité')">Fiscalité</button>
-  <button class="ftab" onclick="setFilter('Hong Kong')">Hong Kong</button>
-  <button class="ftab" onclick="setFilter('E-commerce')">E-commerce</button>
-  <button class="ftab" onclick="setFilter('Mindset')">Mindset</button>
-  <button class="ftab" onclick="setFilter('Expatriation')">Expatriation</button>
-  <button class="ftab" onclick="setFilter('Immobilier')">Immobilier</button>
-</div>
-
-<!-- SCRIPT LIST -->
-<div id="script-list"></div>
-
-<!-- SCRIPT DRAWER -->
-<div class="overlay" id="drawer-overlay" onclick="closeDrawerBg(event)">
-  <div class="drawer">
-    <div class="drawer-hdr">
-      <div style="flex:1;min-width:0">
-        <div class="drawer-meta" id="d-meta"></div>
-        <div class="drawer-title" id="d-title"></div>
-      </div>
-      <div class="drawer-actions">
-        <button class="dact dact-edit" onclick="toggleEdit()">✎</button>
-        <button class="dact dact-tp" onclick="openTPFromDrawer()">📺</button>
-        <button class="dact dact-copy" id="dact-copy" onclick="copyDrawer()">Copier</button>
-        <button class="dact dact-del" onclick="deleteScript()">🗑</button>
-        <button class="dact dact-close" onclick="closeDrawer()">✕</button>
-      </div>
+  <!-- HEADER -->
+  <header>
+    <div>
+      <div class="logo">Start Business World</div>
+      <div class="app-title">SBW Studio</div>
     </div>
-    <div class="drawer-body">
-      <div id="view-text"></div>
-      <textarea id="edit-area" placeholder="Écris ou modifie ton script ici..."></textarea>
-      <div class="edit-footer" id="edit-footer">
-        <button class="btn-save" onclick="saveEdit()">✓ Sauvegarder</button>
-        <button class="btn-cancel" onclick="cancelEdit()">Annuler</button>
+    <div style="display:flex;gap:6px">
+      <button class="hbtn" onclick="download()">⬇ Télécharger</button>
+    </div>
+  </header>
+
+  <!-- TABS -->
+  <nav>
+    <button class="tab active" onclick="switchTab('agenda-perso',this)">📅 Mon Agenda</button>
+    <button class="tab" onclick="switchTab('agenda-pub',this)">📢 Publications</button>
+    <button class="tab" onclick="switchTab('teleprompter-view',this)">📺 Téléprompter</button>
+  </nav>
+
+  <!-- ═══ VUE 1 : AGENDA PERSO ═══ -->
+  <div class="view active" id="agenda-perso">
+    <div class="month-nav" style="padding:14px 16px 0">
+      <button onclick="changeMonth(-1)">‹</button>
+      <div class="month-title" id="month-title"></div>
+      <button onclick="changeMonth(1)">›</button>
+    </div>
+    <div style="padding:12px 16px 0">
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot dot-tournage"></div>Tournage</div>
+        <div class="legend-item"><div class="legend-dot dot-montage"></div>Montage</div>
+        <div class="legend-item"><div class="legend-dot dot-pub"></div>Publication</div>
+        <div class="legend-item"><div class="legend-dot dot-perso"></div>Perso</div>
+      </div>
+      <div class="cal-grid">
+        <div class="cal-head">L</div><div class="cal-head">M</div><div class="cal-head">M</div>
+        <div class="cal-head">J</div><div class="cal-head">V</div><div class="cal-head">S</div>
+        <div class="cal-head">D</div>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+    </div>
+    <div style="padding:0 16px 80px" id="day-detail-container">
+      <div class="no-events" style="padding:30px;color:var(--grey);font-size:13px;text-align:center">
+        Clique sur un jour pour voir ou ajouter des événements
       </div>
     </div>
   </div>
+
+  <!-- ═══ VUE 2 : AGENDA PUBLICATION ═══ -->
+  <div class="view" id="agenda-pub">
+    <div style="padding:14px 16px 0">
+      <div class="week-nav">
+        <button onclick="changeWeek(-1)">‹</button>
+        <div class="week-label" id="week-label"></div>
+        <button onclick="changeWeek(1)">›</button>
+      </div>
+      <button onclick="openAddScript()" style="width:100%;margin-bottom:14px;background:var(--red);border:none;color:#fff;font-family:var(--font);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px;cursor:pointer;border-radius:6px;">+ Ajouter un script / post</button>
+    </div>
+    <div class="pub-days" style="padding:0 16px 80px" id="pub-days"></div>
+  </div>
+
+  <!-- ═══ VUE 3 : TÉLÉPROMPTER ═══ -->
+  <div class="view" id="teleprompter-view">
+    <div class="tp-empty" id="tp-empty">
+      <div class="big">📺</div>
+      <div class="title">Téléprompter</div>
+      <div class="sub">Clique sur un script dans l'onglet Publications pour l'ouvrir ici, ou charge un script ci-dessous.</div>
+      <button class="hbtn primary" onclick="openAddScript()" style="margin-top:8px">Charger un script</button>
+    </div>
+    <div class="tp-main" id="tp-main" style="display:none">
+      <div class="tp-top">
+        <div class="tc-group" style="gap:8px">
+          <span class="tc-lbl">Script :</span>
+          <span class="tp-script-name" id="tp-script-name"></span>
+        </div>
+        <button class="hbtn" onclick="closeTPScript()" style="font-size:10px;padding:5px 10px;">✕ Fermer</button>
+      </div>
+      <div class="tp-guide-line"></div>
+      <div class="tp-voice-badge" id="tp-voice-badge"><div class="vdot"></div><span>Écoute en cours</span></div>
+      <div class="tp-content" id="tp-content">
+        <div id="tp-text" style="font-size:32px;font-weight:400;line-height:1;"></div>
+      </div>
+      <div class="tp-controls">
+        <div class="tp-ctrl-row1">
+          <button class="tc v" id="tc-voice" onclick="toggleVoice()">🎤 Défilement vocal</button>
+          <button class="tc a" id="tc-auto" onclick="toggleAuto()">▶ Auto</button>
+          <button class="tc r" onclick="resetTP()">↺ Début</button>
+        </div>
+        <div class="tp-ctrl-row2">
+          <div class="tc-group">
+            <span class="tc-lbl">Vitesse</span>
+            <input class="tc-slider" id="tp-speed" type="range" min="1" max="10" value="3" oninput="updateTPSpeed()">
+            <span class="tc-lbl" id="tp-speed-lbl">3</span>
+          </div>
+          <div class="tc-group">
+            <span class="tc-lbl">Taille</span>
+            <button class="tc-sz" onclick="changeTPSize(-3)">A−</button>
+            <button class="tc-sz" onclick="changeTPSize(3)">A+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
-<!-- NEW SCRIPT -->
-<div class="overlay" id="new-overlay" onclick="closeNewBg(event)">
-  <div class="new-box">
-    <div class="new-title">+ Nouveau script</div>
+<!-- SCRIPT MODAL -->
+<div class="modal-bg" id="script-modal" onclick="closeScriptModalBg(event)">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-hdr-info">
+        <div class="modal-label" id="modal-label"></div>
+        <div class="modal-title" id="modal-title"></div>
+      </div>
+      <div class="modal-acts">
+        <button class="ma ma-tp" onclick="loadInTP()">📺 Téléprompter</button>
+        <button class="ma ma-copy" id="ma-copy" onclick="copyModalScript()">Copier</button>
+        <button class="ma ma-edit" onclick="toggleModalEdit()">✎</button>
+        <button class="ma ma-x" onclick="closeScriptModal()">✕</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div id="modal-script-text"></div>
+      <textarea id="modal-edit-area"></textarea>
+      <div class="modal-edit-footer" id="modal-edit-footer">
+        <button class="btn-sv" onclick="saveModalEdit()">✓ Sauvegarder</button>
+        <button class="btn-cn" onclick="cancelModalEdit()">Annuler</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <label class="new-label">Type</label>
-    <select class="new-select" id="new-type">
+<!-- ADD EVENT MODAL -->
+<div class="add-modal-bg" id="add-event-modal" onclick="closeAddEventBg(event)">
+  <div class="add-modal">
+    <h3>+ Ajouter un événement</h3>
+    <label class="f-label">Type</label>
+    <select class="f-select" id="ev-type">
+      <option value="tournage">🔴 Tournage</option>
+      <option value="montage">🟢 Montage</option>
+      <option value="pub">🔵 Publication</option>
+      <option value="perso">🟡 Personnel</option>
+    </select>
+    <label class="f-label">Titre</label>
+    <input class="f-input" id="ev-title" placeholder="Ex : Tournage shorts Import/Export">
+    <label class="f-label">Heure (optionnel)</label>
+    <input class="f-input" id="ev-time" type="time">
+    <div class="f-actions">
+      <button class="f-btn-cancel" onclick="closeAddEvent()">Annuler</button>
+      <button class="f-btn-create" onclick="saveEvent()">Ajouter</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD SCRIPT MODAL -->
+<div class="add-modal-bg" id="add-script-modal" onclick="closeAddScriptBg(event)">
+  <div class="add-modal">
+    <h3>+ Ajouter un script / post</h3>
+    <label class="f-label">Type</label>
+    <select class="f-select" id="sc-type">
       <option value="short">Short YouTube</option>
       <option value="video">Vidéo longue YouTube</option>
-      <option value="pub">Publication</option>
+      <option value="pub">Publication / Post</option>
     </select>
-
-    <label class="new-label">Pilier</label>
-    <select class="new-select" id="new-pillar">
-      <option value="Import / Export">Import / Export</option>
-      <option value="Fiscalité">Fiscalité</option>
-      <option value="Hong Kong">Hong Kong</option>
-      <option value="E-commerce">E-commerce</option>
-      <option value="Mindset">Mindset</option>
-      <option value="Expatriation">Expatriation</option>
-      <option value="Immobilier">Immobilier</option>
+    <label class="f-label">Pilier</label>
+    <select class="f-select" id="sc-pillar">
+      <option>Import / Export</option>
+      <option>Fiscalité</option>
+      <option>Hong Kong</option>
+      <option>E-commerce</option>
+      <option>Mindset</option>
+      <option>Expatriation</option>
+      <option>Immobilier</option>
     </select>
-
-    <label class="new-label">Titre</label>
-    <input class="new-input" id="new-title-input" placeholder="Ex : C'est quoi un Incoterm ?">
-
-    <label class="new-label">Script (optionnel — tu peux l'écrire après)</label>
-    <textarea class="new-input" id="new-text-input" style="height:100px;resize:vertical" placeholder="Écris ton script ici ou laisse vide..."></textarea>
-
-    <div class="new-actions">
-      <button class="btn-new-cancel" onclick="closeNew()">Annuler</button>
-      <button class="btn-create" onclick="createScript()">Créer le script</button>
-    </div>
-  </div>
-</div>
-
-<!-- SETTINGS -->
-<div class="overlay" id="settings-overlay" onclick="closeSettingsBg(event)">
-  <div class="new-box">
-    <div class="new-title">⚙ Paramètres</div>
-    <label class="new-label">Clé API Anthropic (pour la génération IA)</label>
-    <input class="new-input" type="password" id="api-key-input" placeholder="sk-ant-api03-...">
-    <div style="font-size:11px;color:var(--grey);margin-bottom:14px;line-height:1.5;">Sauvegardée uniquement dans ton navigateur. Nécessaire pour la génération IA.</div>
-    <div class="new-actions">
-      <button class="btn-new-cancel" onclick="closeSettings()">Annuler</button>
-      <button class="btn-create" onclick="saveSettings()">Sauvegarder</button>
-    </div>
-  </div>
-</div>
-
-<!-- TELEPROMPTER -->
-<div id="teleprompter">
-  <div class="tp-nav">
-    <span class="tp-brand">SBW Studio</span>
-    <span class="tp-name" id="tp-name"></span>
-    <button class="tp-close-btn" onclick="closeTP()">✕ Fermer</button>
-  </div>
-  <div class="tp-guide"></div>
-  <div class="tp-voice-ind" id="tp-voice-ind"><div class="tp-dot"></div><span>Écoute</span></div>
-  <div class="tp-scroll" id="tp-scroll"><div id="tp-lines"></div></div>
-  <div class="tp-bar">
-    <div class="tp-row1">
-      <button class="tp-btn voice" id="tp-voice-btn" onclick="toggleVoice()">🎤 Défilement vocal</button>
-      <button class="tp-btn auto" id="tp-auto-btn" onclick="toggleAuto()">▶ Auto</button>
-      <button class="tp-btn rst" onclick="resetTP()">↺</button>
-    </div>
-    <div class="tp-row2">
-      <div class="tp-ctrl">
-        <span class="tp-ctrl-lbl">Vitesse</span>
-        <input class="tp-slider" id="tp-speed" type="range" min="1" max="10" value="3" oninput="updateSpeed()">
-        <span class="tp-ctrl-lbl" id="tp-speed-val">3</span>
-      </div>
-      <div class="tp-ctrl">
-        <span class="tp-ctrl-lbl">Taille</span>
-        <button class="tp-sz" onclick="changeSize(-3)">A−</button>
-        <button class="tp-sz" onclick="changeSize(3)">A+</button>
-      </div>
+    <label class="f-label">Titre</label>
+    <input class="f-input" id="sc-title" placeholder="Titre du script">
+    <label class="f-label">Date de publication</label>
+    <input class="f-input" id="sc-date" type="date">
+    <label class="f-label">Script / texte</label>
+    <textarea class="f-textarea" id="sc-text" placeholder="Écris ton script ici..."></textarea>
+    <div class="f-actions">
+      <button class="f-btn-cancel" onclick="closeAddScript()">Annuler</button>
+      <button class="f-btn-create" onclick="saveScript()">Ajouter</button>
     </div>
   </div>
 </div>
 
 <script>
 // ══════════════════════════════════════════════
-// SCRIPTS DATA
+// DATA
 // ══════════════════════════════════════════════
+const PILLAR_CLS = {
+  'Import / Export':'p-ie','Fiscalité':'p-fi','Hong Kong':'p-hk',
+  'E-commerce':'p-ec','Mindset':'p-ms','Expatriation':'p-ex','Immobilier':'p-im'
+};
+
 const BASE_SCRIPTS = [
-  {id:'vl1',type:'video',pillar:'Import / Export',title:'Les Incoterms de A à Z — EXW, FOB, CIF, DDP',text:`ACCROCHE — 0:00 à 0:35
+  {id:'vl1',type:'video',pillar:'Import / Export',date:'2026-04-07',
+   title:'Les Incoterms de A à Z — EXW, FOB, CIF, DDP',
+   text:`ACCROCHE — 0:00 à 0:35
 
 Tu négocies avec un fournisseur à l'étranger.
 Il te dit : "On travaille en FOB."
@@ -415,8 +560,8 @@ Il en existe 11. Dans la pratique, t'en utiliseras 4.
 
 PARTIE 2 — EXW
 
-EXW — Ex Works. Le vendeur pose la marchandise dans son usine.
-Toi tu gères tout le reste. Transport local, déclaration d'export, fret, dédouanement.
+EXW — Ex Works.
+Le vendeur pose la marchandise dans son usine. Tu gères tout le reste.
 Maximum de responsabilités pour l'acheteur.
 
 PARTIE 3 — FOB
@@ -424,14 +569,14 @@ PARTIE 3 — FOB
 FOB — Free On Board. Le plus utilisé depuis l'Asie.
 L'exportateur livre au port et charge sur le bateau.
 À partir du bateau, la responsabilité passe à toi.
-Attention — l'exportateur c'est pas forcément l'usine.
+L'exportateur c'est pas forcément l'usine.
 L'usine fabrique. L'exportateur fait sortir légalement la marchandise du pays.
 
 PARTIE 4 — CIF
 
 CIF — Cost Insurance Freight.
 Comme FOB mais le logisticien organise et paie le fret et l'assurance.
-Risque : il choisit le transporteur et peut se faire une marge dessus.
+Risque : il choisit le transporteur et peut se faire une marge.
 
 PARTIE 5 — DDP
 
@@ -444,7 +589,115 @@ CONCLUSION
 La règle simple : négocie en FOB quand tu débutes.
 Abonne-toi. Tout le contenu gratuit sur StartBusinessWorld.com.`},
 
-  {id:'vl2',type:'video',pillar:'Import / Export',title:'Transport maritime — FCL, LCL, Bill of Lading',text:`ACCROCHE
+  {id:'s1',type:'short',pillar:'Import / Export',date:'2026-04-07',
+   title:"C'est quoi un Incoterm — et pourquoi ça peut te coûter cher",
+   text:`Tu commandes chez un fournisseur étranger.
+Il te dit : "On travaille en FOB."
+
+Si tu sais pas ce que ça veut dire, tu risques des coûts que t'avais pas prévus.
+
+Un Incoterm définit exactement qui paie quoi dans le transport.
+
+EXW — tu gères tout.
+FOB — l'exportateur livre au bateau, tu gères le reste.
+CIF — le logisticien gère le fret et l'assurance.
+DDP — le logisticien gère absolument tout.
+
+Je t'explique chacun en détail dans la vidéo complète.
+Lien dans la description — tout le contenu gratuit est sur StartBusinessWorld.com.`},
+
+  {id:'s2',type:'short',pillar:'Fiscalité',date:'2026-04-08',
+   title:"La micro-entreprise c'est un piège pour les entrepreneurs sérieux",
+   text:`La micro-entreprise c'est séduisant au début.
+
+Zéro comptabilité. Inscription en 5 minutes.
+
+Mais si tu veux vraiment construire un business, c'est un piège.
+
+Premier problème — tu payes des charges même si tu es pas rentable.
+Deuxième problème — tu peux pas déduire tes frais.
+Troisième problème — le plafond à 188 000 euros de CA.
+
+La micro-entreprise c'est bien pour tester.
+Pas pour développer.
+
+Je t'explique la bonne structure sur StartBusinessWorld.com — lien dans la description.`},
+
+  {id:'s3',type:'short',pillar:'Hong Kong',date:'2026-04-08',
+   title:"0% d'impôt à Hong Kong — comment c'est possible",
+   text:`0% d'impôt sur les bénéfices offshore à Hong Kong.
+
+C'est légal. C'est réel. Et c'est accessible.
+
+À Hong Kong, l'impôt sur les sociétés s'applique uniquement sur les bénéfices générés à Hong Kong.
+
+Si ton activité se passe en dehors de Hong Kong, ces bénéfices sont offshore.
+Taux d'imposition offshore : 0%.
+
+Je t'explique tout sur StartBusinessWorld.com — lien dans la description.`},
+
+  {id:'s4',type:'short',pillar:'Mindset',date:'2026-04-09',
+   title:"L'erreur numéro 1 que font les débutants",
+   text:`L'erreur numéro 1 quand tu te lances : attendre d'être prêt.
+
+Il y a des gens qui passent six mois à faire des recherches.
+Et ils ne se lancent jamais.
+
+Parce qu'ils attendent le moment parfait.
+Ce moment n'existe pas.
+
+Les gens qui réussissent apprennent en faisant.
+L'information sans action c'est du divertissement.
+
+Lance-toi avec ce que t'as maintenant.
+Tout le contenu pour démarrer est sur StartBusinessWorld.com — lien dans la description.`},
+
+  {id:'s5',type:'short',pillar:'E-commerce',date:'2026-04-09',
+   title:'Comment trouver un produit qui se vend avant de dépenser un euro',
+   text:`Avant de commander un seul produit, tu dois savoir s'il se vend.
+
+Méthode 1 — Google Trends. Regarde la courbe sur 12 mois.
+Méthode 2 — Analyse la concurrence. Si d'autres vendent depuis longtemps, il y a un marché.
+Méthode 3 — Le volume de recherche. Combien de gens cherchent ce produit ?
+Méthode 4 — Commande un échantillon. Valide avant de scaler.
+
+Tout le reste sur StartBusinessWorld.com — lien dans la description.`},
+
+  {id:'p1',type:'pub',pillar:'Mindset',date:'2026-04-10',
+   title:`Citation — "La liberté financière ne s'achète pas, elle se construit."`,
+   text:`"La liberté financière ne s'achète pas, elle se construit."
+
+— Start Business World
+
+Beaucoup de gens cherchent le raccourci.
+Le bon plan. La bonne opportunité. Le bon moment.
+
+Il n'y en a pas.
+
+Il y a des gens qui construisent.
+Et des gens qui attendent.
+
+Tu choisis ton camp.
+
+📍 StartBusinessWorld.com — lien dans la bio.`},
+
+  {id:'s6',type:'short',pillar:'Import / Export',date:'2026-04-10',
+   title:'FOB — pourquoi c'est l'Incoterm préféré des importateurs',
+   text:`En FOB, l'exportateur livre la marchandise jusqu'au port et la charge sur le bateau.
+
+À partir de ce moment, la responsabilité passe à toi.
+
+Tu gardes le contrôle sur le fret international — la partie la plus chère.
+Tu négocies toi-même avec ton transitaire.
+Tu connais exactement chaque coût.
+
+FOB = contrôle total sur ton budget import.
+
+StartBusinessWorld.com — lien dans la description.`},
+
+  {id:'vl2',type:'video',pillar:'Import / Export',date:'2026-04-14',
+   title:'Transport maritime — FCL, LCL, Bill of Lading',
+   text:`ACCROCHE
 
 90% des marchandises mondiales voyagent par bateau.
 Si tu fais de l'import-export, tu vas forcément passer par le maritime.
@@ -466,713 +719,622 @@ Plus économique au-delà de 15 CBM.
 
 LCL — Less than Container Load. Container partagé.
 Tu payes uniquement ton volume.
-Idéal pour débuter ou pour des commandes moyennes.
 
 PARTIE 3 — Les documents clés
 
 Bill of Lading : titre de propriété de ta marchandise.
 Sans lui, tu ne récupères rien au port.
 
-Facture commerciale. Packing list. Certificat d'origine si besoin.
-
-PARTIE 4 — Imprévus
-
-Congestion portuaire. Météo. Grèves.
-Prévois toujours des stocks tampons.
-
 CONCLUSION
 
 Dans la prochaine vidéo : le dédouanement.
 Abonne-toi. StartBusinessWorld.com.`},
 
-  {id:'s1',type:'short',pillar:'Import / Export',title:"C'est quoi un Incoterm — et pourquoi ça peut te coûter cher",text:`Tu commandes chez un fournisseur étranger.
-Il te dit : "On travaille en FOB."
-
-Si tu sais pas ce que ça veut dire, tu risques des coûts que t'avais pas prévus.
-
-Un Incoterm définit exactement qui paie quoi dans le transport.
-
-EXW — tu gères tout.
-FOB — l'exportateur livre au bateau, tu gères le reste.
-CIF — le logisticien gère le fret et l'assurance.
-DDP — le logisticien gère absolument tout.
-
-Je t'explique chacun en détail dans la vidéo complète.
-Lien dans la description — tout le contenu gratuit est sur StartBusinessWorld.com.`},
-
-  {id:'s2',type:'short',pillar:'Import / Export',title:'FOB — pourquoi c'est l'Incoterm préféré des importateurs',text:`En FOB, l'exportateur livre la marchandise jusqu'au port et la charge sur le bateau.
-
-À partir de ce moment, la responsabilité passe à toi.
-
-Pourquoi c'est le meilleur choix quand tu débutes ?
-
-Tu gardes le contrôle sur le fret international — la partie la plus chère.
-Tu négocies toi-même avec ton transitaire.
-Tu connais exactement chaque coût.
-
-En CIF ou DDP, c'est le logisticien qui organise le fret.
-Tu perds le contrôle sur les coûts.
-
-FOB = contrôle total sur ton budget import.
-
-StartBusinessWorld.com — lien dans la description.`},
-
-  {id:'s3',type:'short',pillar:'Fiscalité',title:'La micro-entreprise c'est un piège pour les entrepreneurs sérieux',text:`La micro-entreprise c'est séduisant au début.
-
-Zéro comptabilité. Inscription en 5 minutes.
-
-Mais si tu veux vraiment construire un business, c'est un piège.
-
-Premier problème — tu payes des charges même si tu es pas rentable.
-Deuxième problème — tu peux pas déduire tes frais.
-Troisième problème — le plafond à 188 000 euros de CA.
-
-La micro-entreprise c'est bien pour tester.
-Pas pour développer.
-
-Je t'explique la bonne structure sur StartBusinessWorld.com — lien dans la description.`},
-
-  {id:'s4',type:'short',pillar:'Fiscalité',title:'SASU ou EURL — laquelle choisir quand tu démarres seul',text:`Tu te lances seul et tu veux créer une société.
+  {id:'s7',type:'short',pillar:'Fiscalité',date:'2026-04-14',
+   title:'SASU ou EURL — laquelle choisir quand tu démarres seul',
+   text:`Tu te lances seul et tu veux créer une société.
 SASU ou EURL — laquelle choisir ?
 
-En SASU, le président est assimilé salarié.
-Si tu te verses pas de salaire, tu payes zéro charges sociales.
+En SASU : si tu te verses pas de salaire, tu payes zéro charges sociales.
 
-En EURL, le gérant est travailleur non salarié.
-Tu payes environ 1 000 euros par an minimum même si tu ne te verses rien.
+En EURL : tu payes environ 1 000 euros par an minimum même si tu ne te verses rien.
 
-Pour quelqu'un qui démarre et qui réinvestit ses bénéfices ?
+Pour quelqu'un qui démarre et qui réinvestit ses bénéfices, la SASU est plus intéressante.
 
-La SASU est souvent plus intéressante.
-Zéro charges tant que tu te verses rien.
-
-Je t'explique tout sur StartBusinessWorld.com — lien dans la description.`},
-
-  {id:'s5',type:'short',pillar:'Hong Kong',title:"0% d'impôt à Hong Kong — comment c'est possible",text:`0% d'impôt sur les bénéfices offshore à Hong Kong.
-
-C'est légal. C'est réel. Et c'est accessible.
-
-À Hong Kong, l'impôt sur les sociétés s'applique uniquement sur les bénéfices générés à Hong Kong.
-
-Si ton activité se passe en dehors de Hong Kong — tu importes depuis la Chine, tu vends en Europe — ces bénéfices sont offshore.
-
-Taux d'imposition offshore : 0%.
-
-Je t'explique tout sur StartBusinessWorld.com — lien dans la description.`},
-
-  {id:'s6',type:'short',pillar:'Hong Kong',title:'Offshore ça veut pas dire illégal — les idées reçues',text:`Le mot "offshore" fait peur.
-
-Les gens entendent offshore et pensent immédiatement à de l'évasion fiscale.
-
-La réalité c'est beaucoup plus simple.
-
-Offshore ça veut juste dire "en dehors du pays d'imposition principal."
-
-Ce qui est illégal c'est la dissimulation.
-Cacher des revenus au fisc. Ne pas déclarer une société étrangère.
-
-Mais créer une société à Hong Kong, la déclarer aux autorités fiscales, et bénéficier d'une fiscalité favorable — c'est parfaitement légal.
-
-Je t'explique comment faire ça correctement sur StartBusinessWorld.com — lien dans la description.`},
-
-  {id:'s7',type:'short',pillar:'E-commerce',title:'Comment trouver un produit qui se vend avant de dépenser un euro',text:`Avant de commander un seul produit, tu dois savoir s'il se vend.
-
-Méthode 1 — Google Trends. Regarde la courbe sur 12 mois.
-Méthode 2 — Analyse la concurrence. Si d'autres vendent depuis longtemps, il y a un marché.
-Méthode 3 — Le volume de recherche. Combien de gens cherchent ce produit ?
-Méthode 4 — Commande un échantillon. Valide avant de scaler.
-
-Tout le reste sur StartBusinessWorld.com — lien dans la description.`},
-
-  {id:'s8',type:'short',pillar:'Mindset',title:"L'erreur numéro 1 que font les débutants",text:`L'erreur numéro 1 quand tu te lances : attendre d'être prêt.
-
-Il y a des gens qui passent six mois à faire des recherches.
-Et ils ne se lancent jamais.
-
-Parce qu'ils attendent le moment parfait.
-Ce moment n'existe pas.
-
-Les gens qui réussissent apprennent en faisant.
-L'information sans action c'est du divertissement.
-
-Lance-toi avec ce que t'as maintenant.
-Tout le contenu pour démarrer est sur StartBusinessWorld.com — lien dans la description.`},
-
-  {id:'s9',type:'short',pillar:'Mindset',title:'La discipline — ce qui sépare ceux qui réussissent des autres',text:`La motivation c'est surfaite.
-
-Tout le monde est motivé au début.
-Le premier jour. La première semaine.
-
-Puis la motivation disparaît.
-
-C'est là que la discipline prend le relais.
-
-La discipline c'est faire ce que tu dois faire même quand t'as pas envie.
-
-Les gens qui réussissent ne sont pas plus motivés que les autres.
-Ils sont plus disciplinés.
-
-La motivation te fait démarrer.
-La discipline te fait arriver.
-
-StartBusinessWorld.com — lien dans la description.`},
-
-  {id:'s10',type:'short',pillar:'Expatriation',title:"Dubaï résidence fiscale — ce que personne ne te dit vraiment",text:`Dubaï 0% d'impôt. C'est vrai. Mais c'est plus compliqué que ce qu'on te vend.
-
-Pour être résident fiscal à Dubaï et ne plus être imposable en France, il faut remplir ces 3 conditions.
-
-1 — Couper ta résidence fiscale française.
-Plus de foyer principal en France. Plus d'activité professionnelle principale en France.
-
-2 — Résider à Dubaï au moins 183 jours par an.
-
-3 — Avoir un visa de résidence aux Émirats.
-
-Le fisc français est très regardant sur les faux départs.
-L'expatriation fiscale ça se prépare sérieusement.
-
-Je t'explique tout sur StartBusinessWorld.com — lien dans la description.`},
-
-  {id:'p1',type:'pub',pillar:'Mindset',title:`Citation — "La liberté financière ne s'achète pas, elle se construit."`,text:`"La liberté financière ne s'achète pas, elle se construit."
-
-— Start Business World
-
-Beaucoup de gens cherchent le raccourci.
-Le bon plan. La bonne opportunité. Le bon moment.
-
-Il n'y en a pas.
-
-Il y a des gens qui construisent.
-Et des gens qui attendent.
-
-Tu choisis ton camp.
-
-📍 StartBusinessWorld.com — lien dans la bio.`},
-
-  {id:'p2',type:'pub',pillar:'Import / Export',title:'Carrousel — Les 4 Incoterms essentiels expliqués simplement',text:`SLIDE 1 — COUVERTURE
-Les 4 Incoterms que tout importateur doit connaître
-Start Business World
-
-SLIDE 2 — EXW
-EXW — Ex Works
-Le vendeur pose la marchandise dans son usine. Tu gères tout le reste.
-⚠️ Maximum de responsabilités pour l'acheteur.
-
-SLIDE 3 — FOB
-FOB — Free On Board
-L'exportateur livre au port et charge sur le bateau. Après : tout est pour toi.
-✅ Le meilleur choix pour débuter.
-
-SLIDE 4 — CIF
-CIF — Cost Insurance Freight
-Le logisticien gère le fret et l'assurance jusqu'au port.
-⚠️ Risque de surfacturation sur le fret.
-
-SLIDE 5 — DDP
-DDP — Delivered Duty Paid
-Le logisticien gère absolument tout jusqu'à ta porte.
-⚠️ Le plus cher. Zéro contrôle.
-
-SLIDE 6 — RÈGLE D'OR
-Négocie toujours en FOB quand tu débutes.
-📍 StartBusinessWorld.com`},
-
-  {id:'p3',type:'pub',pillar:'Fiscalité',title:'Carrousel — SASU vs Micro-entreprise : le comparatif',text:`SLIDE 1 — COUVERTURE
-SASU vs Micro-entreprise
-Le comparatif que personne ne t'a fait
-Start Business World
-
-SLIDE 2 — DÉDUCTION DES CHARGES
-Micro-entreprise ✗ — Zéro déduction possible.
-SASU ✓ — Toutes tes charges sont déductibles.
-
-SLIDE 3 — CHARGES SOCIALES
-Micro-entreprise — Entre 12,3% et 21,2% du CA. Même sans bénéfice.
-SASU — Zéro si tu ne te verses pas de salaire.
-
-SLIDE 4 — PLAFOND DE CA
-Micro-entreprise — 188 000€ pour la vente de produits.
-SASU — Pas de plafond.
-
-SLIDE 5 — CONCLUSION
-Micro-entreprise ✓ Pour tester rapidement.
-SASU ✓ Pour construire un vrai business.
-📍 StartBusinessWorld.com`}
+Je t'explique tout sur StartBusinessWorld.com — lien dans la description.`}
 ];
 
+// Events (agenda perso)
+function getEvents(){return JSON.parse(localStorage.getItem('sbw_events')||'{}');}
+function saveEvents(ev){localStorage.setItem('sbw_events',JSON.stringify(ev));}
+
+// Scripts (publication agenda)
+function getCustomScripts(){return JSON.parse(localStorage.getItem('sbw_pub_scripts')||'[]');}
+function saveCustomScripts(arr){localStorage.setItem('sbw_pub_scripts',JSON.stringify(arr));}
+function getAllScripts(){return [...BASE_SCRIPTS,...getCustomScripts()];}
+
 // ══════════════════════════════════════════════
-// DATA MANAGEMENT
+// TABS
 // ══════════════════════════════════════════════
-function getAllScripts(){
-  const custom = JSON.parse(localStorage.getItem('sbw_scripts')||'[]');
-  return [...BASE_SCRIPTS, ...custom];
-}
-
-function getCustomScripts(){
-  return JSON.parse(localStorage.getItem('sbw_scripts')||'[]');
-}
-
-function saveCustomScript(s){
-  const custom = getCustomScripts();
-  const idx = custom.findIndex(c=>c.id===s.id);
-  if(idx>=0) custom[idx]=s; else custom.push(s);
-  localStorage.setItem('sbw_scripts', JSON.stringify(custom));
-}
-
-function deleteCustomScript(id){
-  const custom = getCustomScripts().filter(c=>c.id!==id);
-  localStorage.setItem('sbw_scripts', JSON.stringify(custom));
-}
-
-function isCustom(id){
-  return getCustomScripts().some(c=>c.id===id);
+function switchTab(id, btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
 }
 
 // ══════════════════════════════════════════════
-// PILLAR COLORS
+// AGENDA PERSO
 // ══════════════════════════════════════════════
-const PILLAR_PILL = {
-  'Import / Export':'p-ie','Fiscalité':'p-fi','Hong Kong':'p-hk',
-  'E-commerce':'p-ec','Mindset':'p-ms','Expatriation':'p-ex','Immobilier':'p-im'
-};
+const MONTHS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+let calYear = new Date().getFullYear();
+let calMonth = new Date().getMonth();
+let selectedDay = null;
 
-const TYPE_BADGE = {
-  short:{cls:'badge-short',label:'Short'},
-  video:{cls:'badge-video',label:'Vidéo longue'},
-  pub:{cls:'badge-pub',label:'Publication'}
-};
-
-// ══════════════════════════════════════════════
-// RENDER
-// ══════════════════════════════════════════════
-let currentFilter = 'all';
-
-function setFilter(f){
-  currentFilter = f;
-  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
-  event.target.classList.add('active');
-  renderList();
+function changeMonth(d){
+  calMonth += d;
+  if(calMonth < 0){calMonth=11;calYear--;}
+  if(calMonth > 11){calMonth=0;calYear++;}
+  renderCal();
 }
 
-function renderList(){
-  const all = getAllScripts();
-  const filtered = all.filter(s=>{
-    if(currentFilter==='all') return true;
-    if(currentFilter==='short'||currentFilter==='video'||currentFilter==='pub') return s.type===currentFilter;
-    return s.pillar===currentFilter;
+function renderCal(){
+  document.getElementById('month-title').textContent = MONTHS[calMonth] + ' ' + calYear;
+  const grid = document.getElementById('cal-grid');
+  const events = getEvents();
+  const scripts = getAllScripts();
+  const today = new Date();
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const offset = firstDay === 0 ? 6 : firstDay - 1;
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+
+  let html = '';
+  for(let i=0;i<offset;i++) html += '<div class="cal-day empty"></div>';
+
+  for(let d=1;d<=daysInMonth;d++){
+    const dateStr = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday = today.getDate()===d && today.getMonth()===calMonth && today.getFullYear()===calYear;
+    const isSelected = selectedDay === dateStr;
+    const dayEvents = events[dateStr]||[];
+    const dayScripts = scripts.filter(s=>s.date===dateStr);
+
+    let dots = '';
+    const types = new Set(dayEvents.map(e=>e.type));
+    if(types.has('tournage')) dots += '<div class="cal-dot dot-tournage"></div>';
+    if(types.has('montage')) dots += '<div class="cal-dot dot-montage"></div>';
+    if(types.has('perso')) dots += '<div class="cal-dot dot-perso"></div>';
+    if(dayEvents.some(e=>e.type==='pub')||dayScripts.length) dots += '<div class="cal-dot dot-pub"></div>';
+
+    html += `<div class="cal-day${isToday?' today':''}${isSelected?' selected':''}" onclick="selectDay('${dateStr}')">
+      <div class="cal-num">${d}</div>
+      <div class="cal-dots">${dots}</div>
+    </div>`;
+  }
+  grid.innerHTML = html;
+
+  if(selectedDay) renderDayDetail(selectedDay);
+}
+
+function selectDay(dateStr){
+  selectedDay = dateStr;
+  renderCal();
+  renderDayDetail(dateStr);
+}
+
+function renderDayDetail(dateStr){
+  const events = getEvents();
+  const scripts = getAllScripts();
+  const dayEvents = events[dateStr]||[];
+  const dayScripts = scripts.filter(s=>s.date===dateStr);
+  const [y,m,d] = dateStr.split('-');
+  const date = new Date(y,m-1,d);
+  const label = date.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+
+  let html = `<div class="day-detail">
+    <div class="day-detail-title" style="text-transform:capitalize">${label}</div>
+    <div class="day-events">`;
+
+  dayEvents.forEach((ev,i)=>{
+    const dotClass = {tournage:'dot-tournage',montage:'dot-montage',pub:'dot-pub',perso:'dot-perso'}[ev.type]||'dot-perso';
+    html += `<div class="event" onclick="deleteEventConfirm('${dateStr}',${i})">
+      <div class="event-dot ${dotClass}"></div>
+      <div class="event-body">
+        <div class="event-type">${ev.type}${ev.time?' · '+ev.time:''}</div>
+        <div class="event-title">${ev.title}</div>
+      </div>
+      <div style="color:var(--grey);font-size:11px">✕</div>
+    </div>`;
   });
 
-  const container = document.getElementById('script-list');
-
-  if(!filtered.length){
-    container.innerHTML=`<div class="empty-state">
-      <div class="big">📝</div>
-      <div class="title">Aucun script ici</div>
-      <div class="sub">Clique sur "+ Nouveau script" pour en créer un.</div>
+  dayScripts.forEach(s=>{
+    const bc = {short:'badge-s',video:'badge-v',pub:'badge-p'}[s.type]||'badge-s';
+    const bl = {short:'Short',video:'Vidéo longue',pub:'Publication'}[s.type]||'';
+    html += `<div class="event" onclick="openScriptModal('${s.id}')">
+      <div class="event-dot dot-pub"></div>
+      <div class="event-body">
+        <div class="event-type" style="display:flex;gap:5px;align-items:center">
+          <span class="pub-badge ${bc}">${bl}</span>
+          <span class="pub-pillar ${PILLAR_CLS[s.pillar]||''}">${s.pillar}</span>
+        </div>
+        <div class="event-title">${s.title}</div>
+      </div>
+      <div style="color:var(--grey);font-size:14px">›</div>
     </div>`;
-    return;
+  });
+
+  if(!dayEvents.length && !dayScripts.length){
+    html += `<div class="no-events" style="padding:16px 0">Aucun événement ce jour.</div>`;
   }
 
-  container.innerHTML = filtered.map(s=>{
-    const b = TYPE_BADGE[s.type]||TYPE_BADGE.short;
-    const p = PILLAR_PILL[s.pillar]||'p-ms';
-    return `<div class="script-card type-${s.type}" onclick="openDrawer('${s.id}')">
-      <div class="card-top">
-        <span class="card-badge ${b.cls}">${b.label}</span>
-        <span class="pill ${p}">${s.pillar}</span>
-        <span class="card-title">${s.title}</span>
-        <span class="card-arrow">›</span>
+  html += `</div>
+    <button class="add-event-btn" onclick="openAddEvent('${dateStr}')">+ Ajouter un événement</button>
+    <button class="add-event-btn" onclick="openAddScriptForDate('${dateStr}')" style="margin-top:6px;border-color:rgba(200,25,42,.3);color:rgba(200,25,42,.6)">+ Ajouter un script / post</button>
+  </div>`;
+
+  document.getElementById('day-detail-container').innerHTML = html;
+}
+
+function deleteEventConfirm(dateStr, idx){
+  if(!confirm('Supprimer cet événement ?')) return;
+  const events = getEvents();
+  events[dateStr].splice(idx,1);
+  if(!events[dateStr].length) delete events[dateStr];
+  saveEvents(events);
+  renderCal();
+}
+
+// ADD EVENT
+let addEventDate = null;
+function openAddEvent(dateStr){
+  addEventDate = dateStr;
+  document.getElementById('ev-title').value='';
+  document.getElementById('ev-time').value='';
+  document.getElementById('add-event-modal').classList.add('on');
+}
+function closeAddEvent(){ document.getElementById('add-event-modal').classList.remove('on'); }
+function closeAddEventBg(e){ if(e.target===document.getElementById('add-event-modal')) closeAddEvent(); }
+function saveEvent(){
+  const title = document.getElementById('ev-title').value.trim();
+  if(!title){ toast('Donne un titre à l\'événement'); return; }
+  const events = getEvents();
+  if(!events[addEventDate]) events[addEventDate]=[];
+  events[addEventDate].push({
+    type: document.getElementById('ev-type').value,
+    title, time: document.getElementById('ev-time').value
+  });
+  saveEvents(events);
+  closeAddEvent();
+  renderCal();
+  toast('Événement ajouté ✓');
+}
+
+// ══════════════════════════════════════════════
+// AGENDA PUBLICATION
+// ══════════════════════════════════════════════
+let weekOffset = 0;
+const JOURS = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+
+function changeWeek(d){ weekOffset+=d; renderPubAgenda(); }
+
+function getWeekDates(){
+  const now = new Date();
+  const dow = now.getDay()===0?6:now.getDay()-1;
+  const mon = new Date(now); mon.setDate(now.getDate()-dow+(weekOffset*7));
+  const dates = [];
+  for(let i=0;i<7;i++){
+    const d = new Date(mon); d.setDate(mon.getDate()+i);
+    dates.push(d);
+  }
+  return dates;
+}
+
+function renderPubAgenda(){
+  const dates = getWeekDates();
+  const scripts = getAllScripts();
+  const now = new Date();
+
+  const d0 = dates[0], d6 = dates[6];
+  document.getElementById('week-label').textContent =
+    d0.toLocaleDateString('fr-FR',{day:'numeric',month:'short'}) + ' — ' +
+    d6.toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'});
+
+  const container = document.getElementById('pub-days');
+  let html = '';
+
+  dates.forEach((date,i)=>{
+    const dateStr = date.toISOString().slice(0,10);
+    const isToday = date.toDateString()===now.toDateString();
+    const dayScripts = scripts.filter(s=>s.date===dateStr);
+
+    html += `<div class="pub-day">
+      <div class="pub-day-hdr" onclick="togglePubDay('pd-${i}')">
+        <div>
+          <div class="pub-day-name">${JOURS[i]}</div>
+          <div class="pub-day-date">${date.toLocaleDateString('fr-FR',{day:'numeric',month:'long'})}</div>
+        </div>
+        ${isToday?'<span class="pub-day-today">Aujourd\'hui</span>':''}
+        <div class="pub-day-count" style="margin-left:auto">${dayScripts.length} contenu${dayScripts.length!==1?'s':''}</div>
+      </div>
+      <div class="pub-day-body${isToday?' open':''}" id="pd-${i}">`;
+
+    if(dayScripts.length){
+      dayScripts.forEach(s=>{
+        const bc = {short:'badge-s',video:'badge-v',pub:'badge-p'}[s.type]||'badge-s';
+        const bl = {short:'Short YouTube',video:'Vidéo longue YouTube',pub:'Publication'}[s.type]||'';
+        const pc = PILLAR_CLS[s.pillar]||'p-ms';
+        const preview = s.text ? s.text.replace(/\n+/g,' ').substring(0,100) : '';
+        html += `<div class="pub-item ${s.type}-item" onclick="openScriptModal('${s.id}')">
+          <div class="pub-item-top">
+            <span class="pub-badge ${bc}">${bl}</span>
+            <span class="pub-pillar ${pc}">${s.pillar}</span>
+          </div>
+          <div class="pub-item-title">${s.title}</div>
+          ${preview?`<div class="pub-item-preview">${preview}...</div>`:''}
+        </div>`;
+      });
+    } else {
+      html += `<div style="font-size:12px;color:var(--grey);padding:8px 0">Aucun contenu prévu ce jour.</div>`;
+    }
+
+    html += `<button class="add-pub-btn" onclick="openAddScriptForDate('${dateStr}')">+ Ajouter un script / post</button>
       </div>
     </div>`;
-  }).join('');
+  });
+
+  container.innerHTML = html;
+}
+
+function togglePubDay(id){
+  document.getElementById(id).classList.toggle('open');
 }
 
 // ══════════════════════════════════════════════
-// DRAWER
+// SCRIPT MODAL
 // ══════════════════════════════════════════════
-let currentId = null;
-let editMode = false;
+let currentScriptId = null;
+let modalEditMode = false;
 
-function openDrawer(id){
-  const all = getAllScripts();
-  const s = all.find(x=>x.id===id);
+function openScriptModal(id){
+  const s = getAllScripts().find(x=>x.id===id);
   if(!s) return;
-  currentId = id;
-  editMode = false;
-  const b = TYPE_BADGE[s.type]||TYPE_BADGE.short;
-  document.getElementById('d-meta').textContent = b.label + ' · ' + s.pillar;
-  document.getElementById('d-title').textContent = s.title;
-  document.getElementById('view-text').textContent = s.text||'';
-  document.getElementById('view-text').style.display = 'block';
-  document.getElementById('edit-area').style.display = 'none';
-  document.getElementById('edit-footer').style.display = 'none';
-  document.getElementById('dact-copy').textContent = 'Copier';
-  document.getElementById('dact-copy').classList.remove('ok');
-  // Show delete only for custom scripts
-  document.querySelector('.dact-del').style.display = isCustom(id) ? '' : 'none';
-  document.getElementById('drawer-overlay').classList.add('on');
-  document.querySelector('.drawer-body').scrollTop = 0;
+  currentScriptId = id;
+  modalEditMode = false;
+  const bl = {short:'Short YouTube',video:'Vidéo longue YouTube',pub:'Publication'}[s.type]||'';
+  document.getElementById('modal-label').textContent = bl + ' · ' + s.pillar;
+  document.getElementById('modal-title').textContent = s.title;
+  document.getElementById('modal-script-text').textContent = s.text||'';
+  document.getElementById('modal-script-text').style.display='block';
+  document.getElementById('modal-edit-area').style.display='none';
+  document.getElementById('modal-edit-footer').style.display='none';
+  document.getElementById('ma-copy').textContent='Copier';
+  document.getElementById('ma-copy').classList.remove('ok');
+  document.getElementById('script-modal').classList.add('on');
+  document.querySelector('.modal-body').scrollTop=0;
 }
 
-function closeDrawer(){ document.getElementById('drawer-overlay').classList.remove('on'); }
-function closeDrawerBg(e){ if(e.target===document.getElementById('drawer-overlay')) closeDrawer(); }
+function closeScriptModal(){ document.getElementById('script-modal').classList.remove('on'); }
+function closeScriptModalBg(e){ if(e.target===document.getElementById('script-modal')) closeScriptModal(); }
 
-function toggleEdit(){
-  const all = getAllScripts();
-  const s = all.find(x=>x.id===currentId);
-  if(!s) return;
-  editMode = !editMode;
-  if(editMode){
-    document.getElementById('view-text').style.display='none';
-    document.getElementById('edit-area').value = s.text||'';
-    document.getElementById('edit-area').style.display='block';
-    document.getElementById('edit-footer').style.display='flex';
-    document.getElementById('edit-area').focus();
-  } else {
-    cancelEdit();
-  }
-}
-
-function saveEdit(){
-  const all = getAllScripts();
-  const s = all.find(x=>x.id===currentId);
-  if(!s) return;
-  const newText = document.getElementById('edit-area').value;
-  const updated = {...s, text:newText};
-  saveCustomScript(updated);
-  document.getElementById('view-text').textContent = newText;
-  editMode = false;
-  document.getElementById('view-text').style.display='block';
-  document.getElementById('edit-area').style.display='none';
-  document.getElementById('edit-footer').style.display='none';
-  showToast('Script sauvegardé ✓');
-}
-
-function cancelEdit(){
-  editMode = false;
-  document.getElementById('view-text').style.display='block';
-  document.getElementById('edit-area').style.display='none';
-  document.getElementById('edit-footer').style.display='none';
-}
-
-function copyDrawer(){
-  const all = getAllScripts();
-  const s = all.find(x=>x.id===currentId);
+function copyModalScript(){
+  const s = getAllScripts().find(x=>x.id===currentScriptId);
   if(!s) return;
   navigator.clipboard.writeText(s.text||'').then(()=>{
-    const b = document.getElementById('dact-copy');
+    const b = document.getElementById('ma-copy');
     b.textContent='✓ Copié'; b.classList.add('ok');
-    setTimeout(()=>{ b.textContent='Copier'; b.classList.remove('ok'); }, 2000);
+    setTimeout(()=>{b.textContent='Copier';b.classList.remove('ok');},2000);
   });
 }
 
-function deleteScript(){
-  if(!confirm('Supprimer ce script définitivement ?')) return;
-  deleteCustomScript(currentId);
-  closeDrawer();
-  renderList();
-  showToast('Script supprimé');
+function toggleModalEdit(){
+  const s = getAllScripts().find(x=>x.id===currentScriptId);
+  if(!s) return;
+  modalEditMode = !modalEditMode;
+  if(modalEditMode){
+    document.getElementById('modal-script-text').style.display='none';
+    document.getElementById('modal-edit-area').value=s.text||'';
+    document.getElementById('modal-edit-area').style.display='block';
+    document.getElementById('modal-edit-footer').style.display='flex';
+    document.getElementById('modal-edit-area').focus();
+  } else { cancelModalEdit(); }
+}
+
+function saveModalEdit(){
+  const s = getAllScripts().find(x=>x.id===currentScriptId);
+  if(!s) return;
+  const newText = document.getElementById('modal-edit-area').value;
+  const custom = getCustomScripts();
+  const idx = custom.findIndex(c=>c.id===currentScriptId);
+  if(idx>=0){ custom[idx].text=newText; }
+  else { custom.push({...s,text:newText}); }
+  saveCustomScripts(custom);
+  document.getElementById('modal-script-text').textContent=newText;
+  cancelModalEdit();
+  toast('Script sauvegardé ✓');
+}
+
+function cancelModalEdit(){
+  modalEditMode=false;
+  document.getElementById('modal-script-text').style.display='block';
+  document.getElementById('modal-edit-area').style.display='none';
+  document.getElementById('modal-edit-footer').style.display='none';
+}
+
+function loadInTP(){
+  const s = getAllScripts().find(x=>x.id===currentScriptId);
+  if(!s) return;
+  closeScriptModal();
+  openTPWithScript(s);
+  // Switch to teleprompter tab
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('teleprompter-view').classList.add('active');
+  document.querySelectorAll('.tab')[2].classList.add('active');
 }
 
 // ══════════════════════════════════════════════
-// NEW SCRIPT
+// ADD SCRIPT
 // ══════════════════════════════════════════════
-function openNew(){
-  document.getElementById('new-title-input').value='';
-  document.getElementById('new-text-input').value='';
-  document.getElementById('new-overlay').classList.add('on');
-}
-function closeNew(){ document.getElementById('new-overlay').classList.remove('on'); }
-function closeNewBg(e){ if(e.target===document.getElementById('new-overlay')) closeNew(); }
+let addScriptDate = null;
 
-function createScript(){
-  const title = document.getElementById('new-title-input').value.trim();
-  if(!title){ showToast('⚠️ Donne un titre au script'); return; }
+function openAddScript(){
+  addScriptDate = null;
+  document.getElementById('sc-date').value = new Date().toISOString().slice(0,10);
+  document.getElementById('sc-title').value='';
+  document.getElementById('sc-text').value='';
+  document.getElementById('add-script-modal').classList.add('on');
+}
+
+function openAddScriptForDate(dateStr){
+  addScriptDate = dateStr;
+  document.getElementById('sc-date').value = dateStr;
+  document.getElementById('sc-title').value='';
+  document.getElementById('sc-text').value='';
+  document.getElementById('add-script-modal').classList.add('on');
+}
+
+function closeAddScript(){ document.getElementById('add-script-modal').classList.remove('on'); }
+function closeAddScriptBg(e){ if(e.target===document.getElementById('add-script-modal')) closeAddScript(); }
+
+function saveScript(){
+  const title = document.getElementById('sc-title').value.trim();
+  if(!title){ toast('Donne un titre au script'); return; }
   const s = {
-    id: 'custom_' + Date.now(),
-    type: document.getElementById('new-type').value,
-    pillar: document.getElementById('new-pillar').value,
-    title: title,
-    text: document.getElementById('new-text-input').value.trim()
+    id:'custom_'+Date.now(),
+    type:document.getElementById('sc-type').value,
+    pillar:document.getElementById('sc-pillar').value,
+    title, date:document.getElementById('sc-date').value,
+    text:document.getElementById('sc-text').value.trim()
   };
-  saveCustomScript(s);
-  closeNew();
-  renderList();
-  showToast('Script créé ✓');
-  // Open it directly
-  setTimeout(()=>openDrawer(s.id), 200);
-}
-
-// ══════════════════════════════════════════════
-// SETTINGS
-// ══════════════════════════════════════════════
-function openSettings(){
-  document.getElementById('api-key-input').value = localStorage.getItem('sbw_api_key')||'';
-  document.getElementById('settings-overlay').classList.add('on');
-}
-function closeSettings(){ document.getElementById('settings-overlay').classList.remove('on'); }
-function closeSettingsBg(e){ if(e.target===document.getElementById('settings-overlay')) closeSettings(); }
-function saveSettings(){
-  const k = document.getElementById('api-key-input').value.trim();
-  if(k) localStorage.setItem('sbw_api_key', k);
-  closeSettings();
-  showToast('Paramètres sauvegardés ✓');
-}
-
-// ══════════════════════════════════════════════
-// DOWNLOAD APP
-// ══════════════════════════════════════════════
-function downloadApp(){
-  const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-  const blob = new Blob([html], {type:'text/html;charset=utf-8'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'index.html';
-  document.body.appendChild(a); a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  showToast('✓ Téléchargé — dépose-le sur GitHub');
-}
-
-// ══════════════════════════════════════════════
-// TOAST
-// ══════════════════════════════════════════════
-function showToast(msg){
-  const t = document.createElement('div');
-  t.className = 'toast'; t.textContent = msg;
-  document.body.appendChild(t);
-  setTimeout(()=>t.remove(), 2500);
+  const custom = getCustomScripts();
+  custom.push(s);
+  saveCustomScripts(custom);
+  closeAddScript();
+  renderPubAgenda();
+  renderCal();
+  toast('Script ajouté ✓');
 }
 
 // ══════════════════════════════════════════════
 // TELEPROMPTER
 // ══════════════════════════════════════════════
-let tpLines = [];
+let tpLinesData = [];
 let tpIdx = 0;
 let tpFontSize = 32;
 let tpAutoOn = false;
 let tpAnimFrame = null;
-let tpScrollSpeed = 0.8;
-let tpSpeed = 3;
+let tpScrollPx = 0.8;
 let tpVoiceOn = false;
 let recognition = null;
 
-function openTPFromDrawer(){
-  const all = getAllScripts();
-  const s = all.find(x=>x.id===currentId);
-  if(!s) return;
-  openTP(s.title, s.text||'');
-}
-
-function openTP(title, text){
-  document.getElementById('tp-name').textContent = title;
-  buildLines(text);
-  document.getElementById('tp-lines').style.fontSize = tpFontSize + 'px';
-  document.getElementById('teleprompter').classList.add('on');
-  document.getElementById('tp-scroll').scrollTop = 0;
-  tpIdx = 0; tpAutoOn = false; tpVoiceOn = false;
+function openTPWithScript(s){
+  document.getElementById('tp-empty').style.display='none';
+  document.getElementById('tp-main').style.display='flex';
+  document.getElementById('tp-script-name').textContent=s.title;
+  buildTPLines(s.text||'');
+  document.getElementById('tp-content').scrollTop=0;
+  tpIdx=0; tpAutoOn=false; tpVoiceOn=false;
   updateAutoBtn(); updateVoiceBtn();
-  document.getElementById('tp-voice-ind').classList.remove('on');
+  document.getElementById('tp-voice-badge').classList.remove('on');
 }
 
-function buildLines(text){
-  const container = document.getElementById('tp-lines');
-  container.innerHTML = '';
-  tpLines = [];
+function closeTPScript(){
+  stopAuto(); stopVoice();
+  document.getElementById('tp-empty').style.display='flex';
+  document.getElementById('tp-main').style.display='none';
+}
+
+function buildTPLines(text){
+  const el = document.getElementById('tp-text');
+  el.innerHTML=''; tpLinesData=[];
+  el.style.fontSize = tpFontSize+'px';
   text.split('\n').forEach(line=>{
     const div = document.createElement('div');
     const t = line.trim();
     if(!t){
-      div.className = 'tp-line empty';
-      div.textContent = ' ';
-      container.appendChild(div);
-      tpLines.push({el:div, words:[], text:''});
+      div.className='tp-line empty'; div.textContent=' ';
+      el.appendChild(div);
+      tpLinesData.push({el:div,words:[],text:''});
       return;
     }
-    div.className = 'tp-line upcoming';
-    div.textContent = t;
-    container.appendChild(div);
-    const words = t.toLowerCase().replace(/[^a-z0-9\u00e0-\u00ff\s]/g,'').split(/\s+/).filter(w=>w.length>1);
-    tpLines.push({el:div, words, text:t});
+    div.className='tp-line next'; div.textContent=t;
+    el.appendChild(div);
+    const words=t.toLowerCase().replace(/[^a-z0-9\u00e0-\u00ff\s]/g,'').split(/\s+/).filter(w=>w.length>1);
+    tpLinesData.push({el:div,words,text:t});
   });
-  tpLines.forEach((l,i)=>{
-    if(!l.el.classList.contains('empty'))
-      l.el.onclick = ()=>jumpTo(i);
-  });
-  highlightLine(0);
+  tpLinesData.forEach((l,i)=>{ if(!l.el.classList.contains('empty')) l.el.onclick=()=>jumpTP(i); });
+  hlTP(0);
 }
 
-function highlightLine(idx){
-  tpIdx = idx;
-  tpLines.forEach((l,i)=>{
-    l.el.classList.remove('spoken','current','upcoming');
-    if(i<idx) l.el.classList.add('spoken');
-    else if(i===idx) l.el.classList.add('current');
-    else l.el.classList.add('upcoming');
+function hlTP(idx){
+  tpIdx=idx;
+  tpLinesData.forEach((l,i)=>{
+    l.el.classList.remove('done','active','next');
+    if(i<idx) l.el.classList.add('done');
+    else if(i===idx) l.el.classList.add('active');
+    else l.el.classList.add('next');
   });
 }
 
-function scrollToLine(){
-  if(!tpLines[tpIdx]) return;
-  const el = tpLines[tpIdx].el;
-  const scroll = document.getElementById('tp-scroll');
-  scroll.scrollTo({top:Math.max(0, el.offsetTop-(window.innerHeight*.28)), behavior:'smooth'});
+function scrollToTP(){
+  if(!tpLinesData[tpIdx]) return;
+  const el=tpLinesData[tpIdx].el;
+  const scroll=document.getElementById('tp-content');
+  scroll.scrollTo({top:Math.max(0,el.offsetTop-(window.innerHeight*.28)),behavior:'smooth'});
 }
 
-function updateByPos(){
-  const guideY = window.innerHeight * .30;
-  let best = tpIdx, bestDist = Infinity;
-  tpLines.forEach((l,i)=>{
-    const r = l.el.getBoundingClientRect();
+function updateByPosTP(){
+  const guideY=window.innerHeight*.30;
+  let best=tpIdx,bestDist=Infinity;
+  tpLinesData.forEach((l,i)=>{
+    const r=l.el.getBoundingClientRect();
     if(!r.height) return;
-    const d = Math.abs(r.top + r.height/2 - guideY);
-    if(d<bestDist){ bestDist=d; best=i; }
+    const d=Math.abs(r.top+r.height/2-guideY);
+    if(d<bestDist){bestDist=d;best=i;}
   });
-  if(best!==tpIdx) highlightLine(best);
+  if(best!==tpIdx) hlTP(best);
 }
 
-function jumpTo(idx){
-  stopAuto(); stopVoice();
-  highlightLine(idx); scrollToLine();
-}
+function jumpTP(idx){ stopAuto(); stopVoice(); hlTP(idx); scrollToTP(); }
 
-function toggleAuto(){
-  if(tpAutoOn) stopAuto(); else startAuto();
-  updateAutoBtn();
-}
+function toggleAuto(){ if(tpAutoOn) stopAuto(); else startAuto(); updateAutoBtn(); }
 
 function startAuto(){
-  stopAuto(); tpAutoOn = true;
-  const scroll = document.getElementById('tp-scroll');
+  stopAuto(); tpAutoOn=true;
+  const scroll=document.getElementById('tp-content');
   function step(){
-    scroll.scrollTop += tpScrollSpeed;
-    updateByPos();
-    if(scroll.scrollTop < scroll.scrollHeight - scroll.clientHeight - 2){
-      tpAnimFrame = requestAnimationFrame(step);
-    } else {
-      tpAutoOn = false; updateAutoBtn();
-    }
+    scroll.scrollTop+=tpScrollPx;
+    updateByPosTP();
+    if(scroll.scrollTop<scroll.scrollHeight-scroll.clientHeight-2){
+      tpAnimFrame=requestAnimationFrame(step);
+    } else { tpAutoOn=false; updateAutoBtn(); }
   }
-  tpAnimFrame = requestAnimationFrame(step);
+  tpAnimFrame=requestAnimationFrame(step);
 }
 
 function stopAuto(){
-  if(tpAnimFrame){ cancelAnimationFrame(tpAnimFrame); tpAnimFrame=null; }
-  tpAutoOn = false;
+  if(tpAnimFrame){cancelAnimationFrame(tpAnimFrame);tpAnimFrame=null;}
+  tpAutoOn=false;
 }
 
 function updateAutoBtn(){
-  const b = document.getElementById('tp-auto-btn');
-  b.textContent = tpAutoOn ? '⏸ Pause' : '▶ Auto';
-  b.classList.toggle('playing', tpAutoOn);
+  const b=document.getElementById('tc-auto');
+  b.textContent=tpAutoOn?'⏸ Pause':'▶ Auto';
+  b.classList.toggle('on',tpAutoOn);
 }
 
-function updateSpeed(){
-  tpSpeed = parseInt(document.getElementById('tp-speed').value);
-  document.getElementById('tp-speed-val').textContent = tpSpeed;
-  tpScrollSpeed = 0.3 + (tpSpeed-1) * (4-0.3)/9;
-  if(tpAutoOn){ stopAuto(); startAuto(); }
+function updateTPSpeed(){
+  const v=parseInt(document.getElementById('tp-speed').value);
+  document.getElementById('tp-speed-lbl').textContent=v;
+  tpScrollPx=0.3+(v-1)*(4-0.3)/9;
+  if(tpAutoOn){stopAuto();startAuto();}
 }
 
 function toggleVoice(){ if(tpVoiceOn) stopVoice(); else startVoice(); }
 
 function startVoice(){
-  const SR = window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){ alert('La reconnaissance vocale nécessite Chrome ou Safari.'); return; }
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){alert('Reconnaissance vocale disponible sur Chrome/Safari uniquement.');return;}
   stopAuto();
-  recognition = new SR();
-  recognition.lang = 'fr-FR';
-  recognition.continuous = true;
-  recognition.interimResults = true;
-  recognition.maxAlternatives = 2;
-  recognition.onstart = ()=>{
-    tpVoiceOn = true; updateVoiceBtn();
-    document.getElementById('tp-voice-ind').classList.add('on');
+  recognition=new SR();
+  recognition.lang='fr-FR'; recognition.continuous=true;
+  recognition.interimResults=true; recognition.maxAlternatives=2;
+  recognition.onstart=()=>{
+    tpVoiceOn=true; updateVoiceBtn();
+    document.getElementById('tp-voice-badge').classList.add('on');
   };
-  recognition.onresult = function(event){
+  recognition.onresult=function(event){
     for(var i=event.resultIndex;i<event.results.length;i++){
-      var transcript = event.results[i][0].transcript.toLowerCase()
-        .replace(/[^a-z0-9\u00e0-\u00ff\s]/g,'').trim();
-      var spoken = transcript.split(/\s+/).filter(function(w){return w.length>2;});
+      var transcript=event.results[i][0].transcript.toLowerCase().replace(/[^a-z0-9\u00e0-\u00ff\s]/g,'').trim();
+      var spoken=transcript.split(/\s+/).filter(function(w){return w.length>2;});
       if(!spoken.length) continue;
-      var searchEnd = Math.min(tpIdx+10, tpLines.length);
-      var bestMatch = -1, bestScore = 0;
-      for(var j=tpIdx;j<searchEnd;j++){
-        var lws = tpLines[j].words||[];
+      var end=Math.min(tpIdx+10,tpLinesData.length);
+      var best=-1,bScore=0;
+      for(var j=tpIdx;j<end;j++){
+        var lws=tpLinesData[j].words||[];
         if(!lws.length) continue;
-        var score = 0;
+        var score=0;
         for(var s=0;s<spoken.length;s++){
-          var sw = spoken[s];
+          var sw=spoken[s];
           for(var l=0;l<lws.length;l++){
-            var lw = lws[l];
-            if(lw===sw||(sw.length>=4&&lw.indexOf(sw.slice(0,4))===0)||(lw.length>=4&&sw.indexOf(lw.slice(0,4))===0)){
-              score++;break;
-            }
+            var lw=lws[l];
+            if(lw===sw||(sw.length>=4&&lw.indexOf(sw.slice(0,4))===0)||(lw.length>=4&&sw.indexOf(lw.slice(0,4))===0)){score++;break;}
           }
         }
-        if(score>bestScore){bestScore=score;bestMatch=j;}
+        if(score>bScore){bScore=score;best=j;}
       }
-      if(bestMatch>tpIdx&&bestScore>=1){
-        highlightLine(bestMatch); scrollToLine();
-      }
+      if(best>tpIdx&&bScore>=1){hlTP(best);scrollToTP();}
     }
   };
-  recognition.onerror = function(e){ if(e.error!=='no-speech'&&e.error!=='aborted') stopVoice(); };
-  recognition.onend = function(){ if(tpVoiceOn){ try{recognition.start();}catch(e){} } };
-  try{ recognition.start(); }catch(e){ tpVoiceOn=false; updateVoiceBtn(); }
+  recognition.onerror=function(e){if(e.error!=='no-speech'&&e.error!=='aborted')stopVoice();};
+  recognition.onend=function(){if(tpVoiceOn){try{recognition.start();}catch(e){}}};
+  try{recognition.start();}catch(e){tpVoiceOn=false;updateVoiceBtn();}
 }
 
 function stopVoice(){
-  tpVoiceOn = false;
-  if(recognition){ try{recognition.stop();}catch(e){} recognition=null; }
+  tpVoiceOn=false;
+  if(recognition){try{recognition.stop();}catch(e){}recognition=null;}
   updateVoiceBtn();
-  document.getElementById('tp-voice-ind').classList.remove('on');
+  document.getElementById('tp-voice-badge').classList.remove('on');
 }
 
 function updateVoiceBtn(){
-  const b = document.getElementById('tp-voice-btn');
-  b.textContent = tpVoiceOn ? '🎤 Arrêter' : '🎤 Défilement vocal';
-  b.classList.toggle('on', tpVoiceOn);
+  const b=document.getElementById('tc-voice');
+  b.textContent=tpVoiceOn?'🎤 Arrêter':'🎤 Défilement vocal';
+  b.classList.toggle('on',tpVoiceOn);
 }
 
 function resetTP(){
-  stopAuto(); stopVoice();
-  highlightLine(0);
-  document.getElementById('tp-scroll').scrollTop = 0;
+  stopAuto();stopVoice();
+  hlTP(0);
+  document.getElementById('tp-content').scrollTop=0;
 }
 
-function closeTP(){
-  stopAuto(); stopVoice();
-  document.getElementById('teleprompter').classList.remove('on');
-}
-
-function changeSize(d){
-  tpFontSize = Math.max(18, Math.min(72, tpFontSize+d));
-  document.getElementById('tp-lines').style.fontSize = tpFontSize + 'px';
+function changeTPSize(d){
+  tpFontSize=Math.max(18,Math.min(72,tpFontSize+d));
+  document.getElementById('tp-text').style.fontSize=tpFontSize+'px';
 }
 
 // ══════════════════════════════════════════════
-// KEYBOARD
+// UTILS
 // ══════════════════════════════════════════════
-document.addEventListener('keydown', e=>{
-  if(document.getElementById('teleprompter').classList.contains('on')){
+function toast(msg){
+  const t=document.createElement('div');
+  t.className='toast-el';t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),2500);
+}
+
+function download(){
+  const html='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='index.html';
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);URL.revokeObjectURL(url);
+  toast('✓ Téléchargé — dépose-le sur GitHub');
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown',e=>{
+  const tpActive = document.getElementById('tp-main').style.display==='flex' &&
+                   document.getElementById('teleprompter-view').classList.contains('active');
+  if(tpActive){
     if(e.code==='Space'){e.preventDefault();toggleAuto();}
-    if(e.key==='ArrowDown'||e.key==='ArrowRight'){e.preventDefault();if(tpIdx<tpLines.length-1){highlightLine(tpIdx+1);scrollToLine();}}
-    if(e.key==='ArrowUp'||e.key==='ArrowLeft'){e.preventDefault();if(tpIdx>0){highlightLine(tpIdx-1);scrollToLine();}}
-    if(e.key==='Escape') closeTP();
-  } else {
-    if(e.key==='Escape'){
-      closeDrawer();
-      closeNew();
-      closeSettings();
-    }
+    if(e.key==='ArrowDown'){e.preventDefault();if(tpIdx<tpLinesData.length-1){hlTP(tpIdx+1);scrollToTP();}}
+    if(e.key==='ArrowUp'){e.preventDefault();if(tpIdx>0){hlTP(tpIdx-1);scrollToTP();}}
+  }
+  if(e.key==='Escape'){
+    closeScriptModal();closeAddEvent();closeAddScript();
   }
 });
 
 // ══════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════
-renderList();
+renderCal();
+renderPubAgenda();
+selectDay(new Date().toISOString().slice(0,10));
 </script>
 </body>
 </html>
