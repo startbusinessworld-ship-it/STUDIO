@@ -2,601 +2,653 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>SBW Studio</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#0C0C0A; --card:#111110; --border:#1e1e1b;
-  --red:#C8192A; --red-dim:rgba(200,25,42,0.1);
-  --white:#F0ECE4; --grey:#6B6B65; --grey2:#2a2a27;
-  --green:#3a7a3a; --blue:#2a5a8a;
-  --font:'Plus Jakarta Sans',sans-serif;
+:root {
+  --black: #0C0C0A;
+  --red: #C8192A;
+  --red-dim: rgba(200,25,42,0.1);
+  --off-white: #F0ECE4;
+  --grey: #6B6B65;
+  --grey-mid: #3a3a37;
+  --grey-light: #1e1e1b;
+  --card: #111110;
+  --font: 'Plus Jakarta Sans', sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{height:100%;background:var(--bg);color:var(--white);font-family:var(--font);overflow:hidden;}
+html,body{height:100%;background:var(--black);color:var(--off-white);font-family:var(--font);overflow-x:hidden;}
 
-/* ── LAYOUT ── */
-#app{display:flex;flex-direction:column;height:100vh;}
+/* ══════════ LOGIN ══════════ */
+#login-screen{
+  position:fixed;inset:0;background:var(--black);
+  display:flex;align-items:center;justify-content:center;z-index:1000;
+}
+.login-box{width:100%;max-width:380px;padding:32px 24px;}
+.login-logo{font-size:10px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--red);margin-bottom:10px;}
+.login-title{font-size:32px;font-weight:700;color:var(--off-white);margin-bottom:4px;line-height:1.1;}
+.login-sub{font-size:13px;color:var(--grey);font-weight:400;margin-bottom:32px;}
+.login-label{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--grey);margin-bottom:8px;display:block;}
+.login-input{
+  width:100%;background:#111110;border:1px solid var(--grey-light);
+  color:var(--off-white);font-family:var(--font);font-size:15px;font-weight:400;
+  padding:13px 16px;outline:none;border-radius:6px;transition:border-color .2s;
+}
+.login-input:focus{border-color:var(--red);}
+.login-input::placeholder{color:#3a3a37;}
+.login-btn{
+  width:100%;margin-top:12px;background:var(--red);border:none;
+  color:#fff;font-family:var(--font);font-size:13px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;padding:14px;
+  cursor:pointer;border-radius:6px;transition:opacity .2s;
+}
+.login-btn:hover{opacity:.88;}
+.login-error{font-size:12px;color:var(--red);margin-top:10px;display:none;}
 
-/* ── HEADER ── */
-header{
-  padding:12px 16px;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
-}
-.logo{font-size:9px;font-weight:800;letter-spacing:.25em;text-transform:uppercase;color:var(--red);}
-.app-title{font-size:16px;font-weight:700;}
-.hbtn{
-  background:none;border:1px solid var(--border);color:var(--grey);
-  font-family:var(--font);font-size:10px;font-weight:600;letter-spacing:.08em;
-  text-transform:uppercase;padding:7px 12px;cursor:pointer;border-radius:5px;transition:all .2s;
-}
-.hbtn:hover{border-color:var(--red);color:var(--white);}
-.hbtn.primary{background:var(--red);border-color:var(--red);color:#fff;}
+/* ══════════ APP ══════════ */
+#app{display:none;min-height:100vh;flex-direction:column;}
+#app.visible{display:flex;}
 
-/* ── TABS ── */
-nav{
-  display:flex;border-bottom:1px solid var(--border);flex-shrink:0;
-  overflow-x:auto;background:var(--bg);
+/* ── TOP NAV ── */
+#topnav{
+  padding:12px 20px;border-bottom:1px solid var(--grey-light);
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;background:var(--black);flex-shrink:0;
 }
-nav::-webkit-scrollbar{height:0;}
-.tab{
+.nav-brand{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);}
+.nav-title{font-size:15px;font-weight:600;color:var(--off-white);}
+.nav-logout{
+  background:none;border:1px solid var(--grey-light);color:var(--grey);
+  font-family:var(--font);font-size:10px;font-weight:500;letter-spacing:.1em;
+  text-transform:uppercase;padding:6px 12px;cursor:pointer;border-radius:4px;transition:all .2s;
+}
+.nav-logout:hover{border-color:var(--red);color:var(--off-white);}
+
+/* ── MONTH NAV ── */
+#month-nav{
+  padding:12px 20px;display:flex;align-items:center;
+  justify-content:space-between;border-bottom:1px solid var(--grey-light);
+  background:var(--card);
+}
+.month-btn{
+  background:none;border:1px solid var(--grey-light);color:var(--grey);
+  font-size:16px;width:32px;height:32px;cursor:pointer;border-radius:4px;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.month-btn:hover{border-color:var(--red);color:var(--off-white);}
+.month-label{font-size:17px;font-weight:600;}
+.month-stats{display:flex;gap:14px;}
+.mstat{text-align:center;}
+.mstat-val{font-size:18px;font-weight:700;color:var(--red);}
+.mstat-lbl{font-size:9px;font-weight:500;color:var(--grey);letter-spacing:.08em;text-transform:uppercase;}
+
+/* ── WEEK TABS ── */
+#week-tabs{
+  display:flex;border-bottom:1px solid var(--grey-light);
+  overflow-x:auto;background:var(--black);
+}
+#week-tabs::-webkit-scrollbar{height:2px;}
+#week-tabs::-webkit-scrollbar-thumb{background:var(--grey-light);}
+.wtab{
   background:none;border:none;border-bottom:2px solid transparent;
-  color:var(--grey);font-family:var(--font);font-size:11px;font-weight:700;
-  letter-spacing:.08em;text-transform:uppercase;padding:11px 18px;
-  cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0;
-}
-.tab:hover{color:var(--white);}
-.tab.active{color:var(--white);border-bottom-color:var(--red);}
-
-/* ── VIEWS ── */
-.view{display:none;flex:1;overflow-y:auto;flex-direction:column;}
-.view.active{display:flex;}
-.view::-webkit-scrollbar{width:3px;}
-.view::-webkit-scrollbar-thumb{background:var(--border);}
-
-/* ══════════════════════════════════════
-   AGENDA PERSO
-══════════════════════════════════════ */
-#agenda-perso{padding:16px;}
-
-.month-nav{
-  display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;
-}
-.month-nav button{
-  background:none;border:1px solid var(--border);color:var(--grey);
-  font-size:18px;width:34px;height:34px;cursor:pointer;border-radius:5px;
-  display:flex;align-items:center;justify-content:center;transition:all .2s;
-}
-.month-nav button:hover{border-color:var(--red);color:var(--white);}
-.month-title{font-size:18px;font-weight:700;}
-
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:16px;}
-.cal-head{
-  text-align:center;font-size:9px;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--grey);padding:6px 0;
-}
-.cal-day{
-  aspect-ratio:1;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;border-radius:5px;cursor:pointer;
-  position:relative;transition:all .2s;background:var(--card);
-  border:1px solid var(--border);
-}
-.cal-day:hover{border-color:var(--grey);}
-.cal-day.empty{background:transparent;border-color:transparent;cursor:default;}
-.cal-day.today{border-color:var(--red)!important;}
-.cal-day.today .cal-num{color:var(--red);font-weight:800;}
-.cal-day.selected{background:var(--red-dim);border-color:var(--red);}
-.cal-num{font-size:13px;font-weight:500;}
-.cal-dots{display:flex;gap:2px;margin-top:2px;}
-.cal-dot{width:4px;height:4px;border-radius:50%;}
-.dot-tournage{background:var(--red);}
-.dot-montage{background:#4a9a4a;}
-.dot-pub{background:#7ab0d4;}
-.dot-perso{background:#d4b050;}
-
-/* DAY DETAIL */
-.day-detail{
-  background:var(--card);border:1px solid var(--border);border-radius:8px;
-  padding:16px;margin-top:8px;
-}
-.day-detail-title{font-size:15px;font-weight:700;margin-bottom:12px;}
-.day-events{display:flex;flex-direction:column;gap:8px;}
-.event{
-  display:flex;align-items:flex-start;gap:10px;padding:10px 12px;
-  border-radius:6px;border:1px solid var(--border);cursor:pointer;transition:all .2s;
-}
-.event:hover{border-color:var(--grey);}
-.event-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px;}
-.event-body{flex:1;}
-.event-type{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);margin-bottom:2px;}
-.event-title{font-size:13px;font-weight:500;line-height:1.35;}
-.event-time{font-size:10px;color:var(--grey);margin-top:2px;}
-.add-event-btn{
-  width:100%;margin-top:10px;background:none;border:1px dashed var(--grey2);
   color:var(--grey);font-family:var(--font);font-size:11px;font-weight:600;
-  letter-spacing:.08em;text-transform:uppercase;padding:10px;cursor:pointer;
-  border-radius:6px;transition:all .2s;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:12px 18px;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0;
 }
-.add-event-btn:hover{border-color:var(--red);color:var(--white);}
-.no-events{font-size:13px;color:var(--grey);text-align:center;padding:20px;}
+.wtab:hover{color:var(--off-white);}
+.wtab.active{color:var(--off-white);border-bottom-color:var(--red);}
 
-/* LEGEND */
-.legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
-.legend-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--grey);}
-.legend-dot{width:8px;height:8px;border-radius:50%;}
+/* ── WEEK CONTENT ── */
+#week-content{flex:1;overflow-y:auto;padding:18px 20px 80px;}
+#week-content::-webkit-scrollbar{width:4px;}
+#week-content::-webkit-scrollbar-thumb{background:var(--grey-light);}
 
-/* ══════════════════════════════════════
-   AGENDA PUBLICATION
-══════════════════════════════════════ */
-#agenda-pub{padding:16px;}
-
-.week-nav{
-  display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;
+/* ── VIDEO BANNER ── */
+.vbanner{
+  background:linear-gradient(135deg,#1a0508,#110d0d);
+  border:1px solid rgba(200,25,42,0.2);border-left:3px solid var(--red);
+  padding:13px 16px;margin-bottom:16px;
+  display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;transition:opacity .2s;border-radius:6px;
 }
-.week-nav button{
-  background:none;border:1px solid var(--border);color:var(--grey);
-  font-size:16px;width:32px;height:32px;cursor:pointer;border-radius:5px;
-  display:flex;align-items:center;justify-content:center;transition:all .2s;
+.vbanner:hover{opacity:.85;}
+.vb-left{display:flex;align-items:center;gap:10px;}
+.vb-icon{font-size:16px;}
+.vb-type{font-size:9px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--red);margin-bottom:2px;}
+.vb-title{font-size:13px;font-weight:500;}
+.vb-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.vb-dur{font-size:10px;color:var(--grey);}
+.open-btn{
+  background:var(--red);border:none;color:#fff;font-family:var(--font);
+  font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  padding:6px 12px;cursor:pointer;border-radius:4px;white-space:nowrap;
 }
-.week-nav button:hover{border-color:var(--red);color:var(--white);}
-.week-label{font-size:15px;font-weight:700;}
 
-.pub-days{display:flex;flex-direction:column;gap:10px;}
-.pub-day{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
-.pub-day-hdr{
-  padding:12px 14px;display:flex;align-items:center;gap:10px;
-  cursor:pointer;border-bottom:1px solid var(--border);
+/* ── DAY BLOCK ── */
+.day-block{margin-bottom:22px;}
+.day-hdr{
+  display:flex;align-items:center;padding-bottom:10px;margin-bottom:10px;
+  border-bottom:1px solid var(--grey-light);
 }
-.pub-day-name{font-size:14px;font-weight:700;}
-.pub-day-date{font-size:11px;color:var(--grey);}
-.pub-day-count{margin-left:auto;font-size:10px;color:var(--grey);font-weight:600;}
-.pub-day-today{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);background:var(--red-dim);padding:2px 7px;border-radius:10px;}
-.pub-day-body{display:none;padding:10px 14px;gap:8px;flex-direction:column;}
-.pub-day-body.open{display:flex;}
+.day-name{font-size:16px;font-weight:700;}
+.day-count{margin-left:auto;font-size:10px;font-weight:500;color:var(--grey);}
 
-.pub-item{
-  background:#0a0a09;border:1px solid var(--border);border-left:3px solid transparent;
-  border-radius:6px;padding:11px 13px;cursor:pointer;transition:all .2s;
+/* ── CARDS ── */
+.shorts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:7px;margin-bottom:7px;}
+.pubs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:7px;}
+.ccard{
+  background:var(--card);border:1px solid var(--grey-light);border-top:2px solid transparent;
+  padding:11px 12px;cursor:pointer;transition:all .2s;border-radius:6px;
 }
-.pub-item:hover{border-color:var(--grey);}
-.pub-item.short-item{border-left-color:var(--red);}
-.pub-item.video-item{border-left-color:#7ab0d4;}
-.pub-item.pub-item-type{border-left-color:#4a9a4a;}
-.pub-item-top{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
-.pub-badge{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:10px;}
-.badge-s{background:var(--red-dim);color:#e07070;}
-.badge-v{background:rgba(70,130,180,.1);color:#7ab0d4;}
-.badge-p{background:rgba(74,154,74,.1);color:#70c490;}
-.pub-pillar{font-size:8px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:10px;}
-.p-ie{background:rgba(200,25,42,.08);color:#e07070;}
-.p-fi{background:rgba(70,130,180,.08);color:#7ab0d4;}
-.p-hk{background:rgba(200,160,30,.08);color:#d4b050;}
-.p-ec{background:rgba(70,180,120,.08);color:#70c490;}
-.p-ms{background:rgba(180,100,200,.08);color:#c080d8;}
-.p-ex{background:rgba(200,120,50,.08);color:#d49060;}
-.p-im{background:rgba(100,180,200,.08);color:#70c0d4;}
-.pub-item-title{font-size:13px;font-weight:500;line-height:1.35;color:var(--white);}
-.pub-item-preview{font-size:11px;color:var(--grey);margin-top:4px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.add-pub-btn{
-  width:100%;background:none;border:1px dashed var(--grey2);
-  color:var(--grey);font-family:var(--font);font-size:10px;font-weight:600;
-  letter-spacing:.08em;text-transform:uppercase;padding:9px;cursor:pointer;
-  border-radius:6px;transition:all .2s;margin-top:4px;
+.ccard:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.5);}
+.ccard.short{border-top-color:rgba(200,25,42,.35);}
+.ccard.short:hover{border-top-color:var(--red);}
+.ccard.pub{border-top-color:rgba(74,154,74,.35);}
+.ccard.pub:hover{border-top-color:#4a9a4a;}
+.cc-type{font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:5px;}
+.cc-type.s{color:var(--red);}
+.cc-type.p{color:#4a9a4a;}
+.pill{display:inline-block;font-size:8px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:20px;margin-bottom:5px;}
+.p-ie{background:rgba(200,25,42,.1);color:#e07070;}
+.p-fi{background:rgba(70,130,180,.1);color:#7ab0d4;}
+.p-hk{background:rgba(200,160,30,.1);color:#d4b050;}
+.p-ec{background:rgba(70,180,120,.1);color:#70c490;}
+.p-ms{background:rgba(180,100,200,.1);color:#c080d8;}
+.p-ex{background:rgba(200,120,50,.1);color:#d49060;}
+.p-im{background:rgba(100,180,200,.1);color:#70c0d4;}
+.cc-title{font-size:12px;font-weight:400;color:var(--off-white);line-height:1.45;}
+.cc-fmt{font-size:9px;color:var(--grey);margin-top:4px;}
+
+/* ══════════ OVERLAY ══════════ */
+#overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:500;
+  align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(6px);
 }
-.add-pub-btn:hover{border-color:var(--red);color:var(--white);}
-
-/* ══════════════════════════════════════
-   TELEPROMPTER
-══════════════════════════════════════ */
-#teleprompter-view{padding:0;overflow:hidden;}
-#teleprompter-view.active{display:flex;}
-
-.tp-empty{
-  flex:1;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:12px;color:var(--grey);padding:40px;text-align:center;
+#overlay.on{display:flex;}
+.popup{
+  background:#111110;border:1px solid #252523;border-top:2px solid var(--red);
+  width:100%;max-width:700px;max-height:92vh;display:flex;flex-direction:column;
+  border-radius:8px;animation:popIn .2s ease;
 }
-.tp-empty .big{font-size:40px;}
-.tp-empty .title{font-size:16px;font-weight:600;color:var(--white);}
-.tp-empty .sub{font-size:13px;line-height:1.6;}
+@keyframes popIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.popup-hdr{
+  padding:14px 16px;border-bottom:1px solid var(--grey-light);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;
+}
+.ph-meta{font-size:9px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--red);margin-bottom:2px;}
+.ph-title{font-size:15px;font-weight:600;}
+.ph-actions{display:flex;gap:6px;flex-shrink:0;}
+.btn-tp{
+  background:#1a1a17;border:1px solid #2a2a27;color:var(--off-white);
+  font-family:var(--font);font-size:10px;font-weight:500;letter-spacing:.08em;
+  text-transform:uppercase;padding:7px 12px;cursor:pointer;border-radius:4px;
+  transition:all .2s;white-space:nowrap;
+}
+.btn-tp:hover{border-color:var(--red);color:var(--red);}
+.btn-cp{
+  background:var(--red);border:none;color:#fff;font-family:var(--font);
+  font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  padding:7px 14px;cursor:pointer;border-radius:4px;transition:opacity .2s;white-space:nowrap;
+}
+.btn-cp:hover{opacity:.85;}
+.btn-cp.ok{background:#2a7a2a;}
+.btn-cl{
+  background:none;border:1px solid #2a2a27;color:var(--grey);
+  width:30px;height:30px;cursor:pointer;border-radius:4px;
+  display:flex;align-items:center;justify-content:center;font-size:13px;
+  transition:all .2s;flex-shrink:0;
+}
+.btn-cl:hover{border-color:var(--red);color:var(--red);}
+.popup-body{flex:1;overflow-y:auto;padding:22px 18px;}
+.popup-body::-webkit-scrollbar{width:3px;}
+.popup-body::-webkit-scrollbar-thumb{background:#2a2a27;}
+.script-render{
+  font-size:16px;font-weight:400;line-height:1.95;
+  color:var(--off-white);white-space:pre-line;
+}
 
-.tp-main{display:flex;flex-direction:column;flex:1;overflow:hidden;}
-.tp-top{
-  padding:10px 16px;border-bottom:1px solid var(--border);
+/* ══════════ TELEPROMPTER ══════════ */
+#teleprompter{
+  display:none;position:fixed;inset:0;background:#050504;z-index:600;flex-direction:column;
+}
+#teleprompter.on{display:flex;}
+
+.tp-nav{
+  padding:10px 16px;border-bottom:1px solid #1a1a17;
   display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
   background:#080807;
 }
-.tp-script-name{font-size:12px;font-weight:600;color:var(--white);max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.tp-guide-line{
-  position:absolute;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,rgba(200,25,42,.25),transparent);
+.tp-brand{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);}
+.tp-lesson-name{font-size:11px;font-weight:400;color:var(--grey);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tp-close-btn{
+  background:none;border:1px solid #2a2a27;color:var(--grey);
+  font-family:var(--font);font-size:10px;font-weight:500;letter-spacing:.08em;
+  text-transform:uppercase;padding:6px 14px;cursor:pointer;border-radius:4px;transition:all .2s;
+}
+.tp-close-btn:hover{border-color:var(--red);color:var(--red);}
+
+/* Reading guide line */
+.tp-guide{
+  position:fixed;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(200,25,42,0.25),transparent);
   top:30vh;pointer-events:none;z-index:5;
 }
-.tp-content{flex:1;overflow-y:auto;padding:5vh 8% 40vh;position:relative;}
-.tp-content::-webkit-scrollbar{width:3px;}
-.tp-content::-webkit-scrollbar-thumb{background:var(--border);}
-#tp-text{color:#3a3a37;}
-.tp-line{display:block;padding:11px 0;cursor:pointer;transition:color .2s,opacity .2s;line-height:1.6;}
-.tp-line.done{color:#202020;opacity:.3;}
-.tp-line.active{color:var(--white);font-weight:600;}
-.tp-line.next{color:#4a4a47;opacity:.7;}
-.tp-line.empty{padding:4px 0;cursor:default;pointer-events:none;}
 
-.tp-controls{
-  border-top:1px solid var(--border);padding:12px 16px;flex-shrink:0;
-  background:rgba(5,5,4,.97);backdrop-filter:blur(10px);
+.tp-scroll{flex:1;overflow-y:auto;padding:5vh 8% 40vh;position:relative;}
+.tp-scroll::-webkit-scrollbar{width:3px;}
+.tp-scroll::-webkit-scrollbar-thumb{background:#1a1a17;}
+
+#tp-words{font-size:36px;font-weight:400;line-height:2.2;color:#444441;letter-spacing:.01em;}
+
+/* Word highlighting */
+.tp-word{
+  display:inline;transition:color .15s;cursor:pointer;
 }
-.tp-ctrl-row1{display:flex;justify-content:center;gap:8px;margin-bottom:10px;}
-.tp-ctrl-row2{display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap;}
-.tc{
-  border:none;font-family:var(--font);font-size:10px;font-weight:700;
-  letter-spacing:.08em;text-transform:uppercase;padding:9px 16px;
-  cursor:pointer;border-radius:5px;transition:all .2s;
+.tp-word.spoken{color:#5a5a55;}
+.tp-word.current{color:var(--off-white);font-weight:500;}
+.tp-word.upcoming{color:#888882;}
+
+/* ── TP BOTTOM BAR ── */
+.tp-bar{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(5,5,4,0.97);border-top:1px solid #1a1a17;
+  padding:10px 16px;z-index:10;backdrop-filter:blur(10px);
 }
-.tc.v{background:var(--red);color:#fff;}
-.tc.v.on{background:#8b1019;animation:pulse 1.5s infinite;}
-.tc.a{background:var(--card);border:1px solid var(--grey2);color:var(--white);}
-.tc.a.on{border-color:var(--red);color:var(--red);}
-.tc.r{background:var(--card);border:1px solid var(--grey2);color:var(--grey);}
+.tp-bar-row1{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;}
+.tp-bar-row2{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;}
+
+.tp-big-btn{
+  border:none;font-family:var(--font);font-size:11px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:10px 20px;cursor:pointer;border-radius:5px;transition:all .2s;
+  display:flex;align-items:center;gap:6px;
+}
+.tp-big-btn.voice{background:var(--red);color:#fff;}
+.tp-big-btn.voice.listening{background:#8B1019;animation:pulse 1.5s infinite;}
+.tp-big-btn.scroll{background:#1a1a17;border:1px solid #2a2a27;color:var(--off-white);}
+.tp-big-btn.scroll.playing{border-color:var(--red);color:var(--red);}
+.tp-big-btn.reset{background:#1a1a17;border:1px solid #2a2a27;color:var(--grey);}
+.tp-big-btn.reset:hover{color:var(--off-white);}
+
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
-.tc-group{display:flex;align-items:center;gap:6px;}
-.tc-lbl{font-size:9px;font-weight:700;color:var(--grey);letter-spacing:.06em;text-transform:uppercase;}
-.tc-slider{-webkit-appearance:none;width:80px;height:3px;background:var(--grey2);outline:none;border-radius:2px;cursor:pointer;}
-.tc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;background:var(--red);border-radius:50%;}
-.tc-sz{background:var(--card);border:1px solid var(--grey2);color:var(--grey);font-family:var(--font);font-size:10px;font-weight:700;width:26px;height:26px;cursor:pointer;border-radius:4px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
-.tc-sz:hover{border-color:var(--red);color:var(--white);}
 
-.tp-voice-badge{
-  display:none;position:fixed;top:60px;left:50%;transform:translateX(-50%);
-  background:rgba(200,25,42,.92);color:#fff;font-size:10px;font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:20px;
-  align-items:center;gap:5px;z-index:10;white-space:nowrap;
+.tp-ctrl-group{display:flex;align-items:center;gap:8px;}
+.tp-ctrl-label{font-size:10px;font-weight:500;color:var(--grey);letter-spacing:.06em;text-transform:uppercase;}
+.tp-slider{
+  -webkit-appearance:none;appearance:none;
+  width:90px;height:3px;background:#2a2a27;outline:none;border-radius:2px;cursor:pointer;
 }
-.tp-voice-badge.on{display:flex;}
-.vdot{width:6px;height:6px;background:#fff;border-radius:50%;animation:blink .8s infinite;}
+.tp-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;width:14px;height:14px;background:var(--red);
+  border-radius:50%;cursor:pointer;
+}
+.tp-size-btn{
+  background:#1a1a17;border:1px solid #2a2a27;color:var(--grey);
+  font-family:var(--font);font-size:11px;font-weight:600;
+  width:28px;height:28px;cursor:pointer;border-radius:4px;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.tp-size-btn:hover{border-color:var(--red);color:var(--off-white);}
+
+/* Voice status indicator */
+.tp-voice-status{
+  position:fixed;top:56px;left:50%;transform:translateX(-50%);
+  background:rgba(200,25,42,0.9);color:#fff;
+  font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  padding:6px 16px;border-radius:20px;
+  display:none;z-index:20;align-items:center;gap:6px;
+}
+.tp-voice-status.on{display:flex;}
+.tp-dot{width:7px;height:7px;background:#fff;border-radius:50%;animation:blink .8s infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
-/* ══════════════════════════════════════
-   MODALS
-══════════════════════════════════════ */
-.modal-bg{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);
-  z-index:100;align-items:flex-end;justify-content:center;
-  backdrop-filter:blur(6px);
-}
-.modal-bg.on{display:flex;}
-
-.modal{
-  background:var(--card);border-top:2px solid var(--red);
-  width:100%;max-width:620px;max-height:90vh;
-  border-radius:12px 12px 0 0;display:flex;flex-direction:column;
-  animation:up .22s ease;
-}
-@keyframes up{from{transform:translateY(100%)}to{transform:translateY(0)}}
-
-.modal-hdr{
-  padding:14px 16px;border-bottom:1px solid var(--border);
-  display:flex;align-items:flex-start;gap:10px;flex-shrink:0;
-}
-.modal-hdr-info{flex:1;min-width:0;}
-.modal-label{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--red);margin-bottom:3px;}
-.modal-title{font-size:15px;font-weight:700;line-height:1.3;}
-.modal-acts{display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap;}
-.ma{
-  border:none;font-family:var(--font);font-size:9px;font-weight:700;
-  letter-spacing:.08em;text-transform:uppercase;padding:7px 11px;
-  cursor:pointer;border-radius:4px;transition:all .2s;white-space:nowrap;
-}
-.ma-tp{background:var(--card);border:1px solid var(--grey2);color:var(--white);}
-.ma-tp:hover{border-color:var(--red);color:var(--red);}
-.ma-copy{background:var(--red);color:#fff;}
-.ma-copy:hover{opacity:.85;}
-.ma-copy.ok{background:#2a7a2a;}
-.ma-edit{background:var(--card);border:1px solid var(--grey2);color:var(--grey);}
-.ma-edit:hover{border-color:var(--white);color:var(--white);}
-.ma-x{background:none;border:1px solid var(--grey2);color:var(--grey);width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:13px;}
-.ma-x:hover{border-color:var(--red);color:var(--red);}
-
-.modal-body{flex:1;overflow-y:auto;padding:16px;}
-.modal-body::-webkit-scrollbar{width:3px;}
-.modal-body::-webkit-scrollbar-thumb{background:var(--grey2);}
-#modal-script-text{font-size:16px;font-weight:400;line-height:1.95;color:var(--white);white-space:pre-line;}
-#modal-edit-area{
-  width:100%;background:#0a0a09;border:1px solid var(--red);
-  color:var(--white);font-family:var(--font);font-size:15px;
-  font-weight:400;line-height:1.9;padding:14px;outline:none;
-  border-radius:6px;resize:vertical;min-height:250px;display:none;
-}
-.modal-edit-footer{display:none;gap:8px;margin-top:12px;}
-.btn-sv{background:var(--red);border:none;color:#fff;font-family:var(--font);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:10px 20px;cursor:pointer;border-radius:5px;}
-.btn-cn{background:var(--card);border:1px solid var(--grey2);color:var(--grey);font-family:var(--font);font-size:11px;font-weight:500;padding:10px 16px;cursor:pointer;border-radius:5px;}
-
-/* ADD EVENT/SCRIPT MODAL */
-.add-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:200;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(6px);}
-.add-modal-bg.on{display:flex;}
-.add-modal{background:var(--card);border:1px solid var(--grey2);border-top:2px solid var(--red);width:100%;max-width:480px;border-radius:8px;padding:20px;animation:popIn .2s ease;}
-@keyframes popIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
-.add-modal h3{font-size:17px;font-weight:700;margin-bottom:16px;}
-.f-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);margin-bottom:6px;display:block;margin-top:12px;}
-.f-label:first-of-type{margin-top:0;}
-.f-input{width:100%;background:#0a0a09;border:1px solid var(--border);color:var(--white);font-family:var(--font);font-size:14px;padding:11px 14px;outline:none;border-radius:6px;transition:border-color .2s;}
-.f-input:focus{border-color:var(--red);}
-.f-input::placeholder{color:#3a3a37;}
-.f-select{width:100%;background:#0a0a09;border:1px solid var(--border);color:var(--white);font-family:var(--font);font-size:14px;padding:11px 14px;outline:none;border-radius:6px;cursor:pointer;}
-.f-select:focus{border-color:var(--red);}
-.f-textarea{width:100%;background:#0a0a09;border:1px solid var(--border);color:var(--white);font-family:var(--font);font-size:13px;padding:11px 14px;outline:none;border-radius:6px;resize:vertical;height:90px;transition:border-color .2s;line-height:1.7;}
-.f-textarea:focus{border-color:var(--red);}
-.f-textarea::placeholder{color:#3a3a37;}
-.f-actions{display:flex;gap:8px;margin-top:16px;}
-.f-btn-create{flex:1;background:var(--red);border:none;color:#fff;font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:12px;cursor:pointer;border-radius:6px;}
-.f-btn-cancel{background:none;border:1px solid var(--border);color:var(--grey);font-family:var(--font);font-size:12px;font-weight:500;padding:12px 16px;cursor:pointer;border-radius:6px;}
-
-/* TOAST */
-.toast-el{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#2a7a2a;color:#fff;font-size:12px;font-weight:600;padding:8px 18px;border-radius:20px;z-index:999;white-space:nowrap;animation:popIn .2s ease;}
-
-@media(max-width:500px){
-  .ma{padding:6px 8px;font-size:8px;}
-  #tp-text{font-size:26px!important;}
+/* ══════════ MOBILE ══════════ */
+@media(max-width:600px){
+  #topnav,#month-nav,#week-content{padding-left:14px;padding-right:14px;}
+  .shorts-grid{grid-template-columns:1fr 1fr;}
+  .popup-hdr{flex-wrap:wrap;}
+  .ph-actions{flex-wrap:wrap;}
+  #tp-words{font-size:28px;}
+  .tp-bar-row2{gap:10px;}
 }
 </style>
 </head>
 <body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">Start Business World</div>
+    <div class="login-title">SBW Studio</div>
+    <div class="login-sub">Planning · Scripts · Téléprompter</div>
+    <label class="login-label" style="margin-top:24px">Mot de passe</label>
+    <input class="login-input" type="password" id="pw-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">Accéder →</button>
+    <div class="login-error" id="login-error">Mot de passe incorrect.</div>
+  </div>
+</div>
+
+<!-- APP -->
 <div id="app">
-
-  <!-- HEADER -->
-  <header>
+  <div id="topnav">
     <div>
-      <div class="logo">Start Business World</div>
-      <div class="app-title">SBW Studio</div>
+      <div class="nav-brand">Start Business World</div>
+      <div class="nav-title">SBW Studio</div>
     </div>
-    <div style="display:flex;gap:6px">
-      <button class="hbtn" onclick="download()">⬇ Télécharger</button>
-    </div>
-  </header>
-
-  <!-- TABS -->
-  <nav>
-    <button class="tab active" onclick="switchTab('agenda-perso',this)">📅 Mon Agenda</button>
-    <button class="tab" onclick="switchTab('agenda-pub',this)">📢 Publications</button>
-    <button class="tab" onclick="switchTab('teleprompter-view',this)">📺 Téléprompter</button>
-  </nav>
-
-  <!-- ═══ VUE 1 : AGENDA PERSO ═══ -->
-  <div class="view active" id="agenda-perso">
-    <div class="month-nav" style="padding:14px 16px 0">
-      <button onclick="changeMonth(-1)">‹</button>
-      <div class="month-title" id="month-title"></div>
-      <button onclick="changeMonth(1)">›</button>
-    </div>
-    <div style="padding:12px 16px 0">
-      <div class="legend">
-        <div class="legend-item"><div class="legend-dot dot-tournage"></div>Tournage</div>
-        <div class="legend-item"><div class="legend-dot dot-montage"></div>Montage</div>
-        <div class="legend-item"><div class="legend-dot dot-pub"></div>Publication</div>
-        <div class="legend-item"><div class="legend-dot dot-perso"></div>Perso</div>
-      </div>
-      <div class="cal-grid">
-        <div class="cal-head">L</div><div class="cal-head">M</div><div class="cal-head">M</div>
-        <div class="cal-head">J</div><div class="cal-head">V</div><div class="cal-head">S</div>
-        <div class="cal-head">D</div>
-      </div>
-      <div class="cal-grid" id="cal-grid"></div>
-    </div>
-    <div style="padding:0 16px 80px" id="day-detail-container">
-      <div class="no-events" style="padding:30px;color:var(--grey);font-size:13px;text-align:center">
-        Clique sur un jour pour voir ou ajouter des événements
-      </div>
-    </div>
+    <button class="nav-logout" onclick="doLogout()">Déconnexion</button>
   </div>
-
-  <!-- ═══ VUE 2 : AGENDA PUBLICATION ═══ -->
-  <div class="view" id="agenda-pub">
-    <div style="padding:14px 16px 0">
-      <div class="week-nav">
-        <button onclick="changeWeek(-1)">‹</button>
-        <div class="week-label" id="week-label"></div>
-        <button onclick="changeWeek(1)">›</button>
-      </div>
-      <button onclick="openAddScript()" style="width:100%;margin-bottom:14px;background:var(--red);border:none;color:#fff;font-family:var(--font);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px;cursor:pointer;border-radius:6px;">+ Ajouter un script / post</button>
+  <div id="month-nav">
+    <button class="month-btn" onclick="changeMonth(-1)">‹</button>
+    <div class="month-label" id="month-label"></div>
+    <div class="month-stats">
+      <div class="mstat"><div class="mstat-val">140</div><div class="mstat-lbl">Shorts</div></div>
+      <div class="mstat"><div class="mstat-val">56</div><div class="mstat-lbl">Pubs</div></div>
+      <div class="mstat"><div class="mstat-val">8</div><div class="mstat-lbl">Vidéos</div></div>
     </div>
-    <div class="pub-days" style="padding:0 16px 80px" id="pub-days"></div>
+    <button class="month-btn" onclick="changeMonth(1)">›</button>
   </div>
-
-  <!-- ═══ VUE 3 : TÉLÉPROMPTER ═══ -->
-  <div class="view" id="teleprompter-view">
-    <div class="tp-empty" id="tp-empty">
-      <div class="big">📺</div>
-      <div class="title">Téléprompter</div>
-      <div class="sub">Clique sur un script dans l'onglet Publications pour l'ouvrir ici, ou charge un script ci-dessous.</div>
-      <button class="hbtn primary" onclick="openAddScript()" style="margin-top:8px">Charger un script</button>
-    </div>
-    <div class="tp-main" id="tp-main" style="display:none">
-      <div class="tp-top">
-        <div class="tc-group" style="gap:8px">
-          <span class="tc-lbl">Script :</span>
-          <span class="tp-script-name" id="tp-script-name"></span>
-        </div>
-        <button class="hbtn" onclick="closeTPScript()" style="font-size:10px;padding:5px 10px;">✕ Fermer</button>
-      </div>
-      <div class="tp-guide-line"></div>
-      <div class="tp-voice-badge" id="tp-voice-badge"><div class="vdot"></div><span>Écoute en cours</span></div>
-      <div class="tp-content" id="tp-content">
-        <div id="tp-text" style="font-size:32px;font-weight:400;line-height:1;"></div>
-      </div>
-      <div class="tp-controls">
-        <div class="tp-ctrl-row1">
-          <button class="tc v" id="tc-voice" onclick="toggleVoice()">🎤 Défilement vocal</button>
-          <button class="tc a" id="tc-auto" onclick="toggleAuto()">▶ Auto</button>
-          <button class="tc r" onclick="resetTP()">↺ Début</button>
-        </div>
-        <div class="tp-ctrl-row2">
-          <div class="tc-group">
-            <span class="tc-lbl">Vitesse</span>
-            <input class="tc-slider" id="tp-speed" type="range" min="1" max="10" value="3" oninput="updateTPSpeed()">
-            <span class="tc-lbl" id="tp-speed-lbl">3</span>
-          </div>
-          <div class="tc-group">
-            <span class="tc-lbl">Taille</span>
-            <button class="tc-sz" onclick="changeTPSize(-3)">A−</button>
-            <button class="tc-sz" onclick="changeTPSize(3)">A+</button>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div id="week-tabs">
+    <button class="wtab active" onclick="showWeek(0)">Semaine 1</button>
+    <button class="wtab" onclick="showWeek(1)">Semaine 2</button>
+    <button class="wtab" onclick="showWeek(2)">Semaine 3</button>
+    <button class="wtab" onclick="showWeek(3)">Semaine 4</button>
   </div>
-
+  <div id="week-content"></div>
 </div>
 
-<!-- SCRIPT MODAL -->
-<div class="modal-bg" id="script-modal" onclick="closeScriptModalBg(event)">
-  <div class="modal">
-    <div class="modal-hdr">
-      <div class="modal-hdr-info">
-        <div class="modal-label" id="modal-label"></div>
-        <div class="modal-title" id="modal-title"></div>
+<!-- SCRIPT OVERLAY -->
+<div id="overlay" onclick="closeOverlayBg(event)">
+  <div class="popup" id="popup">
+    <div class="popup-hdr">
+      <div style="flex:1;min-width:0">
+        <div class="ph-meta" id="ph-meta"></div>
+        <div class="ph-title" id="ph-title"></div>
       </div>
-      <div class="modal-acts">
-        <button class="ma ma-tp" onclick="loadInTP()">📺 Téléprompter</button>
-        <button class="ma ma-copy" id="ma-copy" onclick="copyModalScript()">Copier</button>
-        <button class="ma ma-edit" onclick="toggleModalEdit()">✎</button>
-        <button class="ma ma-x" onclick="closeScriptModal()">✕</button>
-      </div>
-    </div>
-    <div class="modal-body">
-      <div id="modal-script-text"></div>
-      <textarea id="modal-edit-area"></textarea>
-      <div class="modal-edit-footer" id="modal-edit-footer">
-        <button class="btn-sv" onclick="saveModalEdit()">✓ Sauvegarder</button>
-        <button class="btn-cn" onclick="cancelModalEdit()">Annuler</button>
+      <div class="ph-actions">
+        <button class="btn-tp" onclick="openTP()">📺 Téléprompter</button>
+        <button class="btn-cp" id="btn-cp" onclick="copyScript()">Copier</button>
+        <button class="btn-cl" onclick="closeOverlay()">✕</button>
       </div>
     </div>
+    <div class="popup-body"><div class="script-render" id="script-render"></div></div>
   </div>
 </div>
 
-<!-- ADD EVENT MODAL -->
-<div class="add-modal-bg" id="add-event-modal" onclick="closeAddEventBg(event)">
-  <div class="add-modal">
-    <h3>+ Ajouter un événement</h3>
-    <label class="f-label">Type</label>
-    <select class="f-select" id="ev-type">
-      <option value="tournage">🔴 Tournage</option>
-      <option value="montage">🟢 Montage</option>
-      <option value="pub">🔵 Publication</option>
-      <option value="perso">🟡 Personnel</option>
-    </select>
-    <label class="f-label">Titre</label>
-    <input class="f-input" id="ev-title" placeholder="Ex : Tournage shorts Import/Export">
-    <label class="f-label">Heure (optionnel)</label>
-    <input class="f-input" id="ev-time" type="time">
-    <div class="f-actions">
-      <button class="f-btn-cancel" onclick="closeAddEvent()">Annuler</button>
-      <button class="f-btn-create" onclick="saveEvent()">Ajouter</button>
-    </div>
+<!-- TELEPROMPTER -->
+<div id="teleprompter">
+  <div class="tp-nav">
+    <span class="tp-brand">SBW Studio</span>
+    <span class="tp-lesson-name" id="tp-lesson-name"></span>
+    <button class="tp-close-btn" onclick="closeTP()">✕ Fermer</button>
   </div>
-</div>
 
-<!-- ADD SCRIPT MODAL -->
-<div class="add-modal-bg" id="add-script-modal" onclick="closeAddScriptBg(event)">
-  <div class="add-modal">
-    <h3>+ Ajouter un script / post</h3>
-    <label class="f-label">Type</label>
-    <select class="f-select" id="sc-type">
-      <option value="short">Short YouTube</option>
-      <option value="video">Vidéo longue YouTube</option>
-      <option value="pub">Publication / Post</option>
-    </select>
-    <label class="f-label">Pilier</label>
-    <select class="f-select" id="sc-pillar">
-      <option>Import / Export</option>
-      <option>Fiscalité</option>
-      <option>Hong Kong</option>
-      <option>E-commerce</option>
-      <option>Mindset</option>
-      <option>Expatriation</option>
-      <option>Immobilier</option>
-    </select>
-    <label class="f-label">Titre</label>
-    <input class="f-input" id="sc-title" placeholder="Titre du script">
-    <label class="f-label">Date de publication</label>
-    <input class="f-input" id="sc-date" type="date">
-    <label class="f-label">Script / texte</label>
-    <textarea class="f-textarea" id="sc-text" placeholder="Écris ton script ici..."></textarea>
-    <div class="f-actions">
-      <button class="f-btn-cancel" onclick="closeAddScript()">Annuler</button>
-      <button class="f-btn-create" onclick="saveScript()">Ajouter</button>
+  <div class="tp-guide"></div>
+
+  <div class="tp-voice-status" id="tp-voice-status">
+    <div class="tp-dot"></div>
+    <span>Écoute en cours</span>
+  </div>
+
+  <div class="tp-scroll" id="tp-scroll">
+    <div id="tp-words"></div>
+  </div>
+
+  <div class="tp-bar">
+    <div class="tp-bar-row1">
+      <button class="tp-big-btn voice" id="tp-voice-btn" onclick="toggleVoice()">🎤 Défilement vocal</button>
+      <button class="tp-big-btn scroll" id="tp-scroll-btn" onclick="toggleAutoScroll()">▶ Défilement auto</button>
+      <button class="tp-big-btn reset" onclick="resetTP()">↺ Début</button>
+    </div>
+    <div class="tp-bar-row2">
+      <div class="tp-ctrl-group">
+        <span class="tp-ctrl-label">Vitesse</span>
+        <input class="tp-slider" id="tp-speed" type="range" min="1" max="10" value="3" oninput="updateSpeed()">
+        <span class="tp-ctrl-label" id="tp-speed-val">3</span>
+      </div>
+      <div class="tp-ctrl-group">
+        <span class="tp-ctrl-label">Taille</span>
+        <button class="tp-size-btn" onclick="changeSize(-3)">A−</button>
+        <button class="tp-size-btn" onclick="changeSize(3)">A+</button>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
 // ══════════════════════════════════════════════
-// DATA
+// AUTH
 // ══════════════════════════════════════════════
-const PILLAR_CLS = {
-  'Import / Export':'p-ie','Fiscalité':'p-fi','Hong Kong':'p-hk',
-  'E-commerce':'p-ec','Mindset':'p-ms','Expatriation':'p-ex','Immobilier':'p-im'
-};
+const PASSWORD = 'sbw2025';
+function doLogin(){
+  const v = document.getElementById('pw-input').value;
+  if(v===PASSWORD){
+    localStorage.setItem('sbw_auth','1');
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('app').classList.add('visible');
+    initApp();
+  } else {
+    document.getElementById('login-error').style.display='block';
+    document.getElementById('pw-input').value='';
+  }
+}
+function doLogout(){ localStorage.removeItem('sbw_auth'); location.reload(); }
+if(localStorage.getItem('sbw_auth')==='1'){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').classList.add('visible');
+}
 
-const BASE_SCRIPTS = [
-  {id:'vl1',type:'video',pillar:'Import / Export',date:'2026-04-07',
-   title:'Les Incoterms de A à Z — EXW, FOB, CIF, DDP',
-   text:`ACCROCHE — 0:00 à 0:35
+// ══════════════════════════════════════════════
+// SCRIPTS DATA
+// ══════════════════════════════════════════════
+const SCRIPTS = {
+vl1:{meta:"🎥 Vidéo Longue · S1V1 · ~12 min",title:"Les Incoterms de A à Z — EXW, FOB, CIF, DDP",text:`ACCROCHE — 0:00 à 0:35
 
 Tu négocies avec un fournisseur à l'étranger.
 Il te dit : "On travaille en FOB."
+Ou en EXW. Ou en CIF.
 
 Et là tu dis oui parce que t'as pas envie d'avoir l'air de pas savoir.
 
 Mais si tu signes sans comprendre l'Incoterm, tu peux perdre des milliers d'euros sans comprendre pourquoi.
 
+Dans cette vidéo je t'explique les 4 Incoterms essentiels.
+Ce qu'ils veulent dire, qui paie quoi, et lequel choisir.
+
 CTA — 0:35 à 0:50
 
-Tout le contenu gratuit est sur StartBusinessWorld.com — lien dans la description.
+Avant de commencer — tout le contenu gratuit sur l'entrepreneuriat, l'import-export et la fiscalité est sur StartBusinessWorld.com.
+T'as le lien dans la description.
 
-PARTIE 1 — C'est quoi un Incoterm ?
+PARTIE 1 — C'est quoi un Incoterm ? — 0:50 à 2:30
 
-Un Incoterm définit exactement qui est responsable de quoi à chaque étape du transport.
-Il en existe 11. Dans la pratique, t'en utiliseras 4.
+Un Incoterm, c'est un terme commercial standardisé créé par la Chambre de Commerce Internationale.
 
-PARTIE 2 — EXW
+Son rôle : définir exactement qui est responsable de quoi à chaque étape du transport.
+
+Qui organise le transport local ?
+Qui paie le fret maritime ?
+Qui fait la déclaration d'export ?
+Qui fait la déclaration d'import ?
+Qui paie les droits de douane ?
+
+Sans Incoterm, tout ça doit être négocié au cas par cas.
+Avec un Incoterm, tout est clair en 3 lettres.
+
+Il en existe 11.
+Mais dans la pratique de l'import, t'en utiliseras 4.
+
+PARTIE 2 — EXW — 2:30 à 4:30
 
 EXW — Ex Works.
-Le vendeur pose la marchandise dans son usine. Tu gères tout le reste.
-Maximum de responsabilités pour l'acheteur.
 
-PARTIE 3 — FOB
+Le vendeur pose la marchandise dans son usine ou son entrepôt.
+C'est tout.
 
-FOB — Free On Board. Le plus utilisé depuis l'Asie.
-L'exportateur livre au port et charge sur le bateau.
-À partir du bateau, la responsabilité passe à toi.
-L'exportateur c'est pas forcément l'usine.
-L'usine fabrique. L'exportateur fait sortir légalement la marchandise du pays.
+Toi tu gères tout le reste.
+Transport local. Déclaration d'export. Fret international. Assurance. Dédouanement. Livraison finale.
 
-PARTIE 4 — CIF
+EXW c'est le maximum de responsabilités pour l'acheteur.
+
+Utile uniquement si t'as un agent local dans le pays du fournisseur.
+Sinon, évite.
+
+PARTIE 3 — FOB — 4:30 à 6:30
+
+FOB — Free On Board.
+
+C'est le plus utilisé dans l'import depuis la Chine et les autres pays d'Asie.
+
+L'exportateur livre la marchandise jusqu'au port de départ et la charge sur le bateau.
+
+Attention — l'exportateur c'est pas forcément l'usine.
+L'usine elle fabrique, point.
+L'exportateur c'est celui qui prend la responsabilité légale de faire sortir la marchandise du pays.
+
+À partir du moment où la marchandise est sur le bateau, la responsabilité passe à toi.
+
+Tu payes le fret maritime.
+Tu gères le dédouanement à l'arrivée.
+
+FOB c'est l'Incoterm idéal quand tu débutes.
+Tu gardes le contrôle sur le fret international.
+Tu connais chaque coût.
+
+PARTIE 4 — CIF — 6:30 à 8:30
 
 CIF — Cost Insurance Freight.
-Comme FOB mais le logisticien organise et paie le fret et l'assurance.
-Risque : il choisit le transporteur et peut se faire une marge.
 
-PARTIE 5 — DDP
+Comme FOB, mais le logisticien organise et paie le fret maritime et l'assurance jusqu'au port de destination.
+
+Le risque : le logisticien choisit le transporteur.
+Il peut se faire une marge dessus.
+Tu vois un prix global, tu ne peux pas comparer.
+
+CIF peut être intéressant pour une première commande test.
+À terme, reprends le contrôle avec le FOB.
+
+PARTIE 5 — DDP — 8:30 à 10:00
 
 DDP — Delivered Duty Paid.
-Le logisticien gère absolument tout jusqu'à ta porte.
-Le plus simple en apparence. Le plus cher en réalité. Zéro contrôle.
 
-CONCLUSION
+Le logisticien gère absolument tout.
+Transport local, déclaration d'export, fret international, assurance, dédouanement, droits de douane, livraison finale.
 
-La règle simple : négocie en FOB quand tu débutes.
+Tu ne fais rien.
+
+En théorie c'est le plus simple.
+En pratique c'est le plus cher — zéro contrôle.
+Le logisticien avance les droits et les répercute dans sa facturation.
+
+DDP c'est bien pour valider un produit sur une petite commande.
+Pas pour une activité sérieuse.
+
+CONCLUSION — 10:00 à 11:00
+
+La règle simple.
+
+Quand tu débutes — négocie en FOB.
+Tu contrôles le fret. Tu connais tes coûts. Tu travailles avec ton propre transitaire.
+
+Abonne-toi. Tout le contenu gratuit sur StartBusinessWorld.com.
+À tout de suite.`},
+
+vl2:{meta:"🎥 Vidéo Longue · S1V2 · ~10 min",title:"Transport maritime en import-export — tout ce qu'il faut savoir",text:`ACCROCHE — 0:00 à 0:30
+
+90% des marchandises mondiales voyagent par bateau.
+
+Si tu fais de l'import-export, tu vas forcément passer par le maritime.
+
+Dans cette vidéo je t'explique comment ça fonctionne — les types de containers, les délais, les coûts, les documents clés.
+
+CTA — 0:30 à 0:45
+
+Tout le contenu gratuit sur l'import-export et l'entrepreneuriat est sur StartBusinessWorld.com.
+Lien dans la description.
+
+PARTIE 1 — Pourquoi le maritime — 0:45 à 2:00
+
+Le transport maritime c'est le choix par défaut quand tu importes en volume.
+
+Parce que c'est de loin le moins cher pour les grandes quantités.
+
+Un container de 20 pieds peut transporter jusqu'à 28 tonnes.
+Un container de 40 pieds, c'est le double.
+
+Le coût au kilo est imbattable comparé à l'aérien.
+
+L'inconvénient : le temps.
+Depuis la Chine, compte 25 à 40 jours selon le port de destination.
+Depuis l'Inde, 20 à 30 jours.
+Depuis la Turquie, 10 à 15 jours.
+
+PARTIE 2 — FCL vs LCL — 2:00 à 4:00
+
+Deux options en maritime.
+
+FCL — Full Container Load.
+Tu remplis un container entier rien que pour toi.
+Plus économique au mètre cube à partir d'environ 15 CBM.
+
+LCL — Less than Container Load.
+Tu partages le container avec d'autres importateurs.
+Tu payes uniquement pour le volume que tu occupes.
+Idéal pour débuter ou pour des commandes moyennes.
+
+Attention en LCL — des frais de groupage et dégroupage s'ajoutent.
+Ton transitaire te les détaille dans son devis.
+
+PARTIE 3 — Les documents essentiels — 4:00 à 6:30
+
+Le Bill of Lading.
+C'est le titre de propriété de ta marchandise en transit.
+Celui qui le détient est le propriétaire légal du produit.
+Sans lui tu ne peux pas récupérer ta marchandise au port.
+
+La facture commerciale.
+Vendeur, acheteur, description des produits, quantités, prix, Incoterm.
+
+La packing list.
+Contenu détaillé de chaque colis. Poids brut, poids net, dimensions.
+
+Le certificat d'origine dans certains cas.
+Prouve où le produit a été fabriqué.
+Utile pour bénéficier d'accords commerciaux.
+
+PARTIE 4 — Suivi et imprévus — 6:30 à 8:30
+
+Une fois ton container sur le bateau, tu le suis via le numéro de Bill of Lading.
+
+Mais le maritime a ses imprévus.
+Congestion portuaire. Météo. Grèves.
+
+C'est pour ça que tu dois prévoir des stocks tampons.
+Si tu comptes sur la livraison pile au bon moment, tu vas avoir des ruptures.
+
+CONCLUSION — 8:30 à 9:30
+
+Le maritime c'est le fondement de l'import-export.
+
+Dans la prochaine vidéo : le dédouanement.
+
 Abonne-toi. Tout le contenu gratuit sur StartBusinessWorld.com.`},
 
-  {id:'s1',type:'short',pillar:'Import / Export',date:'2026-04-07',
-   title:"C'est quoi un Incoterm — et pourquoi ça peut te coûter cher",
-   text:`Tu commandes chez un fournisseur étranger.
+s1_1:{meta:"Short · Lundi S1 · Import/Export",title:"C'est quoi un Incoterm — et pourquoi ça peut te coûter cher",text:`Tu commandes chez un fournisseur étranger.
 Il te dit : "On travaille en FOB."
 
-Si tu sais pas ce que ça veut dire, tu risques des coûts que t'avais pas prévus.
+Si tu sais pas ce que ça veut dire, tu risques de te retrouver avec des coûts que t'avais pas prévus.
 
-Un Incoterm définit exactement qui paie quoi dans le transport.
+Un Incoterm, c'est un terme qui définit exactement qui paie quoi dans le transport.
+
+Qui organise le fret ?
+Qui fait la douane export ?
+Qui fait la douane import ?
+Qui paie l'assurance ?
+
+Tout ça c'est réglé en 3 lettres.
+
+Il en existe 11.
+Dans la pratique tu vas en utiliser 4.
 
 EXW — tu gères tout.
 FOB — l'exportateur livre au bateau, tu gères le reste.
@@ -605,736 +657,1193 @@ DDP — le logisticien gère absolument tout.
 
 Je t'explique chacun en détail dans la vidéo complète.
 Lien dans la description — tout le contenu gratuit est sur StartBusinessWorld.com.`},
+s1_2:{meta:"Short · Lundi S1 · Fiscalité",title:"La micro-entreprise c'est un piège pour les entrepreneurs sérieux",text:`La micro-entreprise c'est séduisant au début.
 
-  {id:'s2',type:'short',pillar:'Fiscalité',date:'2026-04-08',
-   title:"La micro-entreprise c'est un piège pour les entrepreneurs sérieux",
-   text:`La micro-entreprise c'est séduisant au début.
-
-Zéro comptabilité. Inscription en 5 minutes.
+Zéro comptabilité.
+Inscription en 5 minutes.
+Charges calculées sur le chiffre d'affaires.
 
 Mais si tu veux vraiment construire un business, c'est un piège.
 
-Premier problème — tu payes des charges même si tu es pas rentable.
-Deuxième problème — tu peux pas déduire tes frais.
-Troisième problème — le plafond à 188 000 euros de CA.
+Pourquoi ?
 
-La micro-entreprise c'est bien pour tester.
-Pas pour développer.
+Premier problème — tu payes des charges même si tu es pas rentable.
+Pas de bénéfice ? Peu importe. Les charges tombent quand même.
+
+Deuxième problème — tu peux pas déduire tes frais.
+Tu achètes du stock, du matériel, de la pub ?
+Rien n'est déductible.
+
+Troisième problème — le plafond.
+Au-delà de 188 000 euros de CA pour la vente de produits, tu sors du régime.
+
+La micro-entreprise c'est bien pour tester une activité.
+Pas pour la développer.
 
 Je t'explique la bonne structure sur StartBusinessWorld.com — lien dans la description.`},
+s1_3:{meta:"Short · Lundi S1 · Mindset",title:"L'erreur numéro 1 que font les débutants",text:`L'erreur numéro 1 quand tu te lances.
 
-  {id:'s3',type:'short',pillar:'Hong Kong',date:'2026-04-08',
-   title:"0% d'impôt à Hong Kong — comment c'est possible",
-   text:`0% d'impôt sur les bénéfices offshore à Hong Kong.
-
-C'est légal. C'est réel. Et c'est accessible.
-
-À Hong Kong, l'impôt sur les sociétés s'applique uniquement sur les bénéfices générés à Hong Kong.
-
-Si ton activité se passe en dehors de Hong Kong, ces bénéfices sont offshore.
-Taux d'imposition offshore : 0%.
-
-Je t'explique tout sur StartBusinessWorld.com — lien dans la description.`},
-
-  {id:'s4',type:'short',pillar:'Mindset',date:'2026-04-09',
-   title:"L'erreur numéro 1 que font les débutants",
-   text:`L'erreur numéro 1 quand tu te lances : attendre d'être prêt.
+Attendre d'être prêt.
 
 Il y a des gens qui passent six mois à faire des recherches.
+À lire des livres.
+À regarder des vidéos.
+À peaufiner leur plan.
+
 Et ils ne se lancent jamais.
 
 Parce qu'ils attendent le moment parfait.
+Le produit parfait.
+Le plan parfait.
+
 Ce moment n'existe pas.
 
-Les gens qui réussissent apprennent en faisant.
+Les gens qui réussissent ne savent pas tout avant de démarrer.
+Ils apprennent en faisant.
+Ils ajustent en cours de route.
+
 L'information sans action c'est du divertissement.
 
 Lance-toi avec ce que t'as maintenant.
+Tu apprendras le reste en chemin.
+
 Tout le contenu pour démarrer est sur StartBusinessWorld.com — lien dans la description.`},
+s1_4:{meta:"Short · Lundi S1 · Hong Kong",title:"0% d'impôt à Hong Kong — comment c'est possible",text:`0% d'impôt sur les bénéfices offshore à Hong Kong.
 
-  {id:'s5',type:'short',pillar:'E-commerce',date:'2026-04-09',
-   title:'Comment trouver un produit qui se vend avant de dépenser un euro',
-   text:`Avant de commander un seul produit, tu dois savoir s'il se vend.
+C'est légal. C'est réel. Et c'est accessible.
 
-Méthode 1 — Google Trends. Regarde la courbe sur 12 mois.
-Méthode 2 — Analyse la concurrence. Si d'autres vendent depuis longtemps, il y a un marché.
-Méthode 3 — Le volume de recherche. Combien de gens cherchent ce produit ?
-Méthode 4 — Commande un échantillon. Valide avant de scaler.
+Voilà comment ça fonctionne.
+
+À Hong Kong, l'impôt sur les sociétés s'applique uniquement sur les bénéfices générés à Hong Kong.
+
+Si ta société est basée à Hong Kong mais que ton activité se passe en dehors de Hong Kong — tu importes depuis la Chine, tu vends en Europe — ces bénéfices sont considérés comme offshore.
+
+Taux d'imposition offshore : 0%.
+
+Ça veut pas dire que tu payes rien nulle part.
+Si tu es résident fiscal en France, tu dois déclarer ces revenus en France.
+
+Mais si tu combines une société à Hong Kong avec une résidence fiscale adaptée, l'optimisation devient très significative.
+
+C'est exactement ce qu'on explique sur StartBusinessWorld.com — lien dans la description.`},
+s1_5:{meta:"Short · Lundi S1 · E-commerce",title:"Comment trouver un produit qui se vend avant de dépenser un euro",text:`Avant de commander un seul produit, tu dois savoir s'il se vend.
+
+C'est la règle numéro 1 en e-commerce.
+
+Comment tu valides un produit sans risquer ton argent ?
+
+Méthode 1 — Google Trends.
+Tu tapes ton produit. Tu regardes la courbe sur 12 mois.
+Si ça monte ou si c'est stable, c'est bon signe.
+
+Méthode 2 — Analyse la concurrence.
+Si d'autres vendent ce produit depuis longtemps, c'est qu'il y a un marché.
+La concurrence c'est une bonne nouvelle, pas une mauvaise.
+
+Méthode 3 — Le volume de recherche.
+Utilise Ubersuggest ou le planificateur de mots-clés Google.
+Combien de personnes cherchent ce produit chaque mois ?
+
+Méthode 4 — Commande un échantillon.
+Avant d'importer un container, commande 10 unités.
+Teste le produit. Teste les ventes.
+Valide avant de scaler.
 
 Tout le reste sur StartBusinessWorld.com — lien dans la description.`},
+s2_1:{meta:"Short · Mardi S1 · Import/Export",title:"FOB — pourquoi c'est l'Incoterm préféré des importateurs",text:`Si tu importes depuis la Chine ou n'importe quel pays d'Asie, cet Incoterm va changer ta façon de travailler.
 
-  {id:'p1',type:'pub',pillar:'Mindset',date:'2026-04-10',
-   title:`Citation — "La liberté financière ne s'achète pas, elle se construit."`,
-   text:`"La liberté financière ne s'achète pas, elle se construit."
+C'est le FOB — Free On Board.
 
-— Start Business World
-
-Beaucoup de gens cherchent le raccourci.
-Le bon plan. La bonne opportunité. Le bon moment.
-
-Il n'y en a pas.
-
-Il y a des gens qui construisent.
-Et des gens qui attendent.
-
-Tu choisis ton camp.
-
-📍 StartBusinessWorld.com — lien dans la bio.`},
-
-  {id:'s6',type:'short',pillar:'Import / Export',date:'2026-04-10',
-   title:'FOB — pourquoi c'est l'Incoterm préféré des importateurs',
-   text:`En FOB, l'exportateur livre la marchandise jusqu'au port et la charge sur le bateau.
+En FOB, l'exportateur livre la marchandise jusqu'au port de départ et la charge sur le bateau.
 
 À partir de ce moment, la responsabilité passe à toi.
 
-Tu gardes le contrôle sur le fret international — la partie la plus chère.
+Tu payes le fret maritime.
+Tu gères le dédouanement à l'arrivée.
+
+Pourquoi c'est le meilleur choix quand tu débutes ?
+
+Parce que tu gardes le contrôle sur la partie la plus chère — le transport international.
 Tu négocies toi-même avec ton transitaire.
-Tu connais exactement chaque coût.
+Tu compares les prix.
+Tu sais exactement ce que tu payes.
+
+En CIF ou DDP, c'est le logisticien qui organise le fret.
+Tu perds le contrôle sur les coûts.
 
 FOB = contrôle total sur ton budget import.
 
-StartBusinessWorld.com — lien dans la description.`},
+Tout ce qu'il faut savoir sur les Incoterms est sur StartBusinessWorld.com — lien dans la description.`},
+s2_2:{meta:"Short · Mardi S1 · Hong Kong",title:"Pourquoi ouvrir une société à Hong Kong plutôt qu'en France",text:`Voilà les vraies raisons pour lesquelles des entrepreneurs ouvrent une société à Hong Kong.
 
-  {id:'vl2',type:'video',pillar:'Import / Export',date:'2026-04-14',
-   title:'Transport maritime — FCL, LCL, Bill of Lading',
-   text:`ACCROCHE
+Première raison — la fiscalité.
+0% d'impôt sur les bénéfices offshore.
+Si ton activité est internationale, la différence avec la France est énorme.
 
-90% des marchandises mondiales voyagent par bateau.
-Si tu fais de l'import-export, tu vas forcément passer par le maritime.
+Deuxième raison — la simplicité.
+Ouvrir une société à Hong Kong prend moins de 10 jours.
+Pas de capital minimum obligatoire.
 
-CTA
+Troisième raison — la crédibilité internationale.
+Une adresse à Hong Kong t'ouvre des portes avec des fournisseurs asiatiques.
 
-Tout le contenu gratuit est sur StartBusinessWorld.com — lien dans la description.
+Quatrième raison — le système bancaire.
+Hong Kong a accès à un réseau bancaire international très développé.
+Tu peux gérer des flux en dollars, euros, yuans depuis un seul compte.
 
-PARTIE 1 — Pourquoi le maritime
+C'est pas fait pour tout le monde.
+Mais si tu fais du commerce international, ça mérite vraiment d'être étudié.
 
-Le maritime c'est le moins cher pour les grandes quantités.
-Un container 20 pieds : jusqu'à 28 tonnes.
-Depuis la Chine : 25 à 40 jours selon le port.
+Je t'explique tout en détail sur StartBusinessWorld.com — lien dans la description.`},
+s2_3:{meta:"Short · Mardi S1 · E-commerce",title:"Shopify ou pas — la vraie question avant de lancer",text:`Shopify ou pas Shopify ?
 
-PARTIE 2 — FCL vs LCL
+C'est la question que tout le monde se pose quand il veut lancer une boutique en ligne.
 
-FCL — Full Container Load. Container entier pour toi.
-Plus économique au-delà de 15 CBM.
+Shopify c'est la meilleure plateforme si tu veux vendre des produits physiques.
+Interface simple. Paiement intégré. Application mobile. Gestion des stocks.
+En 24 heures t'as une boutique professionnelle en ligne.
 
-LCL — Less than Container Load. Container partagé.
-Tu payes uniquement ton volume.
+Les limites.
 
-PARTIE 3 — Les documents clés
+Ça coûte entre 29 et 79 euros par mois selon le plan.
+Plus les applications tierces dont tu vas avoir besoin.
 
-Bill of Lading : titre de propriété de ta marchandise.
-Sans lui, tu ne récupères rien au port.
+La vraie question c'est pas Shopify ou pas.
+C'est : est-ce que t'as validé ton produit ?
 
-CONCLUSION
+Parce qu'une boutique Shopify parfaite avec un mauvais produit, ça ne vend rien.
 
-Dans la prochaine vidéo : le dédouanement.
-Abonne-toi. StartBusinessWorld.com.`},
+Valide d'abord. Lance ensuite.
 
-  {id:'s7',type:'short',pillar:'Fiscalité',date:'2026-04-14',
-   title:'SASU ou EURL — laquelle choisir quand tu démarres seul',
-   text:`Tu te lances seul et tu veux créer une société.
+Je t'explique comment valider un produit sur StartBusinessWorld.com — lien dans la description.`},
+s2_4:{meta:"Short · Mardi S1 · Fiscalité",title:"SASU ou EURL — laquelle choisir quand tu démarres seul",text:`Tu te lances seul et tu veux créer une société.
 SASU ou EURL — laquelle choisir ?
 
-En SASU : si tu te verses pas de salaire, tu payes zéro charges sociales.
+La différence principale c'est le statut social du dirigeant.
 
-En EURL : tu payes environ 1 000 euros par an minimum même si tu ne te verses rien.
+En SASU, le président est assimilé salarié.
+Tu cotises au régime général.
+Si tu te verses pas de salaire, tu payes zéro charges sociales.
 
-Pour quelqu'un qui démarre et qui réinvestit ses bénéfices, la SASU est plus intéressante.
+En EURL, le gérant est travailleur non salarié.
+Cotisations moins élevées — mais tu payes environ 1 000 euros par an minimum même si tu ne te verses rien.
 
-Je t'explique tout sur StartBusinessWorld.com — lien dans la description.`}
+Pour quelqu'un qui démarre et qui réinvestit ses bénéfices ?
+
+La SASU est souvent plus intéressante.
+Zéro charges tant que tu te verses rien.
+Flexibilité totale sur ta rémunération.
+
+Je t'explique tous les détails sur StartBusinessWorld.com — lien dans la description.`},
+s2_5:{meta:"Short · Mardi S1 · Mindset",title:"La liberté ça se mérite — ce que personne ne te dit",text:`Tout le monde veut la liberté financière.
+
+Personne ne veut faire ce qu'il faut pour l'avoir.
+
+La liberté financière c'est pas gagner de l'argent en dormant du jour au lendemain.
+
+C'est des mois, parfois des années, où tu travailles plus que les autres.
+Où tu rates des sorties.
+Où tu réinvestis au lieu de dépenser.
+
+La plupart des gens voient le résultat.
+Ils ne voient pas le travail derrière.
+
+Celui qui gagne 10 000 euros par mois depuis son téléphone a passé deux ans à construire ça.
+
+Est-ce que c'est pour toi ?
+
+Si oui, commence maintenant.
+Pas demain. Maintenant.
+
+Tout le contenu pour démarrer est sur StartBusinessWorld.com — lien dans la description.`},
+s3_1:{meta:"Short · Mercredi S1 · Import/Export",title:"CIF — pourquoi c'est risqué de laisser le logisticien gérer le fret",text:`CIF — Cost Insurance Freight.
+
+En apparence c'est l'Incoterm le plus simple.
+Le logisticien gère le fret et l'assurance jusqu'au port de destination.
+
+Mais il y a un risque que beaucoup ignorent.
+
+Quand c'est le logisticien qui organise le fret, c'est lui qui choisit le transporteur.
+Et il peut se faire une marge dessus.
+
+Tu vois un prix global sur ta facture.
+Tu peux pas comparer. Tu peux pas négocier.
+
+Exemple concret.
+Le vrai coût du fret depuis Shanghai jusqu'au Havre : 1 200 euros pour un container 20 pieds.
+Le logisticien te le facture 1 800 euros dans son CIF.
+Tu viens de perdre 600 euros sans t'en rendre compte.
+
+En FOB, tu négocies le fret toi-même.
+Tu connais le prix réel. Tu compares plusieurs offres.
+
+CIF c'est pratique pour une première commande test.
+Pour le long terme, reprends le contrôle.
+
+Tout sur StartBusinessWorld.com — lien dans la description.`},
+s3_2:{meta:"Short · Mercredi S1 · Expatriation",title:"Dubaï résidence fiscale — ce que personne ne te dit vraiment",text:`Dubaï 0% d'impôt.
+
+C'est vrai. Mais c'est plus compliqué que ce qu'on te vend sur les réseaux.
+
+Pour être résident fiscal à Dubaï et ne plus être imposable en France, il y a des conditions précises.
+
+Condition 1 — Tu dois couper ta résidence fiscale française.
+Plus de foyer principal en France.
+Plus d'activité professionnelle principale en France.
+
+Condition 2 — Tu dois résider à Dubaï au moins 183 jours par an.
+Ou avoir ton centre d'intérêts économiques là-bas.
+
+Condition 3 — Tu dois avoir un visa de résidence aux Émirats.
+Visa d'investisseur, visa freelance, ou golden visa.
+
+Ce que personne te dit.
+
+Le fisc français est très regardant sur les faux départs.
+Si tu gardes ta famille en France, tes biens en France, ta vie en France — t'es encore résident fiscal français même avec un appartement à Dubaï.
+
+L'expatriation fiscale ça se prépare sérieusement.
+
+Je t'explique tout sur StartBusinessWorld.com — lien dans la description.`},
+s3_3:{meta:"Short · Mercredi S1 · Fiscalité",title:"La holding — à quoi ça sert vraiment",text:`La holding.
+
+Tout le monde en parle. Peu de gens comprennent vraiment à quoi ça sert.
+
+Une holding c'est une société dont le rôle est de détenir des parts dans d'autres sociétés.
+
+Tu as une holding en haut.
+Elle détient ta société opérationnelle en bas.
+Les bénéfices remontent de la fille vers la mère.
+
+Pourquoi c'est intéressant ?
+
+Premier avantage — le régime mère-fille.
+Les dividendes qui remontent vers ta holding sont exonérés d'impôt à 95%.
+Tu peux réinvestir cet argent sans le fiscaliser.
+
+Deuxième avantage — la protection du patrimoine.
+Les actifs détenus par la holding sont séparés de l'activité opérationnelle.
+
+Troisième avantage — la souplesse.
+Tu peux créer plusieurs sociétés opérationnelles sous la même holding.
+
+Mais la holding c'est pas pour tout le monde.
+Si tu n'as pas encore de bénéfices significatifs à réinvestir, la complexité ne vaut pas le coût.
+
+Je t'explique quand c'est le bon moment sur StartBusinessWorld.com — lien dans la description.`},
+s3_4:{meta:"Short · Mercredi S1 · Mindset",title:"L'argent c'est un outil — arrête de lui donner trop d'importance",text:`La plupart des gens ont une relation malsaine avec l'argent.
+
+Soit ils en ont trop peur.
+Soit ils en font leur seul objectif.
+
+Les deux sont des erreurs.
+
+L'argent c'est un outil.
+
+Comme un marteau.
+Le marteau seul ne construit rien.
+C'est toi qui l'utilises pour construire quelque chose.
+
+L'argent seul ne te rend pas libre.
+C'est ce que tu en fais qui te rend libre.
+
+La vraie question c'est pas combien tu gagnes.
+C'est qu'est-ce que tu construis avec ce que tu gagnes.
+
+Définis d'abord la vie que tu veux.
+Ensuite calcule combien ça coûte.
+Ensuite construis l'activité qui génère ces revenus.
+
+Dans cet ordre. Pas dans l'autre.
+
+Tout sur StartBusinessWorld.com — lien dans la description.`},
+s3_5:{meta:"Short · Mercredi S1 · E-commerce",title:"Comment calculer ta vraie marge avant d'importer",text:`Tu veux importer un produit et le vendre en ligne.
+
+Avant de passer commande, tu dois calculer ta marge réelle.
+
+Pas juste prix d'achat et prix de vente.
+Ta marge réelle.
+
+Voilà tous les coûts que tu dois intégrer.
+
+Prix d'achat fournisseur.
+Frais de transport maritime.
+Droits de douane — entre 3 et 17% selon le produit.
+TVA à l'import — récupérable si tu es assujetti.
+Frais de transit et dédouanement.
+Coût de stockage.
+Frais d'emballage et préparation de commande.
+Coût d'acquisition client.
+Frais de plateforme.
+Retours et remboursements.
+
+Un produit acheté 5 euros en Chine et vendu 25 euros peut te laisser 4 euros de marge réelle.
+Ou te faire perdre de l'argent si tu as mal calculé.
+
+Calcule avant d'importer. Toujours.
+
+Je t'explique comment faire le calcul complet sur StartBusinessWorld.com — lien dans la description.`},
+s4_1:{meta:"Short · Jeudi S1 · Import/Export",title:"DDP — le piège de l'Incoterm qui semble trop simple",text:`DDP — Delivered Duty Paid.
+
+C'est l'Incoterm qui fait rêver les débutants.
+
+Le logisticien gère tout.
+Transport, assurance, douane export, fret, douane import, droits de douane, livraison finale.
+
+Ça semble parfait. C'est en réalité le pire choix pour développer une activité sérieuse.
+
+Pourquoi ?
+
+Premier problème — le coût.
+Le logisticien facture tout et se fait une marge sur chaque étape.
+Tu payes largement plus cher.
+
+Deuxième problème — zéro contrôle.
+Tu sais pas combien coûte vraiment le fret.
+Tu sais pas si les droits de douane ont été correctement calculés.
+
+Troisième problème — tu n'apprends rien.
+Si tu veux construire une vraie activité d'import, tu dois comprendre chaque étape.
+
+DDP c'est bien pour une commande test de 200 euros.
+Pas pour un business.
+
+Tout sur StartBusinessWorld.com — lien dans la description.`},
+s4_2:{meta:"Short · Jeudi S1 · Mindset",title:"Pourquoi la plupart des gens n'arrivent jamais à se lancer",text:`Pourquoi la plupart des gens n'arrivent jamais à se lancer ?
+
+C'est pas le manque de capital.
+C'est pas le manque d'idées.
+C'est pas le manque de temps.
+
+C'est la peur.
+
+La peur d'échouer.
+La peur du jugement des autres.
+La peur de perdre de l'argent.
+
+Et cette peur se déguise.
+
+Elle prend la forme de la procrastination.
+De la recherche infinie d'informations.
+Du "j'attends que la situation soit meilleure."
+
+La vérité c'est que le risque de ne jamais essayer est infiniment plus grand que le risque d'essayer et d'échouer.
+
+Celui qui échoue apprend.
+Celui qui n'essaie jamais stagne.
+
+Lance-toi.
+
+Tout le contenu pour démarrer sur StartBusinessWorld.com — lien dans la description.`},
+s4_3:{meta:"Short · Jeudi S1 · Hong Kong",title:"Airwallex — le meilleur outil pour tes paiements depuis Hong Kong",text:`Si t'as une société à Hong Kong, tu as besoin d'un outil pour gérer tes paiements internationaux.
+
+Le meilleur en ce moment c'est Airwallex.
+
+Voilà ce qu'il te permet de faire.
+
+Ouvrir des comptes en plusieurs devises — dollars, euros, livres, yuans, Hong Kong dollars.
+Recevoir des paiements dans n'importe quelle devise sans frais excessifs.
+Envoyer des virements internationaux aux taux de change interbancaires.
+Émettre des cartes virtuelles pour tes dépenses business.
+Connecter des processeurs de paiement comme Stripe ou PayPal.
+
+Et la grande différence avec une banque traditionnelle ?
+
+Taux de change bien meilleurs.
+Tout se gère en ligne depuis n'importe où dans le monde.
+
+Pour un entrepreneur qui fait du commerce international depuis Hong Kong, Airwallex c'est indispensable.
+
+Je t'explique comment l'utiliser sur StartBusinessWorld.com — lien dans la description.`},
+s4_4:{meta:"Short · Jeudi S1 · Fiscalité",title:"Se verser des dividendes — comment ça marche",text:`En société, tu peux te rémunérer de deux façons.
+
+Un salaire.
+Des dividendes.
+
+Le salaire c'est une charge pour la société.
+Tu cotises à la sécurité sociale.
+Mais les cotisations sont élevées — entre 20 et 80% selon le niveau.
+
+Les dividendes c'est une distribution des bénéfices.
+En SASU, les dividendes sont soumis à la flat tax — 30% au total.
+Pas de cotisations sociales dessus.
+
+Concrètement.
+
+Pour un salaire net de 3 000 euros, ta société débourse environ 5 000 euros.
+Pour 3 000 euros de dividendes, ta société sort 4 285 euros.
+
+Les dividendes c'est plus intéressant fiscalement.
+Mais tu n'acquiers pas de droits à la retraite dessus.
+
+La bonne stratégie c'est souvent un mix des deux.
+
+Je t'explique la combinaison optimale sur StartBusinessWorld.com — lien dans la description.`},
+s4_5:{meta:"Short · Jeudi S1 · E-commerce",title:"Publicité Meta — les erreurs qui brûlent ton budget",text:`Tu lances de la pub sur Facebook ou Instagram.
+Ton budget part. Les ventes ne viennent pas.
+
+Voilà les 4 erreurs qui brûlent ton budget.
+
+Erreur 1 — Cibler trop large.
+Définis un persona précis. Plus ton ciblage est fin, meilleur ton coût d'acquisition.
+
+Erreur 2 — Tuer les publicités trop tôt.
+Meta a besoin de 3 à 7 jours et entre 50 et 100 événements de conversion pour optimiser.
+Si tu coupes à J+2, tu gâches l'apprentissage.
+
+Erreur 3 — Une seule création publicitaire.
+Teste plusieurs visuels, plusieurs accroches, plusieurs textes.
+
+Erreur 4 — Envoyer du trafic vers une mauvaise page.
+La pub c'est 50% du travail.
+L'autre 50% c'est ta page produit.
+Si elle convertit pas, aucune pub ne peut sauver tes ventes.
+
+Tout sur StartBusinessWorld.com — lien dans la description.`},
+s5_1:{meta:"Short · Vendredi S1 · Import/Export",title:"Le transitaire — l'acteur le plus important de ton import",text:`Dans une opération d'import, il y a un acteur que beaucoup de débutants sous-estiment.
+
+Le transitaire.
+
+C'est lui qui fait voyager ta marchandise de l'usine jusqu'à ton entrepôt.
+
+Concrètement, il s'occupe de quoi ?
+
+Il réserve l'espace dans les containers.
+Il coordonne le transporteur local chez le fournisseur.
+Il gère tous les documents de transport.
+Il fait la déclaration en douane à l'import.
+Et quand il y a un problème, c'est lui qui gère.
+
+Choisir un mauvais transitaire, ça peut te coûter très cher.
+
+Des marchandises bloquées au port avec des frais de stockage qui s'accumulent.
+Des erreurs de dédouanement qui déclenchent des contrôles.
+
+Critères pour choisir le bon.
+Réactivité. Transparence sur les coûts. Expérience sur ta route d'import.
+
+Je t'explique comment le choisir sur StartBusinessWorld.com — lien dans la description.`},
+s5_2:{meta:"Short · Vendredi S1 · Fiscalité",title:"L'optimisation fiscale c'est légal — arrête d'avoir peur",text:`Optimisation fiscale.
+
+Beaucoup de gens entendent ce mot et pensent à quelque chose d'illégal.
+
+C'est faux.
+
+L'optimisation fiscale c'est utiliser les outils légaux mis à disposition par la loi pour réduire ton imposition.
+
+La fraude fiscale c'est cacher des revenus, falsifier des documents, mentir à l'administration.
+
+L'optimisation fiscale c'est choisir la bonne structure juridique.
+C'est se rémunérer de la façon la plus efficace.
+C'est déduire légalement tes charges.
+
+En France, la loi elle-même prévoit ces mécanismes.
+Les utiliser c'est pas tricher. C'est être bien conseillé.
+
+Arrête de payer plus que ce que tu dois.
+
+Je t'explique comment optimiser ta fiscalité sur StartBusinessWorld.com — lien dans la description.`},
+s5_3:{meta:"Short · Vendredi S1 · Expatriation",title:"Résidence fiscale — à partir de quand tu n'es plus imposable en France",text:`Tu quittes la France. À partir de quand tu n'es plus imposable là-bas ?
+
+Tu es considéré résident fiscal français si l'une de ces conditions est remplie.
+
+Condition 1 — Ton foyer est en France.
+Ta famille, ton domicile principal.
+
+Condition 2 — Ton lieu de séjour principal est en France.
+Tu passes plus de 183 jours par an sur le territoire.
+
+Condition 3 — Ton activité professionnelle principale est exercée en France.
+
+Condition 4 — Le centre de tes intérêts économiques est en France.
+
+Il suffit d'une seule condition pour que tu sois encore résident fiscal français.
+
+Pour couper ta résidence fiscale française, tu dois t'assurer qu'aucune de ces conditions n'est remplie.
+
+C'est pas aussi simple que de prendre un appartement à Dubaï.
+Ça se prépare sérieusement.
+
+Je t'explique tout sur StartBusinessWorld.com — lien dans la description.`},
+s5_4:{meta:"Short · Vendredi S1 · E-commerce",title:"Stock ou dropshipping — lequel choisir quand tu démarres",text:`Stock ou dropshipping — laquelle choisir quand tu démarres ?
+
+Le dropshipping : tu vends sans stocker.
+Zéro investissement en stock.
+
+Avantages.
+Pas de capital immobilisé.
+Tu peux tester beaucoup de produits rapidement.
+
+Inconvénients.
+Marges très faibles.
+Tu contrôles pas la qualité d'expédition.
+Délais souvent longs.
+Concurrence massive.
+
+Le stock.
+Tu importes. Tu stockes. Tu expédies.
+Marges meilleures. Contrôle total.
+Mais tu immobilises du capital.
+
+Ma recommandation.
+
+Commence en dropshipping pour valider un produit.
+Dès que tu vois que ça vend, passe au stock importé.
+Tu multiplies ta marge par 2 ou 3.
+
+Tout sur StartBusinessWorld.com — lien dans la description.`},
+s5_5:{meta:"Short · Vendredi S1 · Mindset",title:"La patience c'est pas de l'inaction — la différence",text:`Il y a une confusion que beaucoup de gens font.
+
+Confondre la patience avec l'inaction.
+
+La patience c'est travailler tous les jours sans voir les résultats immédiatement.
+C'est planter des graines et attendre qu'elles poussent.
+Mais continuer à arroser. Tous les jours.
+
+L'inaction c'est attendre que les résultats arrivent sans rien faire.
+
+La patience active — tu travailles, tu construis, tu avances.
+L'inaction passive — tu attends le bon moment qui n'existe pas.
+
+Les résultats en entrepreneuriat arrivent en retard.
+Six mois, un an, deux ans après que tu aies planté les premières graines.
+
+Mais ils arrivent — si tu continues à planter.
+
+Tout sur StartBusinessWorld.com — lien dans la description.`},
+s6_1:{meta:"Short · Samedi S1 · Import/Export",title:"La douane — ce qui se passe quand ta marchandise arrive au port",text:`Ton container arrive au port du Havre.
+
+Voilà exactement ce qui se passe.
+
+Étape 1 — La déclaration en douane.
+Ton transitaire soumet une déclaration électronique aux douanes françaises.
+
+Étape 2 — Le calcul des droits.
+Les douanes calculent les droits de douane basés sur le code SH du produit et sa valeur en douane.
+
+Étape 3 — Le paiement.
+Tu règles les droits de douane et la TVA à l'import.
+Si t'es une entreprise assujettie à la TVA, tu récupères la TVA ensuite.
+
+Étape 4 — Le bon à enlever.
+Une fois validé, les douanes délivrent le bon à enlever.
+C'est l'autorisation de sortir la marchandise du port.
+
+Étape 5 — La livraison.
+Un transporteur vient chercher ton container et le livre à ton adresse.
+
+Dans 95% des cas ça prend 24 à 48 heures.
+
+Tout sur StartBusinessWorld.com — lien dans la description.`},
+s6_2:{meta:"Short · Samedi S1 · Hong Kong",title:"Ouvrir un compte bancaire à Hong Kong en 2025",text:`Ouvrir un compte bancaire à Hong Kong.
+
+C'est le point qui fait peur à beaucoup d'entrepreneurs.
+
+Bonne nouvelle — c'est plus simple que t'imagines.
+
+Option 1 — Les banques traditionnelles hongkongaises.
+HSBC Hong Kong, Hang Seng, Bank of China HK.
+Très complètes. Mais elles demandent souvent une présence physique.
+
+Option 2 — Les fintech.
+Airwallex, Wise, Currenxie.
+Ouverture 100% en ligne.
+Comptes multi-devises.
+Parfaites pour les entrepreneurs qui gèrent leurs flux de partout.
+
+La combinaison gagnante : une fintech pour les flux quotidiens, plus un compte bancaire traditionnel pour la crédibilité.
+
+Documents généralement demandés.
+Certificat de constitution. Preuve d'identité. Preuve d'adresse. Description de l'activité.
+
+Je t'explique tout le processus sur StartBusinessWorld.com — lien dans la description.`},
+s6_3:{meta:"Short · Samedi S1 · E-commerce",title:"Comment trouver un fournisseur — au-delà d'Alibaba",text:`Alibaba c'est pas la seule option pour trouver des fournisseurs.
+
+Et souvent c'est même pas la meilleure.
+
+Voilà d'autres sources que les pros utilisent.
+
+Les salons professionnels.
+Canton Fair en Chine — deux fois par an.
+Des milliers de fabricants réunis au même endroit.
+Tu rencontres les fournisseurs en personne.
+
+Global Sources.
+Plus orienté B2B professionnel.
+Souvent des fournisseurs de meilleure qualité qu'Alibaba.
+
+Les agents de sourcing.
+Tu leur donnes un cahier des charges. Ils trouvent le fournisseur pour toi.
+
+1688.
+Le Alibaba chinois — en mandarin.
+Les prix sont bien meilleurs.
+Mais tu as besoin d'un agent ou de parler mandarin.
+
+La règle absolue.
+Commande un échantillon avant de passer une vraie commande.
+Toujours.
+
+Tout sur StartBusinessWorld.com — lien dans la description.`},
+s6_4:{meta:"Short · Samedi S1 · Mindset",title:"Ton réseau vaut plus que ton diplôme",text:`Dans la vie réelle, ton réseau vaut infiniment plus que ton diplôme.
+
+Ton diplôme t'ouvre des portes dans des systèmes établis.
+Ton réseau t'ouvre des portes partout ailleurs.
+
+La réalité de l'entrepreneuriat.
+
+La plupart des opportunités ne sont jamais affichées publiquement.
+Les meilleurs fournisseurs, les meilleurs partenaires, les meilleures opportunités.
+Tout ça se passe entre personnes qui se font confiance.
+
+Et la confiance ça se construit par le réseau.
+
+Comment construire un réseau solide ?
+
+Sois généreux avant de demander quoi que ce soit.
+Partage de la valeur. Aide les autres. Connecte les gens entre eux.
+
+Montre ce que tu construis.
+Les réseaux sociaux sont l'outil le plus puissant pour ça.
+
+Investis dans ton réseau maintenant.
+Même si t'as pas encore besoin de lui.
+
+Tout sur StartBusinessWorld.com — lien dans la description.`},
+s6_5:{meta:"Short · Samedi S1 · Fiscalité",title:"TVA à l'import — évite les mauvaises surprises",text:`Tu importes des marchandises depuis l'étranger.
+À l'arrivée en France, tu vas payer de la TVA.
+
+Depuis le 1er juillet 2021, la franchise de TVA à l'import a été supprimée en Europe.
+Quel que soit le montant, la TVA est due.
+Même pour 1 euro.
+
+Le taux standard en France c'est 20%.
+
+Sur quoi est calculée la TVA ?
+Sur la valeur en douane — prix de la marchandise plus frais de transport — à laquelle on ajoute les droits de douane.
+
+La bonne nouvelle si tu es une société assujettie à la TVA.
+Tu payes la TVA à l'import, mais tu la récupères sur ta déclaration.
+C'est une avance de trésorerie, pas un coût définitif.
+
+En revanche si tu es en micro-entreprise, tu ne récupères pas la TVA.
+C'est un coût sec.
+
+Tout sur StartBusinessWorld.com — lien dans la description.`},
+s7_1:{meta:"Short · Dimanche S1 · Import/Export",title:"Le Bill of Lading — le document le plus important de ton import",text:`Il y a un document que tu ne dois jamais perdre quand tu importes par voie maritime.
+
+Le Bill of Lading.
+
+C'est le titre de propriété de ta marchandise en transit.
+
+Celui qui détient le Bill of Lading est légalement le propriétaire de la marchandise.
+Sans lui, tu ne peux pas récupérer ton container au port.
+
+Il contient quoi ?
+
+Les informations sur l'expéditeur et le destinataire.
+La description de la marchandise.
+Le port de départ et le port d'arrivée.
+Le nom du bateau et le numéro de voyage.
+
+Il existe trois formes.
+
+Original — physique, transmissible comme un titre de propriété.
+Telex release — remise sans document physique. Plus rapide.
+Sea Waybill — non négociable, directement au nom du destinataire.
+
+Dans la grande majorité des imports aujourd'hui, c'est le telex release qui est utilisé.
+
+Tout sur StartBusinessWorld.com — lien dans la description.`},
+s7_2:{meta:"Short · Dimanche S1 · Immobilier",title:"Investir dans l'immobilier à l'étranger — par où commencer",text:`Investir dans l'immobilier à l'étranger.
+
+Beaucoup en rêvent. Peu savent par où commencer.
+
+Voilà la méthode simple.
+
+Étape 1 — Choisir le marché.
+Commence par un pays que tu connais ou que tu fréquentes.
+Un marché avec un cadre juridique clair pour les étrangers.
+
+Étape 2 — Comprendre la fiscalité locale.
+Certains pays ont une fiscalité très attractive pour les investisseurs étrangers.
+
+Étape 3 — Identifier le type d'investissement.
+Résidentiel locatif court terme.
+Résidentiel locatif long terme.
+Commercial. Terrain.
+
+Étape 4 — Trouver les bons partenaires locaux.
+Avocat. Agent immobilier spécialisé. Gestionnaire de biens.
+
+Les marchés qui attirent beaucoup d'investisseurs francophones en ce moment.
+Dubaï, Portugal, Maurice, Maroc.
+
+Je t'explique chaque marché sur StartBusinessWorld.com — lien dans la description.`},
+s7_3:{meta:"Short · Dimanche S1 · Fiscalité",title:"Les charges en SASU — ce que tu vas vraiment payer",text:`Tu veux créer une SASU et tu veux savoir ce que ça va vraiment te coûter.
+
+Si tu te verses un salaire.
+Les cotisations patronales représentent environ 45% du salaire brut.
+Pour un salaire net de 2 000 euros, ta société débourse environ 3 800 euros.
+
+Si tu ne te verses pas de salaire.
+Zéro cotisations sociales.
+Si tu réinvestis tous tes bénéfices, tu ne payes rien socialement.
+
+Les charges fixes de la société.
+Comptable — entre 100 et 300 euros par mois.
+Assurance RC Pro — entre 30 et 150 euros par mois.
+
+L'impôt sur les sociétés.
+15% sur les premiers 42 500 euros de bénéfices.
+25% au-delà.
+
+La SASU c'est une structure flexible si tu sais comment l'utiliser.
+
+Je t'explique tout sur StartBusinessWorld.com — lien dans la description.`},
+s7_4:{meta:"Short · Dimanche S1 · Mindset",title:"La discipline — ce qui sépare ceux qui réussissent des autres",text:`La motivation c'est surfaite.
+
+Tout le monde est motivé au début.
+Le premier jour. La première semaine.
+
+Puis la motivation disparaît.
+
+C'est là que la discipline prend le relais.
+
+La discipline c'est faire ce que tu dois faire même quand t'as pas envie.
+Même quand c'est difficile.
+Même quand les résultats ne sont pas encore là.
+
+Les gens qui réussissent ne sont pas plus motivés que les autres.
+Ils sont plus disciplinés.
+
+Ils ont des routines. Des systèmes. Des habitudes non négociables.
+
+Ils travaillent le lundi matin même s'ils préféreraient rester au lit.
+Ils continuent à produire du contenu même si personne ne les regarde encore.
+
+La motivation te fait démarrer.
+La discipline te fait arriver.
+
+Construis ta discipline avant d'attendre ta motivation.
+
+Tout sur StartBusinessWorld.com — lien dans la description.`},
+s7_5:{meta:"Short · Dimanche S1 · Hong Kong",title:"Offshore ça veut pas dire illégal — les idées reçues",text:`Le mot "offshore" fait peur.
+
+Les gens entendent offshore et pensent immédiatement à de l'évasion fiscale.
+
+La réalité c'est beaucoup plus simple.
+
+Offshore ça veut juste dire "en dehors du pays d'imposition principal."
+
+Une société est considérée offshore quand elle réalise son activité en dehors du pays où elle est enregistrée.
+
+C'est légal.
+Des millions de sociétés dans le monde fonctionnent de cette façon.
+
+Ce qui est illégal c'est la dissimulation.
+Cacher des revenus au fisc.
+Ne pas déclarer une société étrangère que tu contrôles.
+
+Mais créer une société à Hong Kong, la déclarer aux autorités fiscales, et bénéficier d'une fiscalité favorable —
+
+C'est parfaitement légal.
+
+Et c'est ce que font des milliers d'entrepreneurs dans le monde.
+
+Je t'explique comment faire ça correctement sur StartBusinessWorld.com — lien dans la description.`}
+};
+
+// ══════════════════════════════════════════════
+// PLANNING DATA
+// ══════════════════════════════════════════════
+const MONTHS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+let currentMonth = new Date().getMonth();
+let currentYear = new Date().getFullYear();
+let currentWeek = 0;
+let currentScriptKey = null;
+
+const WEEK_DATA = [
+  {videos:[{key:'vl1',title:"Les Incoterms de A à Z — EXW, FOB, CIF, DDP",dur:"~12 min"}],days:[
+    {name:"Lundi",shorts:[{key:'s1_1',pill:'p-ie',label:'Import/Export',title:"C'est quoi un Incoterm — et pourquoi ça peut te coûter cher"},{key:'s1_2',pill:'p-fi',label:'Fiscalité',title:"La micro-entreprise c'est un piège pour les entrepreneurs sérieux"},{key:'s1_3',pill:'p-ms',label:'Mindset',title:"L'erreur numéro 1 que font les débutants"},{key:'s1_4',pill:'p-hk',label:'Hong Kong',title:"0% d'impôt à Hong Kong — comment c'est possible"},{key:'s1_5',pill:'p-ec',label:'E-commerce',title:"Comment trouver un produit qui se vend avant de dépenser un euro"}],pubs:[{pill:'p-ms',label:'Mindset',title:`Citation — "La liberté financière ne s'achète pas, elle se construit."`,fmt:"Citation visuelle"},{pill:'p-ie',label:'Import/Export',title:"Carrousel — Les 4 Incoterms essentiels",fmt:"Carrousel 6 slides"}]},
+    {name:"Mardi",shorts:[{key:'s2_1',pill:'p-ie',label:'Import/Export',title:"FOB — pourquoi c'est l'Incoterm préféré des importateurs"},{key:'s2_2',pill:'p-hk',label:'Hong Kong',title:"Pourquoi ouvrir une société à Hong Kong plutôt qu'en France"},{key:'s2_3',pill:'p-ec',label:'E-commerce',title:"Shopify ou pas — la vraie question avant de lancer"},{key:'s2_4',pill:'p-fi',label:'Fiscalité',title:"SASU ou EURL — laquelle choisir quand tu démarres seul"},{key:'s2_5',pill:'p-ms',label:'Mindset',title:"La liberté ça se mérite — ce que personne ne te dit"}],pubs:[{pill:'p-fi',label:'Fiscalité',title:"Carrousel — SASU vs Micro-entreprise : le comparatif",fmt:"Carrousel 6 slides"},{pill:'p-hk',label:'Hong Kong',title:`Citation — "La meilleure structure fiscale c'est celle que tu comprends."`,fmt:"Citation visuelle"}]},
+    {name:"Mercredi",shorts:[{key:'s3_1',pill:'p-ie',label:'Import/Export',title:"CIF — pourquoi c'est risqué de laisser le logisticien gérer le fret"},{key:'s3_2',pill:'p-ex',label:'Expatriation',title:"Dubaï résidence fiscale — ce que personne ne te dit vraiment"},{key:'s3_3',pill:'p-fi',label:'Fiscalité',title:"La holding — à quoi ça sert vraiment"},{key:'s3_4',pill:'p-ms',label:'Mindset',title:"L'argent c'est un outil — arrête de lui donner trop d'importance"},{key:'s3_5',pill:'p-ec',label:'E-commerce',title:"Comment calculer ta vraie marge avant d'importer"}],pubs:[{pill:'p-ex',label:'Expatriation',title:"Texte — Les 3 conditions pour être résident fiscal à Dubaï",fmt:"Texte"},{pill:'p-ec',label:'E-commerce',title:`Citation — "Une marge mal calculée c'est un business qui coule en silence."`,fmt:"Citation visuelle"}]},
+    {name:"Jeudi",shorts:[{key:'s4_1',pill:'p-ie',label:'Import/Export',title:"DDP — le piège de l'Incoterm qui semble trop simple"},{key:'s4_2',pill:'p-ms',label:'Mindset',title:"Pourquoi la plupart des gens n'arrivent jamais à se lancer"},{key:'s4_3',pill:'p-hk',label:'Hong Kong',title:"Airwallex — le meilleur outil pour tes paiements depuis Hong Kong"},{key:'s4_4',pill:'p-fi',label:'Fiscalité',title:"Se verser des dividendes — comment ça marche"},{key:'s4_5',pill:'p-ec',label:'E-commerce',title:"Publicité Meta — les erreurs qui brûlent ton budget"}],pubs:[{pill:'p-hk',label:'Hong Kong',title:"Carrousel — Société Hong Kong vs Société France",fmt:"Carrousel 6 slides"},{pill:'p-ms',label:'Mindset',title:`Citation — "L'action imparfaite bat toujours le plan parfait."`,fmt:"Citation visuelle"}]},
+    {name:"Vendredi",shorts:[{key:'s5_1',pill:'p-ie',label:'Import/Export',title:"Le transitaire — l'acteur le plus important de ton import"},{key:'s5_2',pill:'p-fi',label:'Fiscalité',title:"L'optimisation fiscale c'est légal — arrête d'avoir peur"},{key:'s5_3',pill:'p-ex',label:'Expatriation',title:"Résidence fiscale — à partir de quand tu n'es plus imposable en France"},{key:'s5_4',pill:'p-ec',label:'E-commerce',title:"Stock ou dropshipping — lequel choisir quand tu démarres"},{key:'s5_5',pill:'p-ms',label:'Mindset',title:"La patience c'est pas de l'inaction — la différence"}],pubs:[{pill:'p-ie',label:'Import/Export',title:"Texte — Comment choisir son transitaire : les 5 critères",fmt:"Texte"},{pill:'p-fi',label:'Fiscalité',title:`Citation — "Payer moins d'impôts légalement c'est de la gestion."`,fmt:"Citation visuelle"}]},
+    {name:"Samedi",shorts:[{key:'s6_1',pill:'p-ie',label:'Import/Export',title:"La douane — ce qui se passe quand ta marchandise arrive au port"},{key:'s6_2',pill:'p-hk',label:'Hong Kong',title:"Ouvrir un compte bancaire à Hong Kong en 2025"},{key:'s6_3',pill:'p-ec',label:'E-commerce',title:"Comment trouver un fournisseur — au-delà d'Alibaba"},{key:'s6_4',pill:'p-ms',label:'Mindset',title:"Ton réseau vaut plus que ton diplôme"},{key:'s6_5',pill:'p-fi',label:'Fiscalité',title:"TVA à l'import — évite les mauvaises surprises"}],pubs:[{pill:'p-ie',label:'Import/Export',title:"Carrousel — Le parcours d'un produit de l'usine à ton entrepôt",fmt:"Carrousel 7 slides"},{pill:'p-ms',label:'Mindset',title:"Texte — Pourquoi j'ai tout quitté pour construire ma liberté",fmt:"Texte"}]},
+    {name:"Dimanche",shorts:[{key:'s7_1',pill:'p-ie',label:'Import/Export',title:"Le Bill of Lading — le document le plus important de ton import"},{key:'s7_2',pill:'p-im',label:'Immobilier',title:"Investir dans l'immobilier à l'étranger — par où commencer"},{key:'s7_3',pill:'p-fi',label:'Fiscalité',title:"Les charges en SASU — ce que tu vas vraiment payer"},{key:'s7_4',pill:'p-ms',label:'Mindset',title:"La discipline — ce qui sépare ceux qui réussissent des autres"},{key:'s7_5',pill:'p-hk',label:'Hong Kong',title:"Offshore ça veut pas dire illégal — les idées reçues"}],pubs:[{pill:'p-im',label:'Immobilier',title:`Citation — "L'immobilier à l'étranger c'est accessible si tu sais où regarder."`,fmt:"Citation visuelle"},{pill:'p-hk',label:'Hong Kong',title:"Texte — Hong Kong en 2025 : toujours la meilleure option ?",fmt:"Texte"}]}
+  ]},
+  {videos:[{key:'vl2',title:"Transport maritime en import-export — tout ce qu'il faut savoir",dur:"~10 min"}],days:[
+    {name:"Lundi",shorts:[{key:'s1_1',pill:'p-ie',label:'Import/Export',title:"Le dédouanement expliqué simplement"},{key:'s1_2',pill:'p-fi',label:'Fiscalité',title:"Comment fonctionne l'IS en SASU"},{key:'s1_3',pill:'p-ms',label:'Mindset',title:"Arrête de consommer, commence à produire"},{key:'s1_4',pill:'p-hk',label:'Hong Kong',title:"Créer sa société à HK — les étapes concrètes"},{key:'s1_5',pill:'p-ec',label:'E-commerce',title:"Les 5 niches e-commerce qui marchent en 2025"}],pubs:[{pill:'p-ie',label:'Import/Export',title:"Texte — Les 6 étapes d'une opération d'import réussie",fmt:"Texte"},{pill:'p-ms',label:'Mindset',title:`Citation — "Produis plus que tu ne consommes."`,fmt:"Citation visuelle"}]},
+    {name:"Mardi",shorts:[{key:'s2_1',pill:'p-ie',label:'Import/Export',title:"FCL vs LCL — quel container choisir"},{key:'s2_2',pill:'p-hk',label:'Hong Kong',title:"Le coût réel d'une société à Hong Kong"},{key:'s2_3',pill:'p-ec',label:'E-commerce',title:"Amazon FBA ou ta propre boutique — lequel choisir"},{key:'s2_4',pill:'p-fi',label:'Fiscalité',title:"Quand est-ce que la holding devient intéressante"},{key:'s2_5',pill:'p-ms',label:'Mindset',title:"Les 3 mensonges qu'on te raconte sur l'entrepreneuriat"}],pubs:[{pill:'p-hk',label:'Hong Kong',title:"Carrousel — Tout ce qu'il faut pour créer sa société à HK",fmt:"Carrousel 5 slides"},{pill:'p-ec',label:'E-commerce',title:`Citation — "Le meilleur moment pour lancer c'était hier. Le deuxième c'est maintenant."`,fmt:"Citation visuelle"}]},
+    {name:"Mercredi",shorts:[{key:'s3_1',pill:'p-ie',label:'Import/Export',title:"Les droits de douane — comment les calculer"},{key:'s3_2',pill:'p-ex',label:'Expatriation',title:"Portugal NHR — le régime fiscal qui attire les entrepreneurs français"},{key:'s3_3',pill:'p-fi',label:'Fiscalité',title:"La flat tax à 30% — dans quel cas c'est avantageux"},{key:'s3_4',pill:'p-ms',label:'Mindset',title:"Investis en toi avant d'investir ailleurs"},{key:'s3_5',pill:'p-ec',label:'E-commerce',title:"Le copywriting qui vend — les 3 éléments essentiels"}],pubs:[{pill:'p-fi',label:'Fiscalité',title:"Carrousel — Flat tax vs Barème progressif : quand choisir quoi",fmt:"Carrousel 4 slides"},{pill:'p-ex',label:'Expatriation',title:"Texte — Le Portugal : tout ce qu'il faut savoir sur le régime NHR",fmt:"Texte"}]},
+    {name:"Jeudi",shorts:[{key:'s4_1',pill:'p-ie',label:'Import/Export',title:"Les normes CE — ce que tu risques si ton produit n'est pas conforme"},{key:'s4_2',pill:'p-ms',label:'Mindset',title:"Comment gérer l'échec sans se décourager"},{key:'s4_3',pill:'p-hk',label:'Hong Kong',title:"Hong Kong vs Singapour — laquelle choisir pour son entreprise"},{key:'s4_4',pill:'p-fi',label:'Fiscalité',title:"Les frais déductibles en SASU — ce que tu peux passer en charge"},{key:'s4_5',pill:'p-ec',label:'E-commerce',title:"Comment créer une fiche produit qui convertit"}],pubs:[{pill:'p-ie',label:'Import/Export',title:`Citation — "Comprendre les Incoterms c'est comprendre qui prend les risques."`,fmt:"Citation visuelle"},{pill:'p-ec',label:'E-commerce',title:"Texte — Amazon FBA : tout ce qu'on ne te dit pas sur les frais",fmt:"Texte"}]},
+    {name:"Vendredi",shorts:[{key:'s5_1',pill:'p-ie',label:'Import/Export',title:"Le paiement fournisseur — comment se protéger en import"},{key:'s5_2',pill:'p-fi',label:'Fiscalité',title:"Compte courant d'associé — à quoi ça sert"},{key:'s5_3',pill:'p-ex',label:'Expatriation',title:"Maurice — le paradis fiscal méconnu des entrepreneurs francophones"},{key:'s5_4',pill:'p-ec',label:'E-commerce',title:"Les 3 indicateurs à surveiller absolument en e-commerce"},{key:'s5_5',pill:'p-ms',label:'Mindset',title:"La différence entre les gens qui réussissent et les autres"}],pubs:[{pill:'p-ex',label:'Expatriation',title:"Carrousel — 5 pays avec la meilleure fiscalité pour les entrepreneurs",fmt:"Carrousel 5 slides"},{pill:'p-ms',label:'Mindset',title:`Citation — "Le succès c'est la somme de petits efforts répétés chaque jour."`,fmt:"Citation visuelle"}]},
+    {name:"Samedi",shorts:[{key:'s6_1',pill:'p-ie',label:'Import/Export',title:"La lettre de crédit — quand et comment l'utiliser"},{key:'s6_2',pill:'p-hk',label:'Hong Kong',title:"Vivre à Hong Kong — ce que ça coûte vraiment"},{key:'s6_3',pill:'p-ec',label:'E-commerce',title:"TikTok Shop — la nouvelle opportunité e-commerce"},{key:'s6_4',pill:'p-ms',label:'Mindset',title:"Arrête de chercher la motivation, construis des systèmes"},{key:'s6_5',pill:'p-fi',label:'Fiscalité',title:"L'assurance vie — un outil fiscal méconnu des entrepreneurs"}],pubs:[{pill:'p-ec',label:'E-commerce',title:"Texte — TikTok Shop : comment en profiter maintenant",fmt:"Texte"},{pill:'p-fi',label:'Fiscalité',title:`Citation — "Payer l'impôt c'est obligatoire. Payer trop c'est optionnel."`,fmt:"Citation visuelle"}]},
+    {name:"Dimanche",shorts:[{key:'s7_1',pill:'p-ie',label:'Import/Export',title:"Importer depuis la Turquie — ce que tu dois savoir"},{key:'s7_2',pill:'p-im',label:'Immobilier',title:"Investir à Dubaï — les vrais rendements locatifs"},{key:'s7_3',pill:'p-fi',label:'Fiscalité',title:"SCI — est-ce que c'est utile pour un entrepreneur ?"},{key:'s7_4',pill:'p-ms',label:'Mindset',title:"Pourquoi les entrepreneurs qui réussissent lisent autant"},{key:'s7_5',pill:'p-hk',label:'Hong Kong',title:"Les fournisseurs chinois — comment négocier le meilleur prix"}],pubs:[{pill:'p-im',label:'Immobilier',title:"Carrousel — Les 4 marchés immobiliers à surveiller en 2025",fmt:"Carrousel 4 slides"},{pill:'p-ie',label:'Import/Export',title:"Texte — Importer depuis la Turquie vs la Chine : le comparatif",fmt:"Texte"}]}
+  ]},
+  {videos:[],days:[
+    {name:"Lundi",shorts:[{key:'s1_1',pill:'p-ie',label:'Import/Export',title:"Le code SH — comment trouver le bon code douanier"},{key:'s1_2',pill:'p-fi',label:'Fiscalité',title:"Créer une entreprise à 18 ans — c'est possible"},{key:'s1_3',pill:'p-ms',label:'Mindset',title:"Comment développer une mentalité de gagnant"},{key:'s1_4',pill:'p-hk',label:'Hong Kong',title:"Hong Kong — les 5 idées reçues à arrêter de croire"},{key:'s1_5',pill:'p-ec',label:'E-commerce',title:"Les erreurs de débutant en e-commerce qui coûtent cher"}],pubs:[{pill:'p-fi',label:'Fiscalité',title:"Texte — Créer sa première société : le guide pour les moins de 25 ans",fmt:"Texte"},{pill:'p-ms',label:'Mindset',title:`Citation — "Tu deviens ce que tu répètes."`,fmt:"Citation visuelle"}]},
+    {name:"Mardi",shorts:[{key:'s2_1',pill:'p-ie',label:'Import/Export',title:"L'inspection qualité avant embarquement — pourquoi c'est indispensable"},{key:'s2_2',pill:'p-hk',label:'Hong Kong',title:"Comment vivre et travailler à Hong Kong"},{key:'s2_3',pill:'p-ec',label:'E-commerce',title:"Le taux de conversion — comment l'améliorer"},{key:'s2_4',pill:'p-fi',label:'Fiscalité',title:"Gérer sa trésorerie en SASU — les erreurs à éviter"},{key:'s2_5',pill:'p-ms',label:'Mindset',title:"Pourquoi tu dois arrêter de te comparer aux autres"}],pubs:[{pill:'p-ec',label:'E-commerce',title:"Carrousel — Les 5 métriques e-commerce à surveiller chaque semaine",fmt:"Carrousel 5 slides"},{pill:'p-hk',label:'Hong Kong',title:`Citation — "Hong Kong c'est pas juste une adresse, c'est un avantage compétitif."`,fmt:"Citation visuelle"}]},
+    {name:"Mercredi",shorts:[{key:'s3_1',pill:'p-ie',label:'Import/Export',title:"Wise vs Airwallex — lequel choisir pour tes paiements"},{key:'s3_2',pill:'p-ex',label:'Expatriation',title:"Géorgie — la destination méconnue pour payer moins d'impôts"},{key:'s3_3',pill:'p-fi',label:'Fiscalité',title:"TVA — les règles quand tu vends à l'étranger"},{key:'s3_4',pill:'p-ms',label:'Mindset',title:"La règle des 1% — comment progresser sans s'épuiser"},{key:'s3_5',pill:'p-ec',label:'E-commerce',title:"Le email marketing — l'arme secrète que les e-commerçants négligent"}],pubs:[{pill:'p-ie',label:'Import/Export',title:"Texte — Wise vs Airwallex : le comparatif complet",fmt:"Texte"},{pill:'p-ex',label:'Expatriation',title:`Citation — "La géographie fiscale c'est une compétence."`,fmt:"Citation visuelle"}]},
+    {name:"Jeudi",shorts:[{key:'s4_1',pill:'p-ie',label:'Import/Export',title:"L'assurance marchandise — quand la prendre"},{key:'s4_2',pill:'p-ms',label:'Mindset',title:"Pourquoi travailler seul c'est le plus grand frein"},{key:'s4_3',pill:'p-hk',label:'Hong Kong',title:"Les dividendes depuis une société HK — comment ça se passe"},{key:'s4_4',pill:'p-fi',label:'Fiscalité',title:"Les cotisations TNS — ce que tu dois savoir si tu crées une EURL"},{key:'s4_5',pill:'p-ec',label:'E-commerce',title:"Comment gérer les retours clients sans perdre de l'argent"}],pubs:[{pill:'p-ms',label:'Mindset',title:"Carrousel — Les 5 habitudes des entrepreneurs qui réussissent",fmt:"Carrousel 5 slides"},{pill:'p-fi',label:'Fiscalité',title:`Citation — "La structure juridique c'est les fondations. Si elles sont mal posées, tout s'effondre."`,fmt:"Citation visuelle"}]},
+    {name:"Vendredi",shorts:[{key:'s5_1',pill:'p-ie',label:'Import/Export',title:"Le sourcing en Inde — ce qui est différent de la Chine"},{key:'s5_2',pill:'p-fi',label:'Fiscalité',title:"Pourquoi il faut séparer ta société de ta vie personnelle"},{key:'s5_3',pill:'p-ex',label:'Expatriation',title:"Les 3 erreurs que font les Français qui partent à Dubaï"},{key:'s5_4',pill:'p-ec',label:'E-commerce',title:"Comment automatiser son e-commerce pour gagner du temps"},{key:'s5_5',pill:'p-ms',label:'Mindset',title:"La gestion du temps — la compétence la plus sous-estimée"}],pubs:[{pill:'p-ex',label:'Expatriation',title:"Texte — Les 3 erreurs classiques des Français qui partent à Dubaï",fmt:"Texte"},{pill:'p-ec',label:'E-commerce',title:`Citation — "L'automatisation libère ton temps. Le temps est ta seule ressource non renouvelable."`,fmt:"Citation visuelle"}]},
+    {name:"Samedi",shorts:[{key:'s6_1',pill:'p-ie',label:'Import/Export',title:"Le Canton Fair — comment en profiter pour trouver des fournisseurs"},{key:'s6_2',pill:'p-hk',label:'Hong Kong',title:"Renouveler sa société HK — ce qu'il faut payer chaque année"},{key:'s6_3',pill:'p-ec',label:'E-commerce',title:"Le personal branding — pourquoi c'est devenu indispensable"},{key:'s6_4',pill:'p-ms',label:'Mindset',title:"Comment prendre de meilleures décisions en business"},{key:'s6_5',pill:'p-fi',label:'Fiscalité',title:"PER — est-ce intéressant pour un entrepreneur ?"}],pubs:[{pill:'p-hk',label:'Hong Kong',title:"Texte — Ce que ça coûte vraiment de maintenir une société à HK",fmt:"Texte"},{pill:'p-ms',label:'Mindset',title:`Citation — "Décider vite et ajuster en chemin bat attendre et décider parfaitement."`,fmt:"Citation visuelle"}]},
+    {name:"Dimanche",shorts:[{key:'s7_1',pill:'p-ie',label:'Import/Export',title:"Importer du Maroc — les opportunités que peu d'entrepreneurs voient"},{key:'s7_2',pill:'p-im',label:'Immobilier',title:"L'immobilier locatif court terme à l'étranger — comment ça marche"},{key:'s7_3',pill:'p-fi',label:'Fiscalité',title:"LMNP à l'étranger — est-ce applicable ?"},{key:'s7_4',pill:'p-ms',label:'Mindset',title:"Pourquoi tu dois documenter ton parcours dès maintenant"},{key:'s7_5',pill:'p-hk',label:'Hong Kong',title:"Le commerce B2B depuis Hong Kong — comment ça fonctionne"}],pubs:[{pill:'p-im',label:'Immobilier',title:`Citation — "L'immobilier c'est l'actif qui travaille quand tu dors."`,fmt:"Citation visuelle"},{pill:'p-ie',label:'Import/Export',title:"Carrousel — Maroc vs Chine vs Turquie : quel pays choisir pour son sourcing",fmt:"Carrousel 5 slides"}]}
+  ]},
+  {videos:[],days:[
+    {name:"Lundi",shorts:[{key:'s1_1',pill:'p-ie',label:'Import/Export',title:"Protéger ta marque en Chine — pourquoi c'est indispensable"},{key:'s1_2',pill:'p-fi',label:'Fiscalité',title:"Les 5 dépenses que tout entrepreneur peut déduire"},{key:'s1_3',pill:'p-ms',label:'Mindset',title:"Le syndrome de l'imposteur — comment s'en débarrasser"},{key:'s1_4',pill:'p-hk',label:'Hong Kong',title:"Optimisation fiscale légale — comment les entrepreneurs paient moins"},{key:'s1_5',pill:'p-ec',label:'E-commerce',title:"Les publicités UGC — pourquoi elles marchent mieux que les pubs classiques"}],pubs:[{pill:'p-ie',label:'Import/Export',title:"Texte — Comment protéger ta marque en Chine avant qu'il soit trop tard",fmt:"Texte"},{pill:'p-ms',label:'Mindset',title:`Citation — "L'imposteur en toi te protège. Le vrai toi te propulse."`,fmt:"Citation visuelle"}]},
+    {name:"Mardi",shorts:[{key:'s2_1',pill:'p-ie',label:'Import/Export',title:"Les contrats fournisseurs — ce qu'ils doivent absolument contenir"},{key:'s2_2',pill:'p-hk',label:'Hong Kong',title:"Luminos — comment on aide les entrepreneurs à s'installer à HK"},{key:'s2_3',pill:'p-ec',label:'E-commerce',title:"Scaler son e-commerce — quand et comment"},{key:'s2_4',pill:'p-fi',label:'Fiscalité',title:"L'exit fiscale — dans quel cas ça vaut le coup de partir"},{key:'s2_5',pill:'p-ms',label:'Mindset',title:"Ce que j'ai appris de mes plus grosses erreurs en business"}],pubs:[{pill:'p-hk',label:'Hong Kong',title:"Carrousel — Pourquoi des entrepreneurs du monde entier choisissent HK",fmt:"Carrousel 5 slides"},{pill:'p-ms',label:'Mindset',title:`Citation — "Tes erreurs sont ton MBA le plus utile."`,fmt:"Citation visuelle"}]},
+    {name:"Mercredi",shorts:[{key:'s3_1',pill:'p-ie',label:'Import/Export',title:"Le suivi qualité après livraison — gérer les non-conformités"},{key:'s3_2',pill:'p-ex',label:'Expatriation',title:"Chypre — la résidence fiscale européenne la moins connue"},{key:'s3_3',pill:'p-fi',label:'Fiscalité',title:"Comment se constituer un patrimoine quand on est entrepreneur"},{key:'s3_4',pill:'p-ms',label:'Mindset',title:"Pourquoi s'entourer de mentors accélère ta réussite"},{key:'s3_5',pill:'p-ec',label:'E-commerce',title:"L'importance du SAV en e-commerce — comment en faire un avantage"}],pubs:[{pill:'p-fi',label:'Fiscalité',title:"Texte — Construire son patrimoine en tant qu'entrepreneur : par où commencer",fmt:"Texte"},{pill:'p-ex',label:'Expatriation',title:`Citation — "Optimiser sa fiscalité c'est respecter la loi à 100%."`,fmt:"Citation visuelle"}]},
+    {name:"Jeudi",shorts:[{key:'s4_1',pill:'p-ie',label:'Import/Export',title:"Automatiser ses commandes import — les outils qui existent"},{key:'s4_2',pill:'p-ms',label:'Mindset',title:"Comment rester motivé quand les résultats tardent"},{key:'s4_3',pill:'p-hk',label:'Hong Kong',title:"Les taxes sur les salaires à HK — tout ce qu'il faut savoir"},{key:'s4_4',pill:'p-fi',label:'Fiscalité',title:"IS ou IR — dans quel cas il vaut mieux opter pour l'IR"},{key:'s4_5',pill:'p-ec',label:'E-commerce',title:"Comment fidéliser ses clients en e-commerce pour augmenter le LTV"}],pubs:[{pill:'p-ec',label:'E-commerce',title:"Carrousel — Les 5 stratégies de fidélisation client en e-commerce",fmt:"Carrousel 5 slides"},{pill:'p-ms',label:'Mindset',title:`Citation — "Construire prend du temps. Détruire prend une seconde. Protège ce que tu construis."`,fmt:"Citation visuelle"}]},
+    {name:"Vendredi",shorts:[{key:'s5_1',pill:'p-ie',label:'Import/Export',title:"Les Incoterms en transport aérien — ce qui change"},{key:'s5_2',pill:'p-fi',label:'Fiscalité',title:"Les intérêts du compte courant d'associé — comment ça fonctionne"},{key:'s5_3',pill:'p-ex',label:'Expatriation',title:"Comment garder sa banque française quand on s'expatrie"},{key:'s5_4',pill:'p-ec',label:'E-commerce',title:"Les marketplaces africaines — une opportunité sous-exploitée"},{key:'s5_5',pill:'p-ms',label:'Mindset',title:"La règle des 5 ans — comment visualiser ta vie pour mieux décider"}],pubs:[{pill:'p-ie',label:'Import/Export',title:"Texte — Aérien vs Maritime : quand choisir l'un plutôt que l'autre",fmt:"Texte"},{pill:'p-ms',label:'Mindset',title:`Citation — "Dans 5 ans tu seras la somme de tes décisions d'aujourd'hui."`,fmt:"Citation visuelle"}]},
+    {name:"Samedi",shorts:[{key:'s6_1',pill:'p-ie',label:'Import/Export',title:"Les transitaires en ligne — les meilleures plateformes pour comparer"},{key:'s6_2',pill:'p-hk',label:'Hong Kong',title:"Les opportunités business à Hong Kong pour 2025 et au-delà"},{key:'s6_3',pill:'p-ec',label:'E-commerce',title:"Pinterest pour l'e-commerce — le canal sous-estimé qui convertit"},{key:'s6_4',pill:'p-ms',label:'Mindset',title:"Les 3 questions à te poser avant chaque grosse décision business"},{key:'s6_5',pill:'p-fi',label:'Fiscalité',title:"Donations et transmission de patrimoine — ce que tout entrepreneur doit savoir"}],pubs:[{pill:'p-hk',label:'Hong Kong',title:`Citation — "HK c'est pas un plan B. C'est une vision long terme."`,fmt:"Citation visuelle"},{pill:'p-ec',label:'E-commerce',title:"Carrousel — Les canaux de vente e-commerce les plus rentables en 2025",fmt:"Carrousel 5 slides"}]},
+    {name:"Dimanche",shorts:[{key:'s7_1',pill:'p-ie',label:'Import/Export',title:"Bilan du mois — les tendances import-export à surveiller"},{key:'s7_2',pill:'p-im',label:'Immobilier',title:"L'immobilier à Bali — comment des entrepreneurs y investissent"},{key:'s7_3',pill:'p-fi',label:'Fiscalité',title:"Récapitulatif fiscal du mois"},{key:'s7_4',pill:'p-ms',label:'Mindset',title:"Terminer le mois fort — comment ne pas baisser en fin de période"},{key:'s7_5',pill:'p-hk',label:'Hong Kong',title:"Ce que Start Business World fait pour toi — récapitulatif du mois"}],pubs:[{pill:'p-ms',label:'Mindset',title:"Texte — Ce que ce mois m'a appris : retour sur 4 semaines de contenu",fmt:"Texte"},{pill:'p-ie',label:'Import/Export',title:`Citation — "L'import-export c'est accessible à qui veut apprendre."`,fmt:"Citation visuelle"}]}
+  ]}
 ];
 
-// Events (agenda perso)
-function getEvents(){return JSON.parse(localStorage.getItem('sbw_events')||'{}');}
-function saveEvents(ev){localStorage.setItem('sbw_events',JSON.stringify(ev));}
-
-// Scripts (publication agenda)
-function getCustomScripts(){return JSON.parse(localStorage.getItem('sbw_pub_scripts')||'[]');}
-function saveCustomScripts(arr){localStorage.setItem('sbw_pub_scripts',JSON.stringify(arr));}
-function getAllScripts(){return [...BASE_SCRIPTS,...getCustomScripts()];}
-
 // ══════════════════════════════════════════════
-// TABS
+// RENDER
 // ══════════════════════════════════════════════
-function switchTab(id, btn){
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
+function initApp(){
+  updateMonthLabel();
+  renderWeek(0);
 }
 
-// ══════════════════════════════════════════════
-// AGENDA PERSO
-// ══════════════════════════════════════════════
-const MONTHS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-let calYear = new Date().getFullYear();
-let calMonth = new Date().getMonth();
-let selectedDay = null;
+function updateMonthLabel(){
+  document.getElementById('month-label').textContent = MONTHS_FR[currentMonth]+' '+currentYear;
+}
 
 function changeMonth(d){
-  calMonth += d;
-  if(calMonth < 0){calMonth=11;calYear--;}
-  if(calMonth > 11){calMonth=0;calYear++;}
-  renderCal();
+  currentMonth+=d;
+  if(currentMonth<0){currentMonth=11;currentYear--;}
+  if(currentMonth>11){currentMonth=0;currentYear++;}
+  updateMonthLabel();
 }
 
-function renderCal(){
-  document.getElementById('month-title').textContent = MONTHS[calMonth] + ' ' + calYear;
-  const grid = document.getElementById('cal-grid');
-  const events = getEvents();
-  const scripts = getAllScripts();
-  const today = new Date();
-  const firstDay = new Date(calYear, calMonth, 1).getDay();
-  const offset = firstDay === 0 ? 6 : firstDay - 1;
-  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+function showWeek(idx){
+  currentWeek=idx;
+  document.querySelectorAll('.wtab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  renderWeek(idx);
+}
 
-  let html = '';
-  for(let i=0;i<offset;i++) html += '<div class="cal-day empty"></div>';
-
-  for(let d=1;d<=daysInMonth;d++){
-    const dateStr = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const isToday = today.getDate()===d && today.getMonth()===calMonth && today.getFullYear()===calYear;
-    const isSelected = selectedDay === dateStr;
-    const dayEvents = events[dateStr]||[];
-    const dayScripts = scripts.filter(s=>s.date===dateStr);
-
-    let dots = '';
-    const types = new Set(dayEvents.map(e=>e.type));
-    if(types.has('tournage')) dots += '<div class="cal-dot dot-tournage"></div>';
-    if(types.has('montage')) dots += '<div class="cal-dot dot-montage"></div>';
-    if(types.has('perso')) dots += '<div class="cal-dot dot-perso"></div>';
-    if(dayEvents.some(e=>e.type==='pub')||dayScripts.length) dots += '<div class="cal-dot dot-pub"></div>';
-
-    html += `<div class="cal-day${isToday?' today':''}${isSelected?' selected':''}" onclick="selectDay('${dateStr}')">
-      <div class="cal-num">${d}</div>
-      <div class="cal-dots">${dots}</div>
-    </div>`;
+function renderWeek(idx){
+  const w = WEEK_DATA[idx]||WEEK_DATA[0];
+  let html='';
+  if(w.videos&&w.videos.length){
+    w.videos.forEach(v=>{
+      html+=`<div class="vbanner" onclick="openScript('${v.key}')">
+        <div class="vb-left"><div class="vb-icon">🎥</div>
+        <div><div class="vb-type">Vidéo Longue</div><div class="vb-title">${v.title}</div></div></div>
+        <div class="vb-right"><div class="vb-dur">${v.dur}</div><button class="open-btn">Ouvrir script</button></div>
+      </div>`;
+    });
   }
-  grid.innerHTML = html;
-
-  if(selectedDay) renderDayDetail(selectedDay);
-}
-
-function selectDay(dateStr){
-  selectedDay = dateStr;
-  renderCal();
-  renderDayDetail(dateStr);
-}
-
-function renderDayDetail(dateStr){
-  const events = getEvents();
-  const scripts = getAllScripts();
-  const dayEvents = events[dateStr]||[];
-  const dayScripts = scripts.filter(s=>s.date===dateStr);
-  const [y,m,d] = dateStr.split('-');
-  const date = new Date(y,m-1,d);
-  const label = date.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
-
-  let html = `<div class="day-detail">
-    <div class="day-detail-title" style="text-transform:capitalize">${label}</div>
-    <div class="day-events">`;
-
-  dayEvents.forEach((ev,i)=>{
-    const dotClass = {tournage:'dot-tournage',montage:'dot-montage',pub:'dot-pub',perso:'dot-perso'}[ev.type]||'dot-perso';
-    html += `<div class="event" onclick="deleteEventConfirm('${dateStr}',${i})">
-      <div class="event-dot ${dotClass}"></div>
-      <div class="event-body">
-        <div class="event-type">${ev.type}${ev.time?' · '+ev.time:''}</div>
-        <div class="event-title">${ev.title}</div>
-      </div>
-      <div style="color:var(--grey);font-size:11px">✕</div>
-    </div>`;
+  w.days.forEach(day=>{
+    html+=`<div class="day-block"><div class="day-hdr">
+      <div class="day-name">${day.name}</div>
+      <div class="day-count">${day.shorts.length} shorts · ${day.pubs.length} publications</div>
+    </div><div class="shorts-grid">`;
+    day.shorts.forEach(s=>{
+      const sc = SCRIPTS[s.key];
+      html+=`<div class="ccard short" onclick="openScript('${s.key}')">
+        <div class="cc-type s">Short</div>
+        <div class="pill ${s.pill}">${s.label}</div>
+        <div class="cc-title">${sc?sc.title:s.title}</div>
+      </div>`;
+    });
+    html+=`</div><div class="pubs-grid">`;
+    day.pubs.forEach((p,i)=>{
+      html+=`<div class="ccard pub" onclick="showPubPlaceholder('${day.name}',${i})">
+        <div class="cc-type p">Publication</div>
+        <div class="pill ${p.pill}">${p.label}</div>
+        <div class="cc-title">${p.title}</div>
+        <div class="cc-fmt">${p.fmt||''}</div>
+      </div>`;
+    });
+    html+=`</div></div>`;
   });
-
-  dayScripts.forEach(s=>{
-    const bc = {short:'badge-s',video:'badge-v',pub:'badge-p'}[s.type]||'badge-s';
-    const bl = {short:'Short',video:'Vidéo longue',pub:'Publication'}[s.type]||'';
-    html += `<div class="event" onclick="openScriptModal('${s.id}')">
-      <div class="event-dot dot-pub"></div>
-      <div class="event-body">
-        <div class="event-type" style="display:flex;gap:5px;align-items:center">
-          <span class="pub-badge ${bc}">${bl}</span>
-          <span class="pub-pillar ${PILLAR_CLS[s.pillar]||''}">${s.pillar}</span>
-        </div>
-        <div class="event-title">${s.title}</div>
-      </div>
-      <div style="color:var(--grey);font-size:14px">›</div>
-    </div>`;
-  });
-
-  if(!dayEvents.length && !dayScripts.length){
-    html += `<div class="no-events" style="padding:16px 0">Aucun événement ce jour.</div>`;
-  }
-
-  html += `</div>
-    <button class="add-event-btn" onclick="openAddEvent('${dateStr}')">+ Ajouter un événement</button>
-    <button class="add-event-btn" onclick="openAddScriptForDate('${dateStr}')" style="margin-top:6px;border-color:rgba(200,25,42,.3);color:rgba(200,25,42,.6)">+ Ajouter un script / post</button>
-  </div>`;
-
-  document.getElementById('day-detail-container').innerHTML = html;
+  document.getElementById('week-content').innerHTML=html;
+  document.getElementById('week-content').scrollTop=0;
 }
 
-function deleteEventConfirm(dateStr, idx){
-  if(!confirm('Supprimer cet événement ?')) return;
-  const events = getEvents();
-  events[dateStr].splice(idx,1);
-  if(!events[dateStr].length) delete events[dateStr];
-  saveEvents(events);
-  renderCal();
-}
-
-// ADD EVENT
-let addEventDate = null;
-function openAddEvent(dateStr){
-  addEventDate = dateStr;
-  document.getElementById('ev-title').value='';
-  document.getElementById('ev-time').value='';
-  document.getElementById('add-event-modal').classList.add('on');
-}
-function closeAddEvent(){ document.getElementById('add-event-modal').classList.remove('on'); }
-function closeAddEventBg(e){ if(e.target===document.getElementById('add-event-modal')) closeAddEvent(); }
-function saveEvent(){
-  const title = document.getElementById('ev-title').value.trim();
-  if(!title){ toast('Donne un titre à l\'événement'); return; }
-  const events = getEvents();
-  if(!events[addEventDate]) events[addEventDate]=[];
-  events[addEventDate].push({
-    type: document.getElementById('ev-type').value,
-    title, time: document.getElementById('ev-time').value
-  });
-  saveEvents(events);
-  closeAddEvent();
-  renderCal();
-  toast('Événement ajouté ✓');
+function showPubPlaceholder(day,idx){
+  // Publications don't have scripts yet — show placeholder
+  document.getElementById('ph-meta').textContent='Publication · '+day;
+  document.getElementById('ph-title').textContent='Script à venir pour cette publication';
+  document.getElementById('script-render').textContent='Ce script publication sera ajouté lors de la prochaine mise à jour du planning.';
+  document.getElementById('btn-cp').textContent='Copier';
+  document.getElementById('btn-cp').classList.remove('ok');
+  document.getElementById('overlay').classList.add('on');
 }
 
 // ══════════════════════════════════════════════
-// AGENDA PUBLICATION
+// OVERLAY
 // ══════════════════════════════════════════════
-let weekOffset = 0;
-const JOURS = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
-
-function changeWeek(d){ weekOffset+=d; renderPubAgenda(); }
-
-function getWeekDates(){
-  const now = new Date();
-  const dow = now.getDay()===0?6:now.getDay()-1;
-  const mon = new Date(now); mon.setDate(now.getDate()-dow+(weekOffset*7));
-  const dates = [];
-  for(let i=0;i<7;i++){
-    const d = new Date(mon); d.setDate(mon.getDate()+i);
-    dates.push(d);
-  }
-  return dates;
+function openScript(key){
+  const s=SCRIPTS[key];
+  if(!s)return;
+  currentScriptKey=key;
+  document.getElementById('ph-meta').textContent=s.meta||'';
+  document.getElementById('ph-title').textContent=s.title||'';
+  document.getElementById('script-render').textContent=s.text||'';
+  document.getElementById('btn-cp').textContent='Copier';
+  document.getElementById('btn-cp').classList.remove('ok');
+  document.getElementById('overlay').classList.add('on');
+  document.getElementById('popup').querySelector('.popup-body').scrollTop=0;
 }
-
-function renderPubAgenda(){
-  const dates = getWeekDates();
-  const scripts = getAllScripts();
-  const now = new Date();
-
-  const d0 = dates[0], d6 = dates[6];
-  document.getElementById('week-label').textContent =
-    d0.toLocaleDateString('fr-FR',{day:'numeric',month:'short'}) + ' — ' +
-    d6.toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'});
-
-  const container = document.getElementById('pub-days');
-  let html = '';
-
-  dates.forEach((date,i)=>{
-    const dateStr = date.toISOString().slice(0,10);
-    const isToday = date.toDateString()===now.toDateString();
-    const dayScripts = scripts.filter(s=>s.date===dateStr);
-
-    html += `<div class="pub-day">
-      <div class="pub-day-hdr" onclick="togglePubDay('pd-${i}')">
-        <div>
-          <div class="pub-day-name">${JOURS[i]}</div>
-          <div class="pub-day-date">${date.toLocaleDateString('fr-FR',{day:'numeric',month:'long'})}</div>
-        </div>
-        ${isToday?'<span class="pub-day-today">Aujourd\'hui</span>':''}
-        <div class="pub-day-count" style="margin-left:auto">${dayScripts.length} contenu${dayScripts.length!==1?'s':''}</div>
-      </div>
-      <div class="pub-day-body${isToday?' open':''}" id="pd-${i}">`;
-
-    if(dayScripts.length){
-      dayScripts.forEach(s=>{
-        const bc = {short:'badge-s',video:'badge-v',pub:'badge-p'}[s.type]||'badge-s';
-        const bl = {short:'Short YouTube',video:'Vidéo longue YouTube',pub:'Publication'}[s.type]||'';
-        const pc = PILLAR_CLS[s.pillar]||'p-ms';
-        const preview = s.text ? s.text.replace(/\n+/g,' ').substring(0,100) : '';
-        html += `<div class="pub-item ${s.type}-item" onclick="openScriptModal('${s.id}')">
-          <div class="pub-item-top">
-            <span class="pub-badge ${bc}">${bl}</span>
-            <span class="pub-pillar ${pc}">${s.pillar}</span>
-          </div>
-          <div class="pub-item-title">${s.title}</div>
-          ${preview?`<div class="pub-item-preview">${preview}...</div>`:''}
-        </div>`;
-      });
-    } else {
-      html += `<div style="font-size:12px;color:var(--grey);padding:8px 0">Aucun contenu prévu ce jour.</div>`;
-    }
-
-    html += `<button class="add-pub-btn" onclick="openAddScriptForDate('${dateStr}')">+ Ajouter un script / post</button>
-      </div>
-    </div>`;
-  });
-
-  container.innerHTML = html;
-}
-
-function togglePubDay(id){
-  document.getElementById(id).classList.toggle('open');
-}
-
-// ══════════════════════════════════════════════
-// SCRIPT MODAL
-// ══════════════════════════════════════════════
-let currentScriptId = null;
-let modalEditMode = false;
-
-function openScriptModal(id){
-  const s = getAllScripts().find(x=>x.id===id);
-  if(!s) return;
-  currentScriptId = id;
-  modalEditMode = false;
-  const bl = {short:'Short YouTube',video:'Vidéo longue YouTube',pub:'Publication'}[s.type]||'';
-  document.getElementById('modal-label').textContent = bl + ' · ' + s.pillar;
-  document.getElementById('modal-title').textContent = s.title;
-  document.getElementById('modal-script-text').textContent = s.text||'';
-  document.getElementById('modal-script-text').style.display='block';
-  document.getElementById('modal-edit-area').style.display='none';
-  document.getElementById('modal-edit-footer').style.display='none';
-  document.getElementById('ma-copy').textContent='Copier';
-  document.getElementById('ma-copy').classList.remove('ok');
-  document.getElementById('script-modal').classList.add('on');
-  document.querySelector('.modal-body').scrollTop=0;
-}
-
-function closeScriptModal(){ document.getElementById('script-modal').classList.remove('on'); }
-function closeScriptModalBg(e){ if(e.target===document.getElementById('script-modal')) closeScriptModal(); }
-
-function copyModalScript(){
-  const s = getAllScripts().find(x=>x.id===currentScriptId);
-  if(!s) return;
+function closeOverlay(){document.getElementById('overlay').classList.remove('on');}
+function closeOverlayBg(e){if(e.target===document.getElementById('overlay'))closeOverlay();}
+function copyScript(){
+  const s=SCRIPTS[currentScriptKey];
+  if(!s)return;
   navigator.clipboard.writeText(s.text||'').then(()=>{
-    const b = document.getElementById('ma-copy');
-    b.textContent='✓ Copié'; b.classList.add('ok');
+    const b=document.getElementById('btn-cp');
+    b.textContent='✓ Copié !';b.classList.add('ok');
     setTimeout(()=>{b.textContent='Copier';b.classList.remove('ok');},2000);
   });
-}
-
-function toggleModalEdit(){
-  const s = getAllScripts().find(x=>x.id===currentScriptId);
-  if(!s) return;
-  modalEditMode = !modalEditMode;
-  if(modalEditMode){
-    document.getElementById('modal-script-text').style.display='none';
-    document.getElementById('modal-edit-area').value=s.text||'';
-    document.getElementById('modal-edit-area').style.display='block';
-    document.getElementById('modal-edit-footer').style.display='flex';
-    document.getElementById('modal-edit-area').focus();
-  } else { cancelModalEdit(); }
-}
-
-function saveModalEdit(){
-  const s = getAllScripts().find(x=>x.id===currentScriptId);
-  if(!s) return;
-  const newText = document.getElementById('modal-edit-area').value;
-  const custom = getCustomScripts();
-  const idx = custom.findIndex(c=>c.id===currentScriptId);
-  if(idx>=0){ custom[idx].text=newText; }
-  else { custom.push({...s,text:newText}); }
-  saveCustomScripts(custom);
-  document.getElementById('modal-script-text').textContent=newText;
-  cancelModalEdit();
-  toast('Script sauvegardé ✓');
-}
-
-function cancelModalEdit(){
-  modalEditMode=false;
-  document.getElementById('modal-script-text').style.display='block';
-  document.getElementById('modal-edit-area').style.display='none';
-  document.getElementById('modal-edit-footer').style.display='none';
-}
-
-function loadInTP(){
-  const s = getAllScripts().find(x=>x.id===currentScriptId);
-  if(!s) return;
-  closeScriptModal();
-  openTPWithScript(s);
-  // Switch to teleprompter tab
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('teleprompter-view').classList.add('active');
-  document.querySelectorAll('.tab')[2].classList.add('active');
-}
-
-// ══════════════════════════════════════════════
-// ADD SCRIPT
-// ══════════════════════════════════════════════
-let addScriptDate = null;
-
-function openAddScript(){
-  addScriptDate = null;
-  document.getElementById('sc-date').value = new Date().toISOString().slice(0,10);
-  document.getElementById('sc-title').value='';
-  document.getElementById('sc-text').value='';
-  document.getElementById('add-script-modal').classList.add('on');
-}
-
-function openAddScriptForDate(dateStr){
-  addScriptDate = dateStr;
-  document.getElementById('sc-date').value = dateStr;
-  document.getElementById('sc-title').value='';
-  document.getElementById('sc-text').value='';
-  document.getElementById('add-script-modal').classList.add('on');
-}
-
-function closeAddScript(){ document.getElementById('add-script-modal').classList.remove('on'); }
-function closeAddScriptBg(e){ if(e.target===document.getElementById('add-script-modal')) closeAddScript(); }
-
-function saveScript(){
-  const title = document.getElementById('sc-title').value.trim();
-  if(!title){ toast('Donne un titre au script'); return; }
-  const s = {
-    id:'custom_'+Date.now(),
-    type:document.getElementById('sc-type').value,
-    pillar:document.getElementById('sc-pillar').value,
-    title, date:document.getElementById('sc-date').value,
-    text:document.getElementById('sc-text').value.trim()
-  };
-  const custom = getCustomScripts();
-  custom.push(s);
-  saveCustomScripts(custom);
-  closeAddScript();
-  renderPubAgenda();
-  renderCal();
-  toast('Script ajouté ✓');
 }
 
 // ══════════════════════════════════════════════
 // TELEPROMPTER
 // ══════════════════════════════════════════════
-let tpLinesData = [];
-let tpIdx = 0;
-let tpFontSize = 32;
-let tpAutoOn = false;
-let tpAnimFrame = null;
-let tpScrollPx = 0.8;
-let tpVoiceOn = false;
+let tpWords = [];
+let tpCurrentIdx = 0;
+let tpFontSize = 36;
+let tpAutoPlaying = false;
+let tpAutoInterval = null;
+let tpSpeed = 3;
+let tpVoiceActive = false;
 let recognition = null;
 
-function openTPWithScript(s){
-  document.getElementById('tp-empty').style.display='none';
-  document.getElementById('tp-main').style.display='flex';
-  document.getElementById('tp-script-name').textContent=s.title;
-  buildTPLines(s.text||'');
-  document.getElementById('tp-content').scrollTop=0;
-  tpIdx=0; tpAutoOn=false; tpVoiceOn=false;
-  updateAutoBtn(); updateVoiceBtn();
-  document.getElementById('tp-voice-badge').classList.remove('on');
+function openTP(){
+  const s=SCRIPTS[currentScriptKey];
+  if(!s)return;
+  document.getElementById('tp-lesson-name').textContent=s.title||'';
+  buildWordDisplay(s.text||'');
+  document.getElementById('tp-text').style.display='none'; // hide old
+  document.getElementById('teleprompter').classList.add('on');
+  document.getElementById('tp-scroll').scrollTop=0;
+  tpCurrentIdx=0;
+  tpAutoPlaying=false;
+  tpVoiceActive=false;
+  updateScrollBtn();
+  updateVoiceBtn();
+  document.getElementById('tp-voice-status').classList.remove('on');
 }
 
-function closeTPScript(){
-  stopAuto(); stopVoice();
-  document.getElementById('tp-empty').style.display='flex';
-  document.getElementById('tp-main').style.display='none';
-}
+function buildWordDisplay(text){
+  // Split into tokens preserving newlines
+  const container = document.getElementById('tp-words');
+  container.innerHTML='';
+  tpWords=[];
 
-function buildTPLines(text){
-  const el = document.getElementById('tp-text');
-  el.innerHTML=''; tpLinesData=[];
-  el.style.fontSize = tpFontSize+'px';
-  text.split('\n').forEach(line=>{
-    const div = document.createElement('div');
-    const t = line.trim();
-    if(!t){
-      div.className='tp-line empty'; div.textContent=' ';
-      el.appendChild(div);
-      tpLinesData.push({el:div,words:[],text:''});
-      return;
+  const lines = text.split('\n');
+  lines.forEach((line,li)=>{
+    const words = line.split(/\s+/).filter(w=>w.length>0);
+    words.forEach((word,wi)=>{
+      const span = document.createElement('span');
+      span.className='tp-word upcoming';
+      span.textContent=word+' ';
+      span.dataset.idx=tpWords.length;
+      span.onclick=()=>jumpToWord(tpWords.length-1); // will be set correctly below
+      container.appendChild(span);
+      tpWords.push({el:span,word:word.toLowerCase().replace(/[^a-zA-ZàâäéèêëîïôùûüçœæÀÂÄÉÈÊËÎÏÔÙÛÜÇŒÆ0-9]/g,'')});
+    });
+    // Add line break
+    if(li<lines.length-1){
+      const br=document.createElement('br');
+      container.appendChild(br);
     }
-    div.className='tp-line next'; div.textContent=t;
-    el.appendChild(div);
-    const words=t.toLowerCase().replace(/[^a-z0-9\u00e0-\u00ff\s]/g,'').split(/\s+/).filter(w=>w.length>1);
-    tpLinesData.push({el:div,words,text:t});
   });
-  tpLinesData.forEach((l,i)=>{ if(!l.el.classList.contains('empty')) l.el.onclick=()=>jumpTP(i); });
-  hlTP(0);
-}
 
-function hlTP(idx){
-  tpIdx=idx;
-  tpLinesData.forEach((l,i)=>{
-    l.el.classList.remove('done','active','next');
-    if(i<idx) l.el.classList.add('done');
-    else if(i===idx) l.el.classList.add('active');
-    else l.el.classList.add('next');
+  // Fix onclick after all words are added
+  tpWords.forEach((w,i)=>{
+    w.el.onclick=()=>jumpToWord(i);
   });
+
+  document.getElementById('tp-words').style.fontSize=tpFontSize+'px';
+  highlightWord(0);
 }
 
-function scrollToTP(){
-  if(!tpLinesData[tpIdx]) return;
-  const el=tpLinesData[tpIdx].el;
-  const scroll=document.getElementById('tp-content');
-  scroll.scrollTo({top:Math.max(0,el.offsetTop-(window.innerHeight*.28)),behavior:'smooth'});
-}
-
-function updateByPosTP(){
-  const guideY=window.innerHeight*.30;
-  let best=tpIdx,bestDist=Infinity;
-  tpLinesData.forEach((l,i)=>{
-    const r=l.el.getBoundingClientRect();
-    if(!r.height) return;
-    const d=Math.abs(r.top+r.height/2-guideY);
-    if(d<bestDist){bestDist=d;best=i;}
+function highlightWord(idx){
+  tpCurrentIdx=idx;
+  tpWords.forEach((w,i)=>{
+    w.el.classList.remove('spoken','current','upcoming');
+    if(i<idx) w.el.classList.add('spoken');
+    else if(i===idx) w.el.classList.add('current');
+    else w.el.classList.add('upcoming');
   });
-  if(best!==tpIdx) hlTP(best);
+  scrollToCurrentWord();
 }
 
-function jumpTP(idx){ stopAuto(); stopVoice(); hlTP(idx); scrollToTP(); }
-
-function toggleAuto(){ if(tpAutoOn) stopAuto(); else startAuto(); updateAutoBtn(); }
-
-function startAuto(){
-  stopAuto(); tpAutoOn=true;
-  const scroll=document.getElementById('tp-content');
-  function step(){
-    scroll.scrollTop+=tpScrollPx;
-    updateByPosTP();
-    if(scroll.scrollTop<scroll.scrollHeight-scroll.clientHeight-2){
-      tpAnimFrame=requestAnimationFrame(step);
-    } else { tpAutoOn=false; updateAutoBtn(); }
-  }
-  tpAnimFrame=requestAnimationFrame(step);
+function scrollToCurrentWord(){
+  if(!tpWords[tpCurrentIdx])return;
+  const el=tpWords[tpCurrentIdx].el;
+  const scroll=document.getElementById('tp-scroll');
+  const targetY = el.offsetTop - (window.innerHeight*0.28);
+  scroll.scrollTo({top:Math.max(0,targetY),behavior:'smooth'});
 }
 
-function stopAuto(){
-  if(tpAnimFrame){cancelAnimationFrame(tpAnimFrame);tpAnimFrame=null;}
-  tpAutoOn=false;
+function jumpToWord(idx){
+  stopAutoScroll();
+  stopVoice();
+  highlightWord(idx);
 }
 
-function updateAutoBtn(){
-  const b=document.getElementById('tc-auto');
-  b.textContent=tpAutoOn?'⏸ Pause':'▶ Auto';
-  b.classList.toggle('on',tpAutoOn);
+// ── AUTO SCROLL ──
+function toggleAutoScroll(){
+  if(tpAutoPlaying) stopAutoScroll(); else startAutoScroll();
+  updateScrollBtn();
 }
 
-function updateTPSpeed(){
-  const v=parseInt(document.getElementById('tp-speed').value);
-  document.getElementById('tp-speed-lbl').textContent=v;
-  tpScrollPx=0.3+(v-1)*(4-0.3)/9;
-  if(tpAutoOn){stopAuto();startAuto();}
+function startAutoScroll(){
+  stopAutoScroll();
+  tpAutoPlaying=true;
+  tpAutoInterval=setInterval(()=>{
+    if(tpCurrentIdx<tpWords.length-1){
+      highlightWord(tpCurrentIdx+1);
+    } else {
+      stopAutoScroll(); updateScrollBtn();
+    }
+  }, Math.max(100, 1100-(tpSpeed*90)));
 }
 
-function toggleVoice(){ if(tpVoiceOn) stopVoice(); else startVoice(); }
+function stopAutoScroll(){
+  clearInterval(tpAutoInterval); tpAutoInterval=null;
+  tpAutoPlaying=false;
+}
+
+function updateScrollBtn(){
+  const b=document.getElementById('tp-scroll-btn');
+  b.textContent=tpAutoPlaying?'⏸ Pause':'▶ Défilement auto';
+  b.classList.toggle('playing',tpAutoPlaying);
+}
+
+function updateSpeed(){
+  tpSpeed=parseInt(document.getElementById('tp-speed').value);
+  document.getElementById('tp-speed-val').textContent=tpSpeed;
+  if(tpAutoPlaying){stopAutoScroll();startAutoScroll();}
+}
+
+// ── VOICE ──
+function toggleVoice(){
+  if(tpVoiceActive) stopVoice(); else startVoice();
+}
 
 function startVoice(){
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){alert('Reconnaissance vocale disponible sur Chrome/Safari uniquement.');return;}
-  stopAuto();
+  const SR = window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){
+    alert('La reconnaissance vocale nécessite Chrome ou Safari. Utilise le défilement automatique à la place.');
+    return;
+  }
+
+  stopAutoScroll();
   recognition=new SR();
-  recognition.lang='fr-FR'; recognition.continuous=true;
-  recognition.interimResults=true; recognition.maxAlternatives=2;
+  recognition.lang='fr-FR';
+  recognition.continuous=true;
+  recognition.interimResults=true;
+  recognition.maxAlternatives=3;
+
   recognition.onstart=()=>{
-    tpVoiceOn=true; updateVoiceBtn();
-    document.getElementById('tp-voice-badge').classList.add('on');
+    tpVoiceActive=true;
+    updateVoiceBtn();
+    document.getElementById('tp-voice-status').classList.add('on');
   };
-  recognition.onresult=function(event){
-    for(var i=event.resultIndex;i<event.results.length;i++){
-      var transcript=event.results[i][0].transcript.toLowerCase().replace(/[^a-z0-9\u00e0-\u00ff\s]/g,'').trim();
-      var spoken=transcript.split(/\s+/).filter(function(w){return w.length>2;});
-      if(!spoken.length) continue;
-      var end=Math.min(tpIdx+10,tpLinesData.length);
-      var best=-1,bScore=0;
-      for(var j=tpIdx;j<end;j++){
-        var lws=tpLinesData[j].words||[];
-        if(!lws.length) continue;
-        var score=0;
-        for(var s=0;s<spoken.length;s++){
-          var sw=spoken[s];
-          for(var l=0;l<lws.length;l++){
-            var lw=lws[l];
-            if(lw===sw||(sw.length>=4&&lw.indexOf(sw.slice(0,4))===0)||(lw.length>=4&&sw.indexOf(lw.slice(0,4))===0)){score++;break;}
+
+  recognition.onresult=(event)=>{
+    for(let i=event.resultIndex;i<event.results.length;i++){
+      // Use all alternatives
+      for(let a=0;a<event.results[i].length;a++){
+        const transcript=event.results[i][a].transcript.toLowerCase()
+          .replace(/[^a-zA-ZàâäéèêëîïôùûüçœæÀÂÄÉÈÊËÎÏÔÙÛÜÇŒÆ0-9\s]/g,'');
+        const spoken=transcript.trim().split(/\s+/).filter(w=>w.length>1);
+
+        for(const sw of spoken){
+          const clean=sw.replace(/[^a-zA-ZàâäéèêëîïôùûüçœæÀÂÄÉÈÊËÎÏÔÙÛÜÇŒÆ0-9]/g,'');
+          if(clean.length<2)continue;
+
+          // Search forward in script from current position
+          const searchRange=Math.min(tpCurrentIdx+20,tpWords.length);
+          for(let j=tpCurrentIdx;j<searchRange;j++){
+            const sw2=tpWords[j].word;
+            // Exact match or prefix match (≥4 chars)
+            if(sw2===clean || (clean.length>=4&&sw2.startsWith(clean.substring(0,4))) || (sw2.length>=4&&clean.startsWith(sw2.substring(0,4)))){
+              if(j>tpCurrentIdx){
+                highlightWord(j);
+              }
+              break;
+            }
           }
         }
-        if(score>bScore){bScore=score;best=j;}
       }
-      if(best>tpIdx&&bScore>=1){hlTP(best);scrollToTP();}
     }
   };
-  recognition.onerror=function(e){if(e.error!=='no-speech'&&e.error!=='aborted')stopVoice();};
-  recognition.onend=function(){if(tpVoiceOn){try{recognition.start();}catch(e){}}};
-  try{recognition.start();}catch(e){tpVoiceOn=false;updateVoiceBtn();}
+
+  recognition.onerror=(e)=>{
+    if(e.error!=='no-speech'&&e.error!=='aborted'){
+      stopVoice();
+    }
+  };
+
+  recognition.onend=()=>{
+    if(tpVoiceActive){
+      // Restart if still active
+      try{ recognition.start(); }catch(e){}
+    }
+  };
+
+  try{ recognition.start(); }
+  catch(e){ tpVoiceActive=false; updateVoiceBtn(); }
 }
 
 function stopVoice(){
-  tpVoiceOn=false;
-  if(recognition){try{recognition.stop();}catch(e){}recognition=null;}
+  tpVoiceActive=false;
+  if(recognition){ try{recognition.stop();}catch(e){} recognition=null; }
   updateVoiceBtn();
-  document.getElementById('tp-voice-badge').classList.remove('on');
+  document.getElementById('tp-voice-status').classList.remove('on');
 }
 
 function updateVoiceBtn(){
-  const b=document.getElementById('tc-voice');
-  b.textContent=tpVoiceOn?'🎤 Arrêter':'🎤 Défilement vocal';
-  b.classList.toggle('on',tpVoiceOn);
+  const b=document.getElementById('tp-voice-btn');
+  b.textContent=tpVoiceActive?'🎤 Arrêter écoute':'🎤 Défilement vocal';
+  b.classList.toggle('listening',tpVoiceActive);
 }
 
 function resetTP(){
-  stopAuto();stopVoice();
-  hlTP(0);
-  document.getElementById('tp-content').scrollTop=0;
+  stopAutoScroll();
+  stopVoice();
+  highlightWord(0);
+  document.getElementById('tp-scroll').scrollTop=0;
 }
 
-function changeTPSize(d){
+function closeTP(){
+  stopAutoScroll();
+  stopVoice();
+  document.getElementById('teleprompter').classList.remove('on');
+}
+
+function changeSize(d){
   tpFontSize=Math.max(18,Math.min(72,tpFontSize+d));
-  document.getElementById('tp-text').style.fontSize=tpFontSize+'px';
+  document.getElementById('tp-words').style.fontSize=tpFontSize+'px';
 }
 
-// ══════════════════════════════════════════════
-// UTILS
-// ══════════════════════════════════════════════
-function toast(msg){
-  const t=document.createElement('div');
-  t.className='toast-el';t.textContent=msg;
-  document.body.appendChild(t);
-  setTimeout(()=>t.remove(),2500);
-}
-
-function download(){
-  const html='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
-  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;a.download='index.html';
-  document.body.appendChild(a);a.click();
-  document.body.removeChild(a);URL.revokeObjectURL(url);
-  toast('✓ Téléchargé — dépose-le sur GitHub');
-}
-
-// Keyboard shortcuts
+// ── KEYBOARD ──
 document.addEventListener('keydown',e=>{
-  const tpActive = document.getElementById('tp-main').style.display==='flex' &&
-                   document.getElementById('teleprompter-view').classList.contains('active');
-  if(tpActive){
-    if(e.code==='Space'){e.preventDefault();toggleAuto();}
-    if(e.key==='ArrowDown'){e.preventDefault();if(tpIdx<tpLinesData.length-1){hlTP(tpIdx+1);scrollToTP();}}
-    if(e.key==='ArrowUp'){e.preventDefault();if(tpIdx>0){hlTP(tpIdx-1);scrollToTP();}}
-  }
-  if(e.key==='Escape'){
-    closeScriptModal();closeAddEvent();closeAddScript();
+  if(document.getElementById('teleprompter').classList.contains('on')){
+    if(e.code==='Space'){e.preventDefault();toggleAutoScroll();}
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();if(tpCurrentIdx<tpWords.length-1)highlightWord(tpCurrentIdx+1);}
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();if(tpCurrentIdx>0)highlightWord(tpCurrentIdx-1);}
+    if(e.key==='Escape'){closeTP();}
+  } else {
+    if(e.key==='Escape')closeOverlay();
   }
 });
 
 // ══════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════
-renderCal();
-renderPubAgenda();
-selectDay(new Date().toISOString().slice(0,10));
+if(localStorage.getItem('sbw_auth')==='1') initApp();
 </script>
 </body>
 </html>
