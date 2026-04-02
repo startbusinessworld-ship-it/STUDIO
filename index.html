@@ -1242,7 +1242,8 @@ let tpWords=[];
 let tpCurrentIdx=0;
 let tpFontSize=36;
 let tpAutoPlaying=false;
-let tpAutoInterval=null;
+let tpAnimFrame=null;
+let tpScrollSpeed=0.8;
 let tpSpeed=3;
 let tpVoiceActive=false;
 let recognition=null;
@@ -1288,6 +1289,7 @@ function buildWordDisplay(text){
   highlightWord(0);
 }
 
+// Update word highlight WITHOUT triggering scroll
 function highlightWord(idx){
   tpCurrentIdx=idx;
   tpWords.forEach((w,i)=>{
@@ -1296,9 +1298,9 @@ function highlightWord(idx){
     else if(i===idx) w.el.classList.add('current');
     else w.el.classList.add('upcoming');
   });
-  scrollToCurrentWord();
 }
 
+// Scroll to a word — only used for manual jumps & voice
 function scrollToCurrentWord(){
   if(!tpWords[tpCurrentIdx])return;
   const el=tpWords[tpCurrentIdx].el;
@@ -1306,25 +1308,62 @@ function scrollToCurrentWord(){
   scroll.scrollTo({top:Math.max(0,el.offsetTop-(window.innerHeight*.28)),behavior:'smooth'});
 }
 
-function jumpToWord(idx){ stopAutoScroll(); stopVoice(); highlightWord(idx); }
+// Detect which word is at the guide line (30vh) and highlight it
+function updateHighlightByPosition(){
+  const guideY=window.innerHeight*0.30;
+  let best=tpCurrentIdx;
+  let bestDist=Infinity;
+  tpWords.forEach((w,i)=>{
+    const rect=w.el.getBoundingClientRect();
+    if(!rect.width&&!rect.height)return;
+    const mid=rect.top+rect.height/2;
+    const dist=Math.abs(mid-guideY);
+    if(dist<bestDist){bestDist=dist;best=i;}
+  });
+  if(best!==tpCurrentIdx) highlightWord(best);
+}
+
+function jumpToWord(idx){
+  stopAutoScroll(); stopVoice();
+  highlightWord(idx);
+  scrollToCurrentWord();
+}
 
 function toggleAutoScroll(){ if(tpAutoPlaying)stopAutoScroll(); else startAutoScroll(); updateScrollBtn(); }
+
 function startAutoScroll(){
-  stopAutoScroll(); tpAutoPlaying=true;
-  tpAutoInterval=setInterval(()=>{
-    if(tpCurrentIdx<tpWords.length-1) highlightWord(tpCurrentIdx+1);
-    else{stopAutoScroll();updateScrollBtn();}
-  },Math.max(100,1100-(tpSpeed*90)));
+  stopAutoScroll();
+  tpAutoPlaying=true;
+  const scroll=document.getElementById('tp-scroll');
+  function step(){
+    scroll.scrollTop+=tpScrollSpeed;
+    updateHighlightByPosition();
+    if(scroll.scrollTop<scroll.scrollHeight-scroll.clientHeight-2){
+      tpAnimFrame=requestAnimationFrame(step);
+    } else {
+      tpAutoPlaying=false;
+      updateScrollBtn();
+    }
+  }
+  tpAnimFrame=requestAnimationFrame(step);
 }
-function stopAutoScroll(){ clearInterval(tpAutoInterval); tpAutoInterval=null; tpAutoPlaying=false; }
+
+function stopAutoScroll(){
+  if(tpAnimFrame){cancelAnimationFrame(tpAnimFrame);tpAnimFrame=null;}
+  tpAutoPlaying=false;
+}
+
 function updateScrollBtn(){
   const b=document.getElementById('tp-scroll-btn');
   b.textContent=tpAutoPlaying?'⏸ Pause':'▶ Auto';
   b.classList.toggle('playing',tpAutoPlaying);
 }
+
 function updateSpeed(){
   tpSpeed=parseInt(document.getElementById('tp-speed').value);
   document.getElementById('tp-speed-val').textContent=tpSpeed;
+  // 1→0.3 px/frame  10→4 px/frame
+  tpScrollSpeed=0.3+(tpSpeed-1)*(4-0.3)/9;
   if(tpAutoPlaying){stopAutoScroll();startAutoScroll();}
 }
 
@@ -1355,7 +1394,7 @@ function startVoice(){
           for(let j=tpCurrentIdx;j<searchRange;j++){
             const sw2=tpWords[j].word;
             if(sw2===clean||(clean.length>=4&&sw2.startsWith(clean.substring(0,4)))||(sw2.length>=4&&clean.startsWith(sw2.substring(0,4)))){
-              if(j>tpCurrentIdx) highlightWord(j);
+              if(j>tpCurrentIdx){ highlightWord(j); scrollToCurrentWord(); }
               break;
             }
           }
@@ -1398,8 +1437,8 @@ function changeSize(d){
 document.addEventListener('keydown',e=>{
   if(document.getElementById('teleprompter').classList.contains('on')){
     if(e.code==='Space'){e.preventDefault();toggleAutoScroll();}
-    if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();if(tpCurrentIdx<tpWords.length-1)highlightWord(tpCurrentIdx+1);}
-    if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();if(tpCurrentIdx>0)highlightWord(tpCurrentIdx-1);}
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();if(tpCurrentIdx<tpWords.length-1){highlightWord(tpCurrentIdx+1);scrollToCurrentWord();}}
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();if(tpCurrentIdx>0){highlightWord(tpCurrentIdx-1);scrollToCurrentWord();}}
     if(e.key==='Escape'){closeTP();}
   } else {
     if(e.key==='Escape'){closeScriptOverlay();document.getElementById('pub-visual-modal').classList.remove('on');document.getElementById('settings-modal').classList.remove('on');}
