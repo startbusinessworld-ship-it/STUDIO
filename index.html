@@ -14,23 +14,11 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;background:var(--black);color:var(--off-white);font-family:var(--font);overflow-x:hidden;}
 
-/* ══ LOGIN ══ */
-#login-screen{position:fixed;inset:0;background:var(--black);display:flex;align-items:center;justify-content:center;z-index:1000;}
-.login-box{width:100%;max-width:380px;padding:32px 24px;}
-.login-logo{font-size:10px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--red);margin-bottom:10px;}
-.login-title{font-size:32px;font-weight:700;margin-bottom:4px;}
-.login-sub{font-size:13px;color:var(--grey);margin-bottom:32px;}
-.login-label{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--grey);margin-bottom:8px;display:block;}
-.login-input{width:100%;background:#111110;border:1px solid var(--grey-light);color:var(--off-white);font-family:var(--font);font-size:15px;padding:13px 16px;outline:none;border-radius:6px;transition:border-color .2s;}
-.login-input:focus{border-color:var(--red);}
-.login-input::placeholder{color:#3a3a37;}
-.login-btn{width:100%;margin-top:12px;background:var(--red);border:none;color:#fff;font-family:var(--font);font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:14px;cursor:pointer;border-radius:6px;transition:opacity .2s;}
-.login-btn:hover{opacity:.88;}
-.login-error{font-size:12px;color:var(--red);margin-top:10px;display:none;}
+
 
 /* ══ APP ══ */
-#app{display:none;height:100vh;flex-direction:column;overflow:hidden;}
-#app.visible{display:flex;}
+#app{display:flex;height:100vh;flex-direction:column;overflow:hidden;}
+
 
 /* ── TOP NAV ── */
 #topnav{padding:10px 16px;border-bottom:1px solid var(--grey-light);display:flex;align-items:center;gap:10px;flex-shrink:0;background:var(--black);}
@@ -348,19 +336,6 @@ html,body{height:100%;background:var(--black);color:var(--off-white);font-family
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="login-screen">
-  <div class="login-box">
-    <div class="login-logo">Start Business World</div>
-    <div class="login-title">SBW Studio</div>
-    <div class="login-sub">Planning · Scripts · IA · Téléprompter</div>
-    <label class="login-label" style="margin-top:24px">Mot de passe</label>
-    <input class="login-input" type="password" id="pw-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="login-btn" onclick="doLogin()">Accéder →</button>
-    <div class="login-error" id="login-error">Mot de passe incorrect.</div>
-  </div>
-</div>
-
 <!-- APP -->
 <div id="app">
   <div id="topnav">
@@ -568,8 +543,7 @@ html,body{height:100%;background:var(--black);color:var(--off-white);font-family
     <input class="settings-input" type="password" id="api-key-input" placeholder="sk-ant-api03-...">
     <div class="settings-hint">Nécessaire pour utiliser la génération IA. Ta clé est sauvegardée uniquement dans ton navigateur et n'est jamais envoyée ailleurs.</div>
     <br>
-    <label class="settings-label">Mot de passe app</label>
-    <input class="settings-input" id="new-pw-input" placeholder="Nouveau mot de passe (laisser vide pour ne pas changer)">
+
     <div class="settings-actions" style="margin-top:8px">
       <button class="btn-settings-save" onclick="saveSettings()">Sauvegarder</button>
       <button class="btn-settings-cancel" onclick="document.getElementById('settings-modal').classList.remove('on')">Annuler</button>
@@ -614,24 +588,10 @@ html,body{height:100%;background:var(--black);color:var(--off-white);font-family
 // ══════════════════════════════════════════════
 let APP_PASSWORD = localStorage.getItem('sbw_pw') || 'sbw2025';
 
-function doLogin(){
-  const v = document.getElementById('pw-input').value;
-  if(v === APP_PASSWORD){
-    localStorage.setItem('sbw_auth','1');
-    document.getElementById('login-screen').style.display='none';
-    document.getElementById('app').classList.add('visible');
-    initApp();
-  } else {
-    document.getElementById('login-error').style.display='block';
-    document.getElementById('pw-input').value='';
-  }
-}
 function doLogout(){ localStorage.removeItem('sbw_auth'); location.reload(); }
 
 if(localStorage.getItem('sbw_auth')==='1'){
-  document.getElementById('login-screen').style.display='none';
-  document.getElementById('app').classList.add('visible');
-}
+  }
 
 // ══════════════════════════════════════════════
 // SETTINGS
@@ -646,8 +606,7 @@ function closeSettingsBg(e){ if(e.target===document.getElementById('settings-mod
 function saveSettings(){
   const k = document.getElementById('api-key-input').value.trim();
   if(k && !k.endsWith('...')) localStorage.setItem('sbw_api_key', k);
-  const pw = document.getElementById('new-pw-input').value.trim();
-  if(pw){ localStorage.setItem('sbw_pw', pw); APP_PASSWORD = pw; }
+
   document.getElementById('settings-modal').classList.remove('on');
   showToast('Paramètres sauvegardés ✓');
 }
@@ -1771,7 +1730,7 @@ function formatWeekLabel(monday){
 // ══════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════
-if(localStorage.getItem('sbw_auth')==='1') initApp();
+initApp();
 </script>
 </body>
 </html>
