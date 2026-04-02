@@ -1275,26 +1275,32 @@ function buildWordDisplay(text){
   const container=document.getElementById('tp-words');
   container.innerHTML='';
   tpWords=[];
-  const lines=text.split('\n');
-  lines.forEach((line,li)=>{
-    const words=line.split(/\s+/).filter(w=>w.length>0);
-    words.forEach(word=>{
-      const span=document.createElement('span');
-      span.className='tp-word upcoming';
-      span.textContent=word+' ';
-      container.appendChild(span);
-      tpWords.push({el:span,word:word.toLowerCase().replace(/[^a-zA-ZàâäéèêëîïôùûüçœæÀÂÄÉÈÊËÎÏÔÙÛÜÇŒÆ0-9]/g,'')});
-    });
-    if(li<lines.length-1) container.appendChild(document.createElement('br'));
+  text.split('\n').forEach(function(line){
+    const div=document.createElement('div');
+    const trimmed=line.trim();
+    if(!trimmed){
+      div.className='tp-line empty';
+      div.textContent=' ';
+      container.appendChild(div);
+      tpWords.push({el:div,words:[],text:''});
+      return;
+    }
+    div.className='tp-line upcoming';
+    div.textContent=trimmed;
+    container.appendChild(div);
+    var words=trimmed.toLowerCase().split(/\s+/).filter(function(w){return w.length>1;});
+    tpWords.push({el:div,words:words,text:trimmed});
   });
-  tpWords.forEach((w,i)=>{w.el.onclick=()=>jumpToWord(i);});
+  tpWords.forEach(function(w,i){
+    if(!w.el.classList.contains('empty'))
+      w.el.onclick=function(){jumpToLine(i);};
+  });
   highlightLine(0);
 }
 
-// Update word highlight WITHOUT triggering scroll
-function highlightWord(idx){
+function highlightLine(idx){
   tpCurrentIdx=idx;
-  tpWords.forEach((w,i)=>{
+  tpWords.forEach(function(w,i){
     w.el.classList.remove('spoken','current','upcoming');
     if(i<idx) w.el.classList.add('spoken');
     else if(i===idx) w.el.classList.add('current');
@@ -1302,34 +1308,38 @@ function highlightWord(idx){
   });
 }
 
-// Scroll to a word — only used for manual jumps & voice
-function scrollToCurrentWord(){
+function highlightWord(idx){ highlightLine(idx); }
+
+function scrollToCurrentLine(){
   if(!tpWords[tpCurrentIdx])return;
-  const el=tpWords[tpCurrentIdx].el;
-  const scroll=document.getElementById('tp-scroll');
-  scroll.scrollTo({top:Math.max(0,el.offsetTop-(window.innerHeight*.28)),behavior:'smooth'});
+  var el=tpWords[tpCurrentIdx].el;
+  var scroll=document.getElementById('tp-scroll');
+  scroll.scrollTo({top:Math.max(0,el.offsetTop-(window.innerHeight*0.28)),behavior:'smooth'});
 }
 
-// Detect which word is at the guide line (30vh) and highlight it
+function scrollToCurrentWord(){ scrollToCurrentLine(); }
+
 function updateHighlightByPosition(){
-  const guideY=window.innerHeight*0.30;
-  let best=tpCurrentIdx;
-  let bestDist=Infinity;
-  tpWords.forEach((w,i)=>{
-    const rect=w.el.getBoundingClientRect();
-    if(!rect.width&&!rect.height)return;
-    const mid=rect.top+rect.height/2;
-    const dist=Math.abs(mid-guideY);
+  var guideY=window.innerHeight*0.30;
+  var best=tpCurrentIdx;
+  var bestDist=Infinity;
+  tpWords.forEach(function(w,i){
+    var rect=w.el.getBoundingClientRect();
+    if(!rect.height)return;
+    var mid=rect.top+rect.height/2;
+    var dist=Math.abs(mid-guideY);
     if(dist<bestDist){bestDist=dist;best=i;}
   });
-  if(best!==tpCurrentIdx) highlightWord(best);
+  if(best!==tpCurrentIdx) highlightLine(best);
 }
 
-function jumpToWord(idx){
+function jumpToLine(idx){
   stopAutoScroll(); stopVoice();
-  highlightWord(idx);
-  scrollToCurrentWord();
+  highlightLine(idx);
+  scrollToCurrentLine();
 }
+
+function jumpToWord(idx){ jumpToLine(idx); }
 
 function toggleAutoScroll(){ if(tpAutoPlaying)stopAutoScroll(); else startAutoScroll(); updateScrollBtn(); }
 
@@ -1384,47 +1394,33 @@ function startVoice(){
     updateVoiceBtn();
     document.getElementById('tp-voice-status').classList.add('on');
   };
-  recognition.onresult=(event)=>{
-    for(let i=event.resultIndex;i<event.results.length;i++){
-      // Only use final results for line matching to avoid false jumps
-      if(!event.results[i].isFinal && i!==event.results.length-1) continue;
-      for(let a=0;a<event.results[i].length;a++){
-        const transcript=event.results[i][a].transcript.toLowerCase()
-          .normalize('NFD').replace(/[̀-ͯ]/g,'')
-          .replace(/[^a-z0-9\s]/g,'').trim();
-        const spokenWords=transcript.split(/\s+/).filter(w=>w.length>1);
-        if(spokenWords.length<1) continue;
-
-        // Try to match against upcoming lines
-        const searchStart=Math.max(0,tpCurrentIdx);
-        const searchEnd=Math.min(tpCurrentIdx+8,tpWords.length);
-        let bestMatch=-1;
-        let bestScore=0;
-
-        for(let j=searchStart;j<searchEnd;j++){
-          const lineWords=tpWords[j].words;
-          if(!lineWords||lineWords.length===0) continue;
-          // Normalize line words
-          const normLine=lineWords.map(w=>w.normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,''));
-          let score=0;
-          // Check how many spoken words appear in this line
-          for(const sw of spokenWords){
-            const nw=sw.normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,'');
-            if(nw.length<2) continue;
-            for(const lw of normLine){
-              if(lw===nw||(nw.length>=4&&lw.startsWith(nw.slice(0,4)))||(lw.length>=4&&nw.startsWith(lw.slice(0,4)))){
-                score++;break;
-              }
+  recognition.onresult=function(event){
+    for(var i=event.resultIndex;i<event.results.length;i++){
+      var transcript=event.results[i][0].transcript.toLowerCase()
+        .replace(/[^a-z0-9\s]/gi,'').trim();
+      var spoken=transcript.split(/\s+/).filter(function(w){return w.length>2;});
+      if(!spoken.length) continue;
+      var searchEnd=Math.min(tpCurrentIdx+10,tpWords.length);
+      var bestMatch=-1;
+      var bestScore=0;
+      for(var j=tpCurrentIdx;j<searchEnd;j++){
+        var lws=tpWords[j].words||[];
+        if(!lws.length) continue;
+        var score=0;
+        for(var s=0;s<spoken.length;s++){
+          var sw=spoken[s];
+          for(var l=0;l<lws.length;l++){
+            var lw=lws[l];
+            if(lw===sw||(sw.length>=4&&lw.indexOf(sw.slice(0,4))===0)||(lw.length>=4&&sw.indexOf(lw.slice(0,4))===0)){
+              score++;break;
             }
           }
-          if(score>bestScore){bestScore=score;bestMatch=j;}
         }
-
-        // Jump to best matching line if score is good enough
-        if(bestMatch>tpCurrentIdx && bestScore>=1){
-          highlightLine(bestMatch);
-          scrollToCurrentLine();
-        }
+        if(score>bestScore){bestScore=score;bestMatch=j;}
+      }
+      if(bestMatch>tpCurrentIdx&&bestScore>=1){
+        highlightLine(bestMatch);
+        scrollToCurrentLine();
       }
     }
   };
