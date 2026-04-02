@@ -4,82 +4,77 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>SBW Studio</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   --black:#0C0C0A;--red:#C8192A;--red-dim:rgba(200,25,42,0.1);
-  --off-white:#F0ECE4;--grey:#6B6B65;--grey-mid:#3a3a37;
-  --grey-light:#1e1e1b;--card:#111110;--font:'Plus Jakarta Sans',sans-serif;
+  --off-white:#F0ECE4;--grey:#6B6B65;--grey-light:#1e1e1b;
+  --card:#111110;--font:'Plus Jakarta Sans',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{height:100%;background:var(--black);color:var(--off-white);font-family:var(--font);overflow-x:hidden;}
+html,body{height:100%;background:var(--black);color:var(--off-white);font-family:var(--font);}
 
+/* ── TOPNAV ── */
+#topnav{
+  padding:12px 16px;border-bottom:1px solid var(--grey-light);
+  display:flex;align-items:center;gap:10px;
+  position:sticky;top:0;z-index:50;background:var(--black);
+}
+.nav-brand{font-size:9px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--red);}
+.nav-title{font-size:15px;font-weight:700;}
+.nav-right{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;}
+.nbtn{
+  background:none;border:1px solid var(--grey-light);color:var(--grey);
+  font-family:var(--font);font-size:10px;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;padding:7px 12px;cursor:pointer;border-radius:5px;transition:all .2s;
+}
+.nbtn:hover{border-color:var(--red);color:var(--off-white);}
+.nbtn.red{background:var(--red);border-color:var(--red);color:#fff;}
+.nbtn.red:hover{opacity:.88;}
 
+/* ── FILTER TABS ── */
+#filter-tabs{
+  display:flex;gap:0;border-bottom:1px solid var(--grey-light);
+  overflow-x:auto;background:var(--black);position:sticky;top:53px;z-index:49;
+}
+#filter-tabs::-webkit-scrollbar{height:2px;}
+#filter-tabs::-webkit-scrollbar-thumb{background:var(--grey-light);}
+.ftab{
+  background:none;border:none;border-bottom:2px solid transparent;
+  color:var(--grey);font-family:var(--font);font-size:10px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:10px 14px;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0;
+}
+.ftab:hover{color:var(--off-white);}
+.ftab.active{color:var(--off-white);border-bottom-color:var(--red);}
 
-/* ══ APP ══ */
-#app{display:flex;height:100vh;flex-direction:column;overflow:hidden;}
+/* ── SCRIPT LIST ── */
+#script-list{padding:14px 16px 100px;}
 
+.script-card{
+  background:var(--card);border:1px solid var(--grey-light);
+  border-left:3px solid transparent;
+  border-radius:6px;margin-bottom:8px;cursor:pointer;
+  transition:all .2s;overflow:hidden;
+}
+.script-card:hover{border-color:var(--red);transform:translateY(-1px);}
+.script-card.type-short{border-left-color:var(--red);}
+.script-card.type-video{border-left-color:#7ab0d4;}
+.script-card.type-pub{border-left-color:#4a9a4a;}
 
-/* ── TOP NAV ── */
-#topnav{padding:10px 16px;border-bottom:1px solid var(--grey-light);display:flex;align-items:center;gap:10px;flex-shrink:0;background:var(--black);}
-.nav-brand{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);}
-.nav-title{font-size:14px;font-weight:600;}
-.nav-right{margin-left:auto;display:flex;gap:6px;}
-.nav-btn-ai{background:var(--red);border:none;color:#fff;font-family:var(--font);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:7px 14px;cursor:pointer;border-radius:5px;transition:opacity .2s;}
-.nav-btn-ai:hover{opacity:.85;}
-.nav-btn-sm{background:none;border:1px solid var(--grey-light);color:var(--grey);font-family:var(--font);font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;cursor:pointer;border-radius:5px;transition:all .2s;}
-.nav-btn-sm:hover{border-color:var(--red);color:var(--off-white);}
+.card-top{display:flex;align-items:center;gap:10px;padding:12px 14px;}
+.card-badge{
+  font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  padding:3px 8px;border-radius:20px;flex-shrink:0;
+}
+.badge-short{background:var(--red-dim);color:#e07070;}
+.badge-video{background:rgba(70,130,180,.1);color:#7ab0d4;}
+.badge-pub{background:rgba(74,154,74,.1);color:#4a9a4a;}
 
-/* ── MONTH NAV ── */
-#month-nav{padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--grey-light);background:var(--card);flex-shrink:0;}
-.month-btn{background:none;border:1px solid var(--grey-light);color:var(--grey);font-size:16px;width:30px;height:30px;cursor:pointer;border-radius:4px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
-.month-btn:hover{border-color:var(--red);color:var(--off-white);}
-.month-label{font-size:16px;font-weight:700;}
-.month-stats{display:flex;gap:12px;}
-.mstat{text-align:center;}
-.mstat-val{font-size:17px;font-weight:800;color:var(--red);}
-.mstat-lbl{font-size:8px;font-weight:600;color:var(--grey);letter-spacing:.08em;text-transform:uppercase;}
-
-/* ── WEEK TABS ── */
-#week-tabs{display:flex;border-bottom:1px solid var(--grey-light);overflow-x:auto;background:var(--black);flex-shrink:0;}
-#week-tabs::-webkit-scrollbar{height:2px;}
-#week-tabs::-webkit-scrollbar-thumb{background:var(--grey-light);}
-.wtab{background:none;border:none;border-bottom:2px solid transparent;color:var(--grey);font-family:var(--font);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:10px 16px;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0;}
-.wtab:hover{color:var(--off-white);}
-.wtab.active{color:var(--off-white);border-bottom-color:var(--red);}
-
-/* ── CONTENT ── */
-#week-content{flex:1;overflow-y:auto;padding:16px 16px 80px;}
-#week-content::-webkit-scrollbar{width:3px;}
-#week-content::-webkit-scrollbar-thumb{background:var(--grey-light);}
-
-.vbanner{background:linear-gradient(135deg,#1a0508,#110d0d);border:1px solid rgba(200,25,42,.2);border-left:3px solid var(--red);padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;border-radius:6px;transition:opacity .2s;}
-.vbanner:hover{opacity:.85;}
-.vb-left{display:flex;align-items:center;gap:10px;}
-.vb-icon{font-size:16px;}
-.vb-type{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--red);margin-bottom:2px;}
-.vb-title{font-size:13px;font-weight:500;}
-.vb-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
-.vb-dur{font-size:10px;color:var(--grey);}
-.open-btn{background:var(--red);border:none;color:#fff;font-family:var(--font);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;cursor:pointer;border-radius:4px;white-space:nowrap;}
-
-.day-block{margin-bottom:20px;}
-.day-hdr{display:flex;align-items:center;padding-bottom:8px;margin-bottom:10px;border-bottom:1px solid var(--grey-light);}
-.day-name{font-size:15px;font-weight:700;}
-.day-count{margin-left:auto;font-size:10px;font-weight:500;color:var(--grey);}
-
-.shorts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px;margin-bottom:6px;}
-.pubs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px;}
-.ccard{background:var(--card);border:1px solid var(--grey-light);border-top:2px solid transparent;padding:10px 11px;cursor:pointer;transition:all .2s;border-radius:6px;}
-.ccard:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.5);}
-.ccard.short{border-top-color:rgba(200,25,42,.35);}
-.ccard.short:hover{border-top-color:var(--red);}
-.ccard.pub{border-top-color:rgba(74,154,74,.35);}
-.ccard.pub:hover{border-top-color:#4a9a4a;}
-.cc-type{font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:4px;}
-.cc-type.s{color:var(--red);}
-.cc-type.p{color:#4a9a4a;}
-.pill{display:inline-block;font-size:8px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:20px;margin-bottom:4px;}
+.pill{
+  font-size:8px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  padding:2px 7px;border-radius:20px;flex-shrink:0;
+}
 .p-ie{background:rgba(200,25,42,.1);color:#e07070;}
 .p-fi{background:rgba(70,130,180,.1);color:#7ab0d4;}
 .p-hk{background:rgba(200,160,30,.1);color:#d4b050;}
@@ -87,466 +82,279 @@ html,body{height:100%;background:var(--black);color:var(--off-white);font-family
 .p-ms{background:rgba(180,100,200,.1);color:#c080d8;}
 .p-ex{background:rgba(200,120,50,.1);color:#d49060;}
 .p-im{background:rgba(100,180,200,.1);color:#70c0d4;}
-.cc-title{font-size:12px;font-weight:400;color:var(--off-white);line-height:1.4;}
-.cc-fmt{font-size:9px;color:var(--grey);margin-top:3px;}
 
-/* ══ OVERLAY BASE ══ */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:500;align-items:center;justify-content:center;padding:14px;backdrop-filter:blur(6px);}
+.card-title{font-size:13px;font-weight:500;color:var(--off-white);flex:1;line-height:1.35;}
+.card-arrow{color:var(--grey);font-size:14px;flex-shrink:0;}
+
+/* ── EMPTY STATE ── */
+.empty-state{text-align:center;padding:60px 20px;color:var(--grey);}
+.empty-state .big{font-size:36px;margin-bottom:12px;}
+.empty-state .title{font-size:16px;font-weight:600;color:var(--off-white);margin-bottom:6px;}
+.empty-state .sub{font-size:13px;line-height:1.6;}
+
+/* ── OVERLAY ── */
+.overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);
+  z-index:200;align-items:flex-end;justify-content:center;
+  backdrop-filter:blur(6px);
+}
 .overlay.on{display:flex;}
 
-/* ══ SCRIPT POPUP ══ */
-#script-overlay{z-index:500;}
-.popup{background:#111110;border:1px solid #252523;border-top:2px solid var(--red);width:100%;max-width:700px;max-height:92vh;display:flex;flex-direction:column;border-radius:8px;animation:popIn .2s ease;}
-@keyframes popIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.popup-hdr{padding:12px 14px;border-bottom:1px solid var(--grey-light);display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0;gap:8px;}
-.ph-meta{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--red);margin-bottom:2px;}
-.ph-title{font-size:14px;font-weight:600;line-height:1.3;}
-.ph-actions{display:flex;gap:5px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;}
-.btn-action{border:none;font-family:var(--font);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;cursor:pointer;border-radius:4px;transition:all .2s;white-space:nowrap;}
-.btn-edit{background:#1a1a17;border:1px solid #2a2a27;color:var(--grey);}
-.btn-edit:hover{border-color:var(--red);color:var(--off-white);}
-.btn-tp{background:#1a1a17;border:1px solid #2a2a27;color:var(--off-white);}
-.btn-tp:hover{border-color:var(--red);color:var(--red);}
-.btn-cp{background:var(--red);color:#fff;}
-.btn-cp:hover{opacity:.85;}
-.btn-cp.ok{background:#2a7a2a;}
-.btn-cl{background:none;border:1px solid #2a2a27;color:var(--grey);width:28px;height:28px;cursor:pointer;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all .2s;flex-shrink:0;}
-.btn-cl:hover{border-color:var(--red);color:var(--red);}
-.popup-body{flex:1;overflow-y:auto;padding:18px 16px;}
-.popup-body::-webkit-scrollbar{width:3px;}
-.popup-body::-webkit-scrollbar-thumb{background:#2a2a27;}
-#script-render{font-size:16px;font-weight:400;line-height:1.95;color:var(--off-white);white-space:pre-line;}
-#script-edit-area{width:100%;background:#0a0a09;border:1px solid var(--red);color:var(--off-white);font-family:var(--font);font-size:15px;font-weight:400;line-height:1.9;padding:14px;outline:none;border-radius:6px;resize:vertical;min-height:300px;}
-.edit-actions{display:flex;gap:8px;margin-top:12px;}
-.btn-save{background:var(--red);border:none;color:#fff;font-family:var(--font);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:10px 20px;cursor:pointer;border-radius:5px;transition:opacity .2s;}
-.btn-save:hover{opacity:.85;}
-.btn-cancel-edit{background:#1a1a17;border:1px solid #2a2a27;color:var(--grey);font-family:var(--font);font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:10px 16px;cursor:pointer;border-radius:5px;transition:all .2s;}
-.btn-cancel-edit:hover{color:var(--off-white);}
-
-/* ══ AI PANEL ══ */
-#ai-panel{position:fixed;inset:0;z-index:600;display:none;flex-direction:column;}
-#ai-panel.on{display:flex;}
-.ai-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);}
-.ai-drawer{position:absolute;bottom:0;left:0;right:0;background:#111110;border-top:2px solid var(--red);border-radius:12px 12px 0 0;max-height:90vh;display:flex;flex-direction:column;animation:slideUp .25s ease;}
+/* ── SCRIPT DRAWER ── */
+.drawer{
+  background:#111110;border-top:2px solid var(--red);
+  width:100%;max-width:800px;max-height:92vh;
+  display:flex;flex-direction:column;border-radius:12px 12px 0 0;
+  animation:slideUp .22s ease;
+}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.ai-hdr{padding:14px 16px;border-bottom:1px solid var(--grey-light);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
-.ai-hdr-title{font-size:15px;font-weight:700;}
-.ai-hdr-sub{font-size:11px;color:var(--grey);margin-top:2px;}
-.ai-body{flex:1;overflow-y:auto;padding:16px;}
-.ai-body::-webkit-scrollbar{width:3px;}
-.ai-body::-webkit-scrollbar-thumb{background:#2a2a27;}
 
-/* AI Form */
-.ai-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--grey);margin-bottom:6px;display:block;}
-.ai-input{width:100%;background:#0a0a09;border:1px solid var(--grey-light);color:var(--off-white);font-family:var(--font);font-size:14px;padding:12px 14px;outline:none;border-radius:6px;transition:border-color .2s;margin-bottom:14px;}
-.ai-input:focus{border-color:var(--red);}
-.ai-input::placeholder{color:#3a3a37;}
-.ai-textarea{width:100%;background:#0a0a09;border:1px solid var(--grey-light);color:var(--off-white);font-family:var(--font);font-size:14px;padding:12px 14px;outline:none;border-radius:6px;transition:border-color .2s;margin-bottom:14px;resize:none;height:80px;}
-.ai-textarea:focus{border-color:var(--red);}
-.ai-textarea::placeholder{color:#3a3a37;}
-.ai-pillars{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
-.pillar-btn{background:#1a1a17;border:1px solid var(--grey-light);color:var(--grey);font-family:var(--font);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:6px 12px;cursor:pointer;border-radius:20px;transition:all .2s;}
-.pillar-btn.active{background:var(--red-dim);border-color:var(--red);color:var(--off-white);}
-.ai-generate-btn{width:100%;background:var(--red);border:none;color:#fff;font-family:var(--font);font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:14px;cursor:pointer;border-radius:6px;transition:opacity .2s;margin-top:4px;}
-.ai-generate-btn:hover{opacity:.88;}
-.ai-generate-btn:disabled{opacity:.4;cursor:not-allowed;}
+.drawer-hdr{
+  padding:14px 16px;border-bottom:1px solid var(--grey-light);
+  display:flex;align-items:flex-start;gap:10px;flex-shrink:0;
+}
+.drawer-meta{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--red);margin-bottom:3px;}
+.drawer-title{font-size:15px;font-weight:600;line-height:1.3;}
+.drawer-actions{display:flex;gap:6px;flex-shrink:0;margin-left:auto;flex-wrap:wrap;justify-content:flex-end;}
+.dact{
+  border:none;font-family:var(--font);font-size:9px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;
+  cursor:pointer;border-radius:4px;transition:all .2s;white-space:nowrap;
+}
+.dact-edit{background:#1a1a17;border:1px solid #2a2a27;color:var(--grey);}
+.dact-edit:hover{border-color:var(--red);color:var(--off-white);}
+.dact-tp{background:#1a1a17;border:1px solid #2a2a27;color:var(--off-white);}
+.dact-tp:hover{border-color:var(--red);color:var(--red);}
+.dact-copy{background:var(--red);color:#fff;}
+.dact-copy:hover{opacity:.85;}
+.dact-copy.ok{background:#2a7a2a;}
+.dact-del{background:none;border:1px solid #2a2a27;color:#884444;font-size:11px;padding:7px 9px;}
+.dact-del:hover{border-color:#aa4444;color:#cc6666;}
+.dact-close{background:none;border:1px solid #2a2a27;color:var(--grey);width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:13px;}
+.dact-close:hover{border-color:var(--red);color:var(--red);}
 
-/* AI Results */
-.ai-results{margin-top:20px;}
-.result-section{margin-bottom:16px;border:1px solid var(--grey-light);border-radius:6px;overflow:hidden;}
-.result-header{padding:10px 14px;background:#0a0a09;display:flex;align-items:center;justify-content:space-between;cursor:pointer;}
-.result-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);}
-.result-title{font-size:13px;font-weight:600;margin-top:2px;}
-.result-actions{display:flex;gap:6px;flex-shrink:0;}
-.btn-result-copy{background:var(--red);border:none;color:#fff;font-family:var(--font);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;cursor:pointer;border-radius:4px;}
-.btn-result-tp{background:#1a1a17;border:1px solid #2a2a27;color:var(--off-white);font-family:var(--font);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;cursor:pointer;border-radius:4px;}
-.btn-result-view{background:#2a4a2a;border:none;color:#70c490;font-family:var(--font);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;cursor:pointer;border-radius:4px;}
-.result-body{padding:14px;display:none;}
-.result-body.open{display:block;}
-.result-text{font-size:14px;font-weight:400;line-height:1.85;color:var(--off-white);white-space:pre-line;}
+.drawer-body{flex:1;overflow-y:auto;padding:18px 16px;}
+.drawer-body::-webkit-scrollbar{width:3px;}
+.drawer-body::-webkit-scrollbar-thumb{background:#2a2a27;}
+#view-text{font-size:16px;font-weight:400;line-height:1.95;color:var(--off-white);white-space:pre-line;}
+#edit-area{
+  width:100%;background:#0a0a09;border:1px solid var(--red);
+  color:var(--off-white);font-family:var(--font);font-size:15px;
+  font-weight:400;line-height:1.9;padding:14px;outline:none;
+  border-radius:6px;resize:vertical;min-height:280px;display:none;
+}
+.edit-footer{display:none;gap:8px;margin-top:12px;}
+.btn-save{background:var(--red);border:none;color:#fff;font-family:var(--font);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:10px 20px;cursor:pointer;border-radius:5px;}
+.btn-cancel{background:#1a1a17;border:1px solid #2a2a27;color:var(--grey);font-family:var(--font);font-size:11px;font-weight:500;padding:10px 16px;cursor:pointer;border-radius:5px;}
 
-/* Loading */
-.ai-loading{text-align:center;padding:30px;display:none;}
-.ai-loading.on{display:block;}
-.ai-spinner{width:36px;height:36px;border:2px solid var(--grey-light);border-top-color:var(--red);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px;}
-@keyframes spin{to{transform:rotate(360deg)}}
-.ai-loading-text{font-size:13px;color:var(--grey);}
+/* ── NEW SCRIPT MODAL ── */
+#new-overlay{z-index:300;align-items:center;justify-content:center;padding:16px;}
+.new-box{
+  background:#111110;border:1px solid #252523;border-top:2px solid var(--red);
+  width:100%;max-width:500px;border-radius:8px;padding:20px;
+  animation:popIn .2s ease;
+}
+@keyframes popIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
+.new-title{font-size:17px;font-weight:700;margin-bottom:16px;}
+.new-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);margin-bottom:6px;display:block;}
+.new-input{
+  width:100%;background:#0a0a09;border:1px solid var(--grey-light);
+  color:var(--off-white);font-family:var(--font);font-size:14px;
+  padding:11px 14px;outline:none;border-radius:6px;transition:border-color .2s;margin-bottom:14px;
+}
+.new-input:focus{border-color:var(--red);}
+.new-input::placeholder{color:#3a3a37;}
+.new-select{
+  width:100%;background:#0a0a09;border:1px solid var(--grey-light);
+  color:var(--off-white);font-family:var(--font);font-size:14px;
+  padding:11px 14px;outline:none;border-radius:6px;margin-bottom:14px;
+  cursor:pointer;
+}
+.new-select:focus{border-color:var(--red);}
+.new-actions{display:flex;gap:8px;margin-top:4px;}
+.btn-create{flex:1;background:var(--red);border:none;color:#fff;font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:12px;cursor:pointer;border-radius:6px;}
+.btn-create:hover{opacity:.88;}
+.btn-new-cancel{background:none;border:1px solid var(--grey-light);color:var(--grey);font-family:var(--font);font-size:12px;font-weight:500;padding:12px 16px;cursor:pointer;border-radius:6px;}
 
-/* ══ PUBLICATION VISUAL MODAL ══ */
-#pub-visual-modal{z-index:700;align-items:center;justify-content:center;}
-.pub-modal-inner{background:#111110;border:1px solid #252523;border-top:2px solid var(--red);width:100%;max-width:500px;max-height:95vh;display:flex;flex-direction:column;border-radius:8px;animation:popIn .2s ease;}
-.pub-modal-hdr{padding:12px 14px;border-bottom:1px solid var(--grey-light);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
-.pub-modal-title{font-size:14px;font-weight:600;}
-.pub-modal-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;align-items:center;gap:12px;}
-
-/* Visual Cards */
-.visual-card{width:100%;max-width:380px;aspect-ratio:1/1;background:var(--black);border:1px solid var(--grey-light);border-radius:4px;position:relative;overflow:hidden;display:flex;flex-direction:column;}
-.visual-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--red);}
-
-/* Citation card */
-.vc-citation{justify-content:center;align-items:center;text-align:center;padding:10%;}
-.vc-citation .vc-brand{font-size:8px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--red);margin-bottom:16px;}
-.vc-citation .vc-quote-mark{font-family:'Cormorant Garamond',serif;font-size:60px;color:var(--red);opacity:.25;line-height:.5;margin-bottom:8px;}
-.vc-citation .vc-quote{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;font-style:italic;line-height:1.55;color:var(--off-white);margin-bottom:16px;}
-.vc-citation .vc-attr{font-size:9px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--grey);}
-.vc-citation .vc-divider{width:30px;height:1px;background:var(--red);margin:12px auto;}
-.vc-citation .vc-context{font-size:11px;color:#888882;line-height:1.6;max-width:280px;}
-.vc-logo-corner{position:absolute;bottom:12px;right:14px;font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#2a2a27;}
-
-/* Carrousel card */
-.vc-carrousel{padding:0;flex-direction:row;overflow:hidden;}
-.vc-slides{display:flex;width:100%;height:100%;transition:transform .3s ease;}
-.vc-slide{flex-shrink:0;width:100%;height:100%;padding:8%;display:flex;flex-direction:column;justify-content:center;}
-.vc-slide-num{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:10px;}
-.vc-slide-title{font-size:16px;font-weight:700;color:var(--off-white);margin-bottom:12px;line-height:1.3;}
-.vc-slide-content{font-size:12px;font-weight:400;color:#888882;line-height:1.7;}
-.vc-slide-dot{display:flex;gap:5px;margin-top:auto;padding-top:14px;}
-.vc-dot{width:5px;height:5px;border-radius:50%;background:var(--grey-mid);}
-.vc-dot.active{background:var(--red);}
-.vc-nav{display:flex;gap:8px;margin-top:10px;}
-.vc-nav-btn{background:#1a1a17;border:1px solid #2a2a27;color:var(--grey);font-size:12px;width:30px;height:30px;cursor:pointer;border-radius:4px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
-.vc-nav-btn:hover{border-color:var(--red);color:var(--off-white);}
-
-/* Texte card */
-.vc-texte{padding:8%;}
-.vc-texte .vc-brand{font-size:8px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--red);margin-bottom:14px;}
-.vc-texte .vc-heading{font-size:15px;font-weight:700;color:var(--off-white);margin-bottom:12px;line-height:1.3;}
-.vc-texte .vc-body{font-size:11px;font-weight:400;color:#888882;line-height:1.8;}
-.vc-texte .vc-cta{margin-top:14px;font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--red);}
-
-.capture-hint{font-size:11px;color:var(--grey);text-align:center;line-height:1.5;}
-.capture-hint strong{color:var(--off-white);}
-
-/* ══ TELEPROMPTER ══ */
-#teleprompter{display:none;position:fixed;inset:0;background:#050504;z-index:800;flex-direction:column;}
+/* ── TELEPROMPTER ── */
+#teleprompter{
+  display:none;position:fixed;inset:0;background:#050504;z-index:500;flex-direction:column;
+}
 #teleprompter.on{display:flex;}
-.tp-nav{padding:10px 16px;border-bottom:1px solid #1a1a17;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:#080807;}
-.tp-brand{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);}
-.tp-lesson-name{font-size:11px;color:var(--grey);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tp-nav{
+  padding:10px 16px;border-bottom:1px solid #1a1a17;
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:#080807;
+}
+.tp-brand{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);}
+.tp-name{font-size:11px;color:var(--grey);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .tp-close-btn{background:none;border:1px solid #2a2a27;color:var(--grey);font-family:var(--font);font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;cursor:pointer;border-radius:4px;transition:all .2s;}
 .tp-close-btn:hover{border-color:var(--red);color:var(--red);}
 .tp-guide{position:fixed;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(200,25,42,.2),transparent);top:30vh;pointer-events:none;z-index:5;}
 .tp-scroll{flex:1;overflow-y:auto;padding:5vh 8% 40vh;}
 .tp-scroll::-webkit-scrollbar{width:3px;}
 .tp-scroll::-webkit-scrollbar-thumb{background:#1a1a17;}
-#tp-words{font-weight:400;color:#444441;letter-spacing:.01em;}
-.tp-line{display:block;padding:12px 0;cursor:pointer;transition:color .25s,opacity .25s,font-weight .2s;line-height:1.55;}
-.tp-line.spoken{color:#252522;opacity:.4;}
+#tp-lines{font-weight:400;color:#444441;}
+.tp-line{display:block;padding:11px 0;cursor:pointer;transition:color .25s,opacity .25s;line-height:1.55;}
+.tp-line.spoken{color:#252522;opacity:.35;}
 .tp-line.current{color:var(--off-white);font-weight:600;opacity:1;}
-.tp-line.upcoming{color:#504f4c;opacity:.65;}
+.tp-line.upcoming{color:#504f4c;opacity:.6;}
 .tp-line.empty{padding:4px 0;cursor:default;pointer-events:none;}
-.tp-line.section{color:var(--red);opacity:.5;font-size:.7em;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:18px 0 4px;}
-.tp-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(5,5,4,.97);border-top:1px solid #1a1a17;padding:10px 16px;z-index:10;backdrop-filter:blur(10px);}
-.tp-bar-row1{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px;}
-.tp-bar-row2{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;}
-.tp-big-btn{border:none;font-family:var(--font);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:9px 16px;cursor:pointer;border-radius:5px;transition:all .2s;display:flex;align-items:center;gap:5px;}
-.tp-big-btn.voice{background:var(--red);color:#fff;}
-.tp-big-btn.voice.listening{background:#8B1019;animation:pulse 1.5s infinite;}
-.tp-big-btn.scroll{background:#1a1a17;border:1px solid #2a2a27;color:var(--off-white);}
-.tp-big-btn.scroll.playing{border-color:var(--red);color:var(--red);}
-.tp-big-btn.reset{background:#1a1a17;border:1px solid #2a2a27;color:var(--grey);}
+.tp-bar{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(5,5,4,.97);border-top:1px solid #1a1a17;
+  padding:10px 16px;z-index:10;backdrop-filter:blur(10px);
+}
+.tp-row1{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px;}
+.tp-row2{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;}
+.tp-btn{
+  border:none;font-family:var(--font);font-size:10px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;padding:9px 16px;
+  cursor:pointer;border-radius:5px;transition:all .2s;
+}
+.tp-btn.voice{background:var(--red);color:#fff;}
+.tp-btn.voice.on{background:#8B1019;animation:pulse 1.5s infinite;}
+.tp-btn.auto{background:#1a1a17;border:1px solid #2a2a27;color:var(--off-white);}
+.tp-btn.auto.playing{border-color:var(--red);color:var(--red);}
+.tp-btn.rst{background:#1a1a17;border:1px solid #2a2a27;color:var(--grey);}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
-.tp-ctrl-group{display:flex;align-items:center;gap:6px;}
-.tp-ctrl-label{font-size:9px;font-weight:600;color:var(--grey);letter-spacing:.06em;text-transform:uppercase;}
+.tp-ctrl{display:flex;align-items:center;gap:6px;}
+.tp-ctrl-lbl{font-size:9px;font-weight:600;color:var(--grey);letter-spacing:.06em;text-transform:uppercase;}
 .tp-slider{-webkit-appearance:none;appearance:none;width:80px;height:3px;background:#2a2a27;outline:none;border-radius:2px;cursor:pointer;}
 .tp-slider::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;background:var(--red);border-radius:50%;cursor:pointer;}
-.tp-size-btn{background:#1a1a17;border:1px solid #2a2a27;color:var(--grey);font-family:var(--font);font-size:10px;font-weight:700;width:26px;height:26px;cursor:pointer;border-radius:4px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
-.tp-size-btn:hover{border-color:var(--red);color:var(--off-white);}
-.tp-voice-status{position:fixed;top:56px;left:50%;transform:translateX(-50%);background:rgba(200,25,42,.9);color:#fff;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:20px;display:none;z-index:20;align-items:center;gap:5px;}
-.tp-voice-status.on{display:flex;}
+.tp-sz{background:#1a1a17;border:1px solid #2a2a27;color:var(--grey);font-family:var(--font);font-size:10px;font-weight:700;width:26px;height:26px;cursor:pointer;border-radius:4px;display:flex;align-items:center;justify-content:center;}
+.tp-sz:hover{border-color:var(--red);color:var(--off-white);}
+.tp-voice-ind{
+  position:fixed;top:56px;left:50%;transform:translateX(-50%);
+  background:rgba(200,25,42,.9);color:#fff;font-size:10px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:20px;
+  display:none;z-index:20;align-items:center;gap:5px;
+}
+.tp-voice-ind.on{display:flex;}
 .tp-dot{width:6px;height:6px;background:#fff;border-radius:50%;animation:blink .8s infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
-/* ══ SETTINGS MODAL ══ */
-#settings-modal{z-index:600;}
-.settings-box{background:#111110;border:1px solid #252523;border-top:2px solid var(--red);width:100%;max-width:420px;border-radius:8px;padding:20px;animation:popIn .2s ease;}
-.settings-title{font-size:16px;font-weight:700;margin-bottom:4px;}
-.settings-sub{font-size:12px;color:var(--grey);margin-bottom:20px;}
-.settings-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--grey);margin-bottom:6px;display:block;}
-.settings-input{width:100%;background:#0a0a09;border:1px solid var(--grey-light);color:var(--off-white);font-family:var(--font);font-size:13px;padding:11px 14px;outline:none;border-radius:6px;transition:border-color .2s;margin-bottom:14px;}
-.settings-input:focus{border-color:var(--red);}
-.settings-input::placeholder{color:#3a3a37;font-size:11px;}
-.settings-actions{display:flex;gap:8px;}
-.btn-settings-save{background:var(--red);border:none;color:#fff;font-family:var(--font);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:10px 20px;cursor:pointer;border-radius:5px;flex:1;}
-.btn-settings-cancel{background:none;border:1px solid var(--grey-light);color:var(--grey);font-family:var(--font);font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:10px 16px;cursor:pointer;border-radius:5px;}
-.settings-hint{font-size:10px;color:var(--grey);margin-top:6px;line-height:1.5;}
-
-@media(max-width:600px){
-  #topnav,#month-nav,#week-content{padding-left:12px;padding-right:12px;}
-  .shorts-grid{grid-template-columns:1fr 1fr;}
-  .ph-actions{flex-wrap:wrap;}
-  #tp-words{font-size:28px!important;}
-  .tp-bar-row2{gap:8px;}
-  .ai-drawer{max-height:95vh;}
+/* TOAST */
+.toast{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  background:#2a7a2a;color:#fff;font-size:12px;font-weight:600;
+  padding:8px 18px;border-radius:20px;z-index:999;
+  animation:popIn .2s ease;white-space:nowrap;
 }
 
-/* ══ AGENDA ══ */
-#agenda-view{display:none;flex:1;overflow-y:auto;padding:16px 16px 80px;}
-#agenda-view.active{display:block;}
-#week-content.hidden{display:none;}
-
-.agenda-week-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
-.agenda-week-label{font-size:16px;font-weight:700;}
-.agenda-week-btn{background:none;border:1px solid var(--grey-light);color:var(--grey);font-size:16px;width:30px;height:30px;cursor:pointer;border-radius:4px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
-.agenda-week-btn:hover{border-color:var(--red);color:var(--off-white);}
-
-.agenda-progress{background:var(--card);border:1px solid var(--grey-light);border-radius:6px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:16px;}
-.agenda-progress-bar{flex:1;height:6px;background:var(--grey-light);border-radius:3px;overflow:hidden;}
-.agenda-progress-fill{height:100%;background:var(--red);border-radius:3px;transition:width .4s ease;}
-.agenda-progress-label{font-size:11px;font-weight:600;color:var(--grey);white-space:nowrap;}
-.agenda-progress-val{font-size:16px;font-weight:800;color:var(--red);}
-
-.agenda-day{background:var(--card);border:1px solid var(--grey-light);border-radius:6px;margin-bottom:10px;overflow:hidden;}
-.agenda-day-hdr{padding:12px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;border-bottom:1px solid var(--grey-light);}
-.agenda-day-hdr.tournage{border-left:3px solid var(--red);}
-.agenda-day-hdr.montage{border-left:3px solid #4a9a4a;}
-.agenda-day-hdr.planning{border-left:3px solid #7ab0d4;}
-.agenda-day-name{font-size:15px;font-weight:700;}
-.agenda-day-type{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:3px 8px;border-radius:20px;}
-.agenda-day-type.tournage{background:var(--red-dim);color:#e07070;}
-.agenda-day-type.montage{background:rgba(74,154,74,.1);color:#70c490;}
-.agenda-day-type.planning{background:rgba(70,130,180,.1);color:#7ab0d4;}
-.agenda-day-count{margin-left:auto;font-size:10px;font-weight:600;color:var(--grey);}
-.agenda-day-done{font-size:10px;font-weight:700;color:#4a9a4a;}
-
-.agenda-tasks{padding:10px 14px;}
-.agenda-task{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--grey-light);cursor:pointer;}
-.agenda-task:last-child{border-bottom:none;}
-.agenda-task.done .task-title{text-decoration:line-through;opacity:.4;}
-.agenda-task.done .task-check{background:var(--red);border-color:var(--red);}
-.agenda-task.done .task-check::after{content:'✓';color:#fff;font-size:10px;font-weight:700;}
-
-.task-check{width:18px;height:18px;border:2px solid var(--grey-mid);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px;}
-.task-pill{font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:20px;flex-shrink:0;margin-top:2px;}
-.task-title{font-size:13px;font-weight:400;color:var(--off-white);line-height:1.4;flex:1;}
-.task-duration{font-size:10px;color:var(--grey);flex-shrink:0;margin-top:2px;}
-
-.agenda-day-body{display:none;}
-.agenda-day-body.open{display:block;}
-
-.agenda-tip{background:rgba(200,25,42,.06);border:1px solid rgba(200,25,42,.15);border-radius:5px;padding:10px 14px;margin:10px 14px 4px;font-size:12px;color:var(--grey);line-height:1.6;}
-.agenda-tip strong{color:var(--off-white);}
-
-/* Main view toggle */
-.view-tabs{display:flex;border-bottom:1px solid var(--grey-light);background:var(--black);}
-.view-tab{background:none;border:none;border-bottom:2px solid transparent;color:var(--grey);font-family:var(--font);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:10px 16px;cursor:pointer;transition:all .2s;flex-shrink:0;}
-.view-tab:hover{color:var(--off-white);}
-.view-tab.active{color:var(--off-white);border-bottom-color:var(--red);}
+@media(max-width:600px){
+  .drawer-actions{gap:4px;}
+  .dact{padding:6px 9px;font-size:8px;}
+  #tp-lines{font-size:26px!important;}
+  .tp-row2{gap:8px;}
+}
 </style>
 </head>
 <body>
 
-<!-- APP -->
-<div id="app">
-  <div id="topnav">
-    <div>
-      <div class="nav-brand">Start Business World</div>
-      <div class="nav-title">SBW Studio</div>
-    </div>
-    <div class="nav-right">
-      <button class="nav-btn-ai" onclick="openAI()">✦ Générer avec l'IA</button>
-      <button class="nav-btn-sm" onclick="openSettings()">⚙</button>
-      <button class="nav-btn-sm" onclick="doLogout()">✕</button>
-    </div>
+<!-- TOPNAV -->
+<div id="topnav">
+  <div>
+    <div class="nav-brand">Start Business World</div>
+    <div class="nav-title">SBW Studio</div>
   </div>
-  <div id="month-nav">
-    <button class="month-btn" onclick="changeMonth(-1)">‹</button>
-    <div class="month-label" id="month-label"></div>
-    <div class="month-stats">
-      <div class="mstat"><div class="mstat-val">140</div><div class="mstat-lbl">Shorts</div></div>
-      <div class="mstat"><div class="mstat-val">56</div><div class="mstat-lbl">Pubs</div></div>
-      <div class="mstat"><div class="mstat-val">8</div><div class="mstat-lbl">Vidéos</div></div>
-    </div>
-    <button class="month-btn" onclick="changeMonth(1)">›</button>
+  <div class="nav-right">
+    <button class="nbtn red" onclick="openNew()">+ Nouveau script</button>
+    <button class="nbtn" onclick="downloadApp()">⬇ Télécharger</button>
+    <button class="nbtn" onclick="openSettings()">⚙</button>
   </div>
-  <!-- VIEW TABS -->
-  <div class="view-tabs">
-    <button class="view-tab active" onclick="switchView('planning')">📅 Planning</button>
-    <button class="view-tab" onclick="switchView('agenda')">🎬 Agenda tournage</button>
-  </div>
-
-  <!-- PLANNING VIEW -->
-  <div id="planning-view">
-    <div id="week-tabs">
-      <button class="wtab active" onclick="showWeek(0)">Semaine 1</button>
-      <button class="wtab" onclick="showWeek(1)">Semaine 2</button>
-      <button class="wtab" onclick="showWeek(2)">Semaine 3</button>
-      <button class="wtab" onclick="showWeek(3)">Semaine 4</button>
-    </div>
-    <div id="week-content"></div>
-  </div>
-
-  <!-- AGENDA VIEW -->
-  <div id="agenda-view"></div>
 </div>
 
-<!-- SCRIPT OVERLAY -->
-<div class="overlay" id="script-overlay" onclick="closeScriptOverlayBg(event)">
-  <div class="popup">
-    <div class="popup-hdr">
+<!-- FILTER TABS -->
+<div id="filter-tabs">
+  <button class="ftab active" onclick="setFilter('all')">Tous</button>
+  <button class="ftab" onclick="setFilter('short')">Shorts</button>
+  <button class="ftab" onclick="setFilter('video')">Vidéos longues</button>
+  <button class="ftab" onclick="setFilter('pub')">Publications</button>
+  <button class="ftab" onclick="setFilter('Import / Export')">Import/Export</button>
+  <button class="ftab" onclick="setFilter('Fiscalité')">Fiscalité</button>
+  <button class="ftab" onclick="setFilter('Hong Kong')">Hong Kong</button>
+  <button class="ftab" onclick="setFilter('E-commerce')">E-commerce</button>
+  <button class="ftab" onclick="setFilter('Mindset')">Mindset</button>
+  <button class="ftab" onclick="setFilter('Expatriation')">Expatriation</button>
+  <button class="ftab" onclick="setFilter('Immobilier')">Immobilier</button>
+</div>
+
+<!-- SCRIPT LIST -->
+<div id="script-list"></div>
+
+<!-- SCRIPT DRAWER -->
+<div class="overlay" id="drawer-overlay" onclick="closeDrawerBg(event)">
+  <div class="drawer">
+    <div class="drawer-hdr">
       <div style="flex:1;min-width:0">
-        <div class="ph-meta" id="ph-meta"></div>
-        <div class="ph-title" id="ph-title"></div>
+        <div class="drawer-meta" id="d-meta"></div>
+        <div class="drawer-title" id="d-title"></div>
       </div>
-      <div class="ph-actions">
-        <button class="btn-action btn-edit" onclick="toggleEdit()">✎ Modifier</button>
-        <button class="btn-action btn-tp" onclick="openTP()">📺 Téléprompter</button>
-        <button class="btn-action btn-cp" id="btn-cp" onclick="copyScript()">Copier</button>
-        <button class="btn-cl" onclick="closeScriptOverlay()">✕</button>
+      <div class="drawer-actions">
+        <button class="dact dact-edit" onclick="toggleEdit()">✎</button>
+        <button class="dact dact-tp" onclick="openTPFromDrawer()">📺</button>
+        <button class="dact dact-copy" id="dact-copy" onclick="copyDrawer()">Copier</button>
+        <button class="dact dact-del" onclick="deleteScript()">🗑</button>
+        <button class="dact dact-close" onclick="closeDrawer()">✕</button>
       </div>
     </div>
-    <div class="popup-body" id="popup-body">
-      <div id="script-render"></div>
-      <textarea id="script-edit-area" style="display:none" placeholder="Modifie le script ici..."></textarea>
-      <div class="edit-actions" id="edit-actions" style="display:none">
+    <div class="drawer-body">
+      <div id="view-text"></div>
+      <textarea id="edit-area" placeholder="Écris ou modifie ton script ici..."></textarea>
+      <div class="edit-footer" id="edit-footer">
         <button class="btn-save" onclick="saveEdit()">✓ Sauvegarder</button>
-        <button class="btn-cancel-edit" onclick="cancelEdit()">Annuler</button>
+        <button class="btn-cancel" onclick="cancelEdit()">Annuler</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- AI PANEL -->
-<div id="ai-panel">
-  <div class="ai-backdrop" onclick="closeAI()"></div>
-  <div class="ai-drawer">
-    <div class="ai-hdr">
-      <div>
-        <div class="ai-hdr-title">✦ Générer avec l'IA</div>
-        <div class="ai-hdr-sub">Short · Vidéo longue · 2 publications visuelles</div>
-      </div>
-      <button class="btn-cl" onclick="closeAI()">✕</button>
-    </div>
-    <div class="ai-body" id="ai-body">
-      <!-- Form -->
-      <div id="ai-form">
-        <label class="ai-label">Sujet de la vidéo</label>
-        <input class="ai-input" id="ai-subject" placeholder="Ex : Comment calculer ses droits de douane" />
+<!-- NEW SCRIPT -->
+<div class="overlay" id="new-overlay" onclick="closeNewBg(event)">
+  <div class="new-box">
+    <div class="new-title">+ Nouveau script</div>
 
-        <label class="ai-label">Pilier</label>
-        <div class="ai-pillars">
-          <button class="pillar-btn active" onclick="selectPillar(this,'Import / Export')">Import / Export</button>
-          <button class="pillar-btn" onclick="selectPillar(this,'Fiscalité')">Fiscalité</button>
-          <button class="pillar-btn" onclick="selectPillar(this,'Hong Kong')">Hong Kong</button>
-          <button class="pillar-btn" onclick="selectPillar(this,'E-commerce')">E-commerce</button>
-          <button class="pillar-btn" onclick="selectPillar(this,'Mindset')">Mindset</button>
-          <button class="pillar-btn" onclick="selectPillar(this,'Expatriation')">Expatriation</button>
-          <button class="pillar-btn" onclick="selectPillar(this,'Immobilier')">Immobilier</button>
-        </div>
+    <label class="new-label">Type</label>
+    <select class="new-select" id="new-type">
+      <option value="short">Short YouTube</option>
+      <option value="video">Vidéo longue YouTube</option>
+      <option value="pub">Publication</option>
+    </select>
 
-        <label class="ai-label">Précisions (optionnel)</label>
-        <textarea class="ai-textarea" id="ai-context" placeholder="Ex : angle débutant, insister sur les erreurs courantes, inclure un exemple chiffré..."></textarea>
+    <label class="new-label">Pilier</label>
+    <select class="new-select" id="new-pillar">
+      <option value="Import / Export">Import / Export</option>
+      <option value="Fiscalité">Fiscalité</option>
+      <option value="Hong Kong">Hong Kong</option>
+      <option value="E-commerce">E-commerce</option>
+      <option value="Mindset">Mindset</option>
+      <option value="Expatriation">Expatriation</option>
+      <option value="Immobilier">Immobilier</option>
+    </select>
 
-        <button class="ai-generate-btn" id="ai-gen-btn" onclick="generateContent()">✦ Générer le contenu</button>
-      </div>
+    <label class="new-label">Titre</label>
+    <input class="new-input" id="new-title-input" placeholder="Ex : C'est quoi un Incoterm ?">
 
-      <!-- Loading -->
-      <div class="ai-loading" id="ai-loading">
-        <div class="ai-spinner"></div>
-        <div class="ai-loading-text" id="ai-loading-text">Génération en cours...</div>
-      </div>
+    <label class="new-label">Script (optionnel — tu peux l'écrire après)</label>
+    <textarea class="new-input" id="new-text-input" style="height:100px;resize:vertical" placeholder="Écris ton script ici ou laisse vide..."></textarea>
 
-      <!-- Results -->
-      <div class="ai-results" id="ai-results" style="display:none">
-        <div class="result-section" id="res-short">
-          <div class="result-header" onclick="toggleResult('short-body')">
-            <div>
-              <div class="result-label">🎬 Short YouTube · 60 sec</div>
-              <div class="result-title" id="res-short-title"></div>
-            </div>
-            <div class="result-actions">
-              <button class="btn-result-copy" onclick="event.stopPropagation();copyResult('short')">Copier</button>
-              <button class="btn-result-tp" onclick="event.stopPropagation();openTPText('short')">📺</button>
-            </div>
-          </div>
-          <div class="result-body open" id="short-body">
-            <div class="result-text" id="res-short-text"></div>
-          </div>
-        </div>
-
-        <div class="result-section" id="res-video">
-          <div class="result-header" onclick="toggleResult('video-body')">
-            <div>
-              <div class="result-label">🎥 Vidéo longue YouTube · ~10 min</div>
-              <div class="result-title" id="res-video-title"></div>
-            </div>
-            <div class="result-actions">
-              <button class="btn-result-copy" onclick="event.stopPropagation();copyResult('video')">Copier</button>
-              <button class="btn-result-tp" onclick="event.stopPropagation();openTPText('video')">📺</button>
-            </div>
-          </div>
-          <div class="result-body" id="video-body">
-            <div class="result-text" id="res-video-text"></div>
-          </div>
-        </div>
-
-        <div class="result-section" id="res-pub1">
-          <div class="result-header" onclick="toggleResult('pub1-body')">
-            <div>
-              <div class="result-label">📸 Publication 1 · Citation visuelle</div>
-              <div class="result-title" id="res-pub1-title"></div>
-            </div>
-            <div class="result-actions">
-              <button class="btn-result-view" onclick="event.stopPropagation();showVisual('pub1')">👁 Voir visuel</button>
-            </div>
-          </div>
-          <div class="result-body" id="pub1-body">
-            <div class="result-text" id="res-pub1-text"></div>
-          </div>
-        </div>
-
-        <div class="result-section" id="res-pub2">
-          <div class="result-header" onclick="toggleResult('pub2-body')">
-            <div>
-              <div class="result-label">📸 Publication 2 · Carrousel</div>
-              <div class="result-title" id="res-pub2-title"></div>
-            </div>
-            <div class="result-actions">
-              <button class="btn-result-view" onclick="event.stopPropagation();showVisual('pub2')">👁 Voir visuel</button>
-            </div>
-          </div>
-          <div class="result-body" id="pub2-body">
-            <div class="result-text" id="res-pub2-text"></div>
-          </div>
-        </div>
-
-        <button class="ai-generate-btn" onclick="resetAI()" style="background:#1a1a17;border:1px solid #2a2a27;margin-top:8px;">← Nouvelle génération</button>
-      </div>
+    <div class="new-actions">
+      <button class="btn-new-cancel" onclick="closeNew()">Annuler</button>
+      <button class="btn-create" onclick="createScript()">Créer le script</button>
     </div>
   </div>
 </div>
 
-<!-- PUBLICATION VISUAL MODAL -->
-<div class="overlay" id="pub-visual-modal" onclick="closePubModal(event)">
-  <div class="pub-modal-inner">
-    <div class="pub-modal-hdr">
-      <div class="pub-modal-title" id="pub-modal-title">Visuel publication</div>
-      <button class="btn-cl" onclick="document.getElementById('pub-visual-modal').classList.remove('on')">✕</button>
-    </div>
-    <div class="pub-modal-body">
-      <div id="pub-visual-container"></div>
-      <div class="capture-hint">
-        📱 <strong>Pour capturer :</strong><br>
-        Fais une capture d'écran de la carte ci-dessus.<br>
-        Rogner sur la carte noire pour la publication.
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SETTINGS MODAL -->
-<div class="overlay" id="settings-modal" onclick="closeSettingsBg(event)">
-  <div class="settings-box">
-    <div class="settings-title">Paramètres</div>
-    <div class="settings-sub">Configuration de SBW Studio</div>
-    <label class="settings-label">Clé API Anthropic</label>
-    <input class="settings-input" type="password" id="api-key-input" placeholder="sk-ant-api03-...">
-    <div class="settings-hint">Nécessaire pour utiliser la génération IA. Ta clé est sauvegardée uniquement dans ton navigateur et n'est jamais envoyée ailleurs.</div>
-    <br>
-
-    <div class="settings-actions" style="margin-top:8px">
-      <button class="btn-settings-save" onclick="saveSettings()">Sauvegarder</button>
-      <button class="btn-settings-cancel" onclick="document.getElementById('settings-modal').classList.remove('on')">Annuler</button>
+<!-- SETTINGS -->
+<div class="overlay" id="settings-overlay" onclick="closeSettingsBg(event)">
+  <div class="new-box">
+    <div class="new-title">⚙ Paramètres</div>
+    <label class="new-label">Clé API Anthropic (pour la génération IA)</label>
+    <input class="new-input" type="password" id="api-key-input" placeholder="sk-ant-api03-...">
+    <div style="font-size:11px;color:var(--grey);margin-bottom:14px;line-height:1.5;">Sauvegardée uniquement dans ton navigateur. Nécessaire pour la génération IA.</div>
+    <div class="new-actions">
+      <button class="btn-new-cancel" onclick="closeSettings()">Annuler</button>
+      <button class="btn-create" onclick="saveSettings()">Sauvegarder</button>
     </div>
   </div>
 </div>
@@ -555,28 +363,28 @@ html,body{height:100%;background:var(--black);color:var(--off-white);font-family
 <div id="teleprompter">
   <div class="tp-nav">
     <span class="tp-brand">SBW Studio</span>
-    <span class="tp-lesson-name" id="tp-lesson-name"></span>
+    <span class="tp-name" id="tp-name"></span>
     <button class="tp-close-btn" onclick="closeTP()">✕ Fermer</button>
   </div>
   <div class="tp-guide"></div>
-  <div class="tp-voice-status" id="tp-voice-status"><div class="tp-dot"></div><span>Écoute en cours</span></div>
-  <div class="tp-scroll" id="tp-scroll"><div id="tp-words"></div></div>
+  <div class="tp-voice-ind" id="tp-voice-ind"><div class="tp-dot"></div><span>Écoute</span></div>
+  <div class="tp-scroll" id="tp-scroll"><div id="tp-lines"></div></div>
   <div class="tp-bar">
-    <div class="tp-bar-row1">
-      <button class="tp-big-btn voice" id="tp-voice-btn" onclick="toggleVoice()">🎤 Défilement vocal</button>
-      <button class="tp-big-btn scroll" id="tp-scroll-btn" onclick="toggleAutoScroll()">▶ Auto</button>
-      <button class="tp-big-btn reset" onclick="resetTP()">↺</button>
+    <div class="tp-row1">
+      <button class="tp-btn voice" id="tp-voice-btn" onclick="toggleVoice()">🎤 Défilement vocal</button>
+      <button class="tp-btn auto" id="tp-auto-btn" onclick="toggleAuto()">▶ Auto</button>
+      <button class="tp-btn rst" onclick="resetTP()">↺</button>
     </div>
-    <div class="tp-bar-row2">
-      <div class="tp-ctrl-group">
-        <span class="tp-ctrl-label">Vitesse</span>
+    <div class="tp-row2">
+      <div class="tp-ctrl">
+        <span class="tp-ctrl-lbl">Vitesse</span>
         <input class="tp-slider" id="tp-speed" type="range" min="1" max="10" value="3" oninput="updateSpeed()">
-        <span class="tp-ctrl-label" id="tp-speed-val">3</span>
+        <span class="tp-ctrl-lbl" id="tp-speed-val">3</span>
       </div>
-      <div class="tp-ctrl-group">
-        <span class="tp-ctrl-label">Taille</span>
-        <button class="tp-size-btn" onclick="changeSize(-3)">A−</button>
-        <button class="tp-size-btn" onclick="changeSize(3)">A+</button>
+      <div class="tp-ctrl">
+        <span class="tp-ctrl-lbl">Taille</span>
+        <button class="tp-sz" onclick="changeSize(-3)">A−</button>
+        <button class="tp-sz" onclick="changeSize(3)">A+</button>
       </div>
     </div>
   </div>
@@ -584,174 +392,105 @@ html,body{height:100%;background:var(--black);color:var(--off-white);font-family
 
 <script>
 // ══════════════════════════════════════════════
-// CONFIG & AUTH
+// SCRIPTS DATA
 // ══════════════════════════════════════════════
-let APP_PASSWORD = localStorage.getItem('sbw_pw') || 'sbw2025';
-
-function doLogout(){ localStorage.removeItem('sbw_auth'); location.reload(); }
-
-if(localStorage.getItem('sbw_auth')==='1'){
-  }
-
-// ══════════════════════════════════════════════
-// SETTINGS
-// ══════════════════════════════════════════════
-function openSettings(){
-  const k = localStorage.getItem('sbw_api_key')||'';
-  document.getElementById('api-key-input').value = k ? k.substring(0,8)+'...' : '';
-  document.getElementById('new-pw-input').value = '';
-  document.getElementById('settings-modal').classList.add('on');
-}
-function closeSettingsBg(e){ if(e.target===document.getElementById('settings-modal')) document.getElementById('settings-modal').classList.remove('on'); }
-function saveSettings(){
-  const k = document.getElementById('api-key-input').value.trim();
-  if(k && !k.endsWith('...')) localStorage.setItem('sbw_api_key', k);
-
-  document.getElementById('settings-modal').classList.remove('on');
-  showToast('Paramètres sauvegardés ✓');
-}
-
-function showToast(msg){
-  const t = document.createElement('div');
-  t.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#2a7a2a;color:#fff;font-size:12px;font-weight:600;padding:8px 18px;border-radius:20px;z-index:9999;animation:popIn .2s ease;';
-  t.textContent=msg;
-  document.body.appendChild(t);
-  setTimeout(()=>t.remove(),2500);
-}
-
-// ══════════════════════════════════════════════
-// SCRIPTS DATA (localStorage overrides)
-// ══════════════════════════════════════════════
-const BASE_SCRIPTS = {
-vl1:{meta:"🎥 Vidéo Longue · S1V1 · ~12 min",title:"Les Incoterms de A à Z — EXW, FOB, CIF, DDP",text:`ACCROCHE — 0:00 à 0:35
+const BASE_SCRIPTS = [
+  {id:'vl1',type:'video',pillar:'Import / Export',title:'Les Incoterms de A à Z — EXW, FOB, CIF, DDP',text:`ACCROCHE — 0:00 à 0:35
 
 Tu négocies avec un fournisseur à l'étranger.
 Il te dit : "On travaille en FOB."
-Ou en EXW. Ou en CIF.
 
 Et là tu dis oui parce que t'as pas envie d'avoir l'air de pas savoir.
 
 Mais si tu signes sans comprendre l'Incoterm, tu peux perdre des milliers d'euros sans comprendre pourquoi.
 
-Dans cette vidéo je t'explique les 4 Incoterms essentiels.
-Ce qu'ils veulent dire, qui paie quoi, et lequel choisir.
-
 CTA — 0:35 à 0:50
 
-Avant de commencer — tout le contenu gratuit sur l'entrepreneuriat, l'import-export et la fiscalité est sur StartBusinessWorld.com.
-T'as le lien dans la description.
+Tout le contenu gratuit est sur StartBusinessWorld.com — lien dans la description.
 
-PARTIE 1 — C'est quoi un Incoterm ? — 0:50 à 2:30
+PARTIE 1 — C'est quoi un Incoterm ?
 
-Un Incoterm, c'est un terme commercial standardisé créé par la Chambre de Commerce Internationale.
-
-Son rôle : définir exactement qui est responsable de quoi à chaque étape du transport.
-
-Qui organise le transport local ?
-Qui paie le fret maritime ?
-Qui fait la déclaration d'export ?
-Qui fait la déclaration d'import ?
-Qui paie les droits de douane ?
-
+Un Incoterm définit exactement qui est responsable de quoi à chaque étape du transport.
 Il en existe 11. Dans la pratique, t'en utiliseras 4.
 
-PARTIE 2 — EXW — 2:30 à 4:30
+PARTIE 2 — EXW
 
-EXW — Ex Works.
+EXW — Ex Works. Le vendeur pose la marchandise dans son usine.
+Toi tu gères tout le reste. Transport local, déclaration d'export, fret, dédouanement.
+Maximum de responsabilités pour l'acheteur.
 
-Le vendeur pose la marchandise dans son usine.
-Toi tu gères tout le reste.
-Transport local. Déclaration d'export. Fret international. Dédouanement. Livraison.
+PARTIE 3 — FOB
 
-EXW c'est le maximum de responsabilités pour l'acheteur.
-
-PARTIE 3 — FOB — 4:30 à 6:30
-
-FOB — Free On Board.
-
-C'est le plus utilisé dans l'import depuis l'Asie.
-
-L'exportateur livre la marchandise jusqu'au port et la charge sur le bateau.
-À partir de là, la responsabilité passe à toi.
-
+FOB — Free On Board. Le plus utilisé depuis l'Asie.
+L'exportateur livre au port et charge sur le bateau.
+À partir du bateau, la responsabilité passe à toi.
 Attention — l'exportateur c'est pas forcément l'usine.
-L'usine elle fabrique, point.
-L'exportateur c'est celui qui prend la responsabilité légale de faire sortir la marchandise du pays.
+L'usine fabrique. L'exportateur fait sortir légalement la marchandise du pays.
 
-FOB c'est l'Incoterm idéal quand tu débutes.
-
-PARTIE 4 — CIF — 6:30 à 8:30
+PARTIE 4 — CIF
 
 CIF — Cost Insurance Freight.
+Comme FOB mais le logisticien organise et paie le fret et l'assurance.
+Risque : il choisit le transporteur et peut se faire une marge dessus.
 
-Comme FOB, mais le logisticien organise et paie le fret et l'assurance jusqu'au port de destination.
-
-Le risque : le logisticien choisit le transporteur et peut se faire une marge.
-Tu vois un prix global, tu ne peux pas comparer.
-
-PARTIE 5 — DDP — 8:30 à 10:00
+PARTIE 5 — DDP
 
 DDP — Delivered Duty Paid.
-
 Le logisticien gère absolument tout jusqu'à ta porte.
-En théorie le plus simple. En pratique le plus cher — zéro contrôle.
+Le plus simple en apparence. Le plus cher en réalité. Zéro contrôle.
 
-CONCLUSION — 10:00 à 11:00
+CONCLUSION
 
-La règle simple : quand tu débutes, négocie en FOB.
-
+La règle simple : négocie en FOB quand tu débutes.
 Abonne-toi. Tout le contenu gratuit sur StartBusinessWorld.com.`},
 
-vl2:{meta:"🎥 Vidéo Longue · S1V2 · ~10 min",title:"Transport maritime en import-export — tout ce qu'il faut savoir",text:`ACCROCHE — 0:00 à 0:30
+  {id:'vl2',type:'video',pillar:'Import / Export',title:'Transport maritime — FCL, LCL, Bill of Lading',text:`ACCROCHE
 
 90% des marchandises mondiales voyagent par bateau.
-Dans cette vidéo je t'explique tout sur le transport maritime.
+Si tu fais de l'import-export, tu vas forcément passer par le maritime.
 
-CTA — 0:30 à 0:45
+CTA
 
-Tout le contenu gratuit est sur StartBusinessWorld.com. Lien dans la description.
+Tout le contenu gratuit est sur StartBusinessWorld.com — lien dans la description.
 
-PARTIE 1 — Pourquoi le maritime — 0:45 à 2:00
+PARTIE 1 — Pourquoi le maritime
 
 Le maritime c'est le moins cher pour les grandes quantités.
-Un container 20 pieds : jusqu'à 28 tonnes. Un 40 pieds : le double.
-Depuis la Chine : 25 à 40 jours.
+Un container 20 pieds : jusqu'à 28 tonnes.
+Depuis la Chine : 25 à 40 jours selon le port.
 
-PARTIE 2 — FCL vs LCL — 2:00 à 4:00
+PARTIE 2 — FCL vs LCL
 
-FCL : container entier pour toi. Plus économique au-delà de 15 CBM.
-LCL : container partagé. Tu payes uniquement ton volume.
+FCL — Full Container Load. Container entier pour toi.
+Plus économique au-delà de 15 CBM.
 
-PARTIE 3 — Les documents — 4:00 à 6:30
+LCL — Less than Container Load. Container partagé.
+Tu payes uniquement ton volume.
+Idéal pour débuter ou pour des commandes moyennes.
 
-Bill of Lading : titre de propriété de ta marchandise. Sans lui, tu ne récupères rien.
-Facture commerciale. Packing list. Certificat d'origine si nécessaire.
+PARTIE 3 — Les documents clés
 
-PARTIE 4 — Imprévus — 6:30 à 8:30
+Bill of Lading : titre de propriété de ta marchandise.
+Sans lui, tu ne récupères rien au port.
+
+Facture commerciale. Packing list. Certificat d'origine si besoin.
+
+PARTIE 4 — Imprévus
 
 Congestion portuaire. Météo. Grèves.
 Prévois toujours des stocks tampons.
 
-CONCLUSION — 8:30 à 9:30
+CONCLUSION
 
 Dans la prochaine vidéo : le dédouanement.
 Abonne-toi. StartBusinessWorld.com.`},
 
-s1_1:{meta:"Short · Lundi S1 · Import/Export",title:"C'est quoi un Incoterm — et pourquoi ça peut te coûter cher",text:`Tu commandes chez un fournisseur étranger.
+  {id:'s1',type:'short',pillar:'Import / Export',title:"C'est quoi un Incoterm — et pourquoi ça peut te coûter cher",text:`Tu commandes chez un fournisseur étranger.
 Il te dit : "On travaille en FOB."
 
-Si tu sais pas ce que ça veut dire, tu risques de te retrouver avec des coûts que t'avais pas prévus.
+Si tu sais pas ce que ça veut dire, tu risques des coûts que t'avais pas prévus.
 
-Un Incoterm, c'est un terme qui définit exactement qui paie quoi dans le transport.
-
-Qui organise le fret ?
-Qui fait la douane export ?
-Qui fait la douane import ?
-Qui paie l'assurance ?
-
-Tout ça c'est réglé en 3 lettres.
-
-Il en existe 11. Dans la pratique tu vas en utiliser 4.
+Un Incoterm définit exactement qui paie quoi dans le transport.
 
 EXW — tu gères tout.
 FOB — l'exportateur livre au bateau, tu gères le reste.
@@ -760,21 +499,92 @@ DDP — le logisticien gère absolument tout.
 
 Je t'explique chacun en détail dans la vidéo complète.
 Lien dans la description — tout le contenu gratuit est sur StartBusinessWorld.com.`},
-s1_2:{meta:"Short · Lundi S1 · Fiscalité",title:"La micro-entreprise c'est un piège pour les entrepreneurs sérieux",text:`La micro-entreprise c'est séduisant au début.
 
-Zéro comptabilité. Inscription en 5 minutes. Charges calculées sur le CA.
+  {id:'s2',type:'short',pillar:'Import / Export',title:'FOB — pourquoi c'est l'Incoterm préféré des importateurs',text:`En FOB, l'exportateur livre la marchandise jusqu'au port et la charge sur le bateau.
 
-Mais si tu veux construire un business, c'est un piège.
+À partir de ce moment, la responsabilité passe à toi.
+
+Pourquoi c'est le meilleur choix quand tu débutes ?
+
+Tu gardes le contrôle sur le fret international — la partie la plus chère.
+Tu négocies toi-même avec ton transitaire.
+Tu connais exactement chaque coût.
+
+En CIF ou DDP, c'est le logisticien qui organise le fret.
+Tu perds le contrôle sur les coûts.
+
+FOB = contrôle total sur ton budget import.
+
+StartBusinessWorld.com — lien dans la description.`},
+
+  {id:'s3',type:'short',pillar:'Fiscalité',title:'La micro-entreprise c'est un piège pour les entrepreneurs sérieux',text:`La micro-entreprise c'est séduisant au début.
+
+Zéro comptabilité. Inscription en 5 minutes.
+
+Mais si tu veux vraiment construire un business, c'est un piège.
 
 Premier problème — tu payes des charges même si tu es pas rentable.
 Deuxième problème — tu peux pas déduire tes frais.
-Troisième problème — le plafond à 188 000 euros.
+Troisième problème — le plafond à 188 000 euros de CA.
 
 La micro-entreprise c'est bien pour tester.
 Pas pour développer.
 
 Je t'explique la bonne structure sur StartBusinessWorld.com — lien dans la description.`},
-s1_3:{meta:"Short · Lundi S1 · Mindset",title:"L'erreur numéro 1 que font les débutants",text:`L'erreur numéro 1 quand tu te lances : attendre d'être prêt.
+
+  {id:'s4',type:'short',pillar:'Fiscalité',title:'SASU ou EURL — laquelle choisir quand tu démarres seul',text:`Tu te lances seul et tu veux créer une société.
+SASU ou EURL — laquelle choisir ?
+
+En SASU, le président est assimilé salarié.
+Si tu te verses pas de salaire, tu payes zéro charges sociales.
+
+En EURL, le gérant est travailleur non salarié.
+Tu payes environ 1 000 euros par an minimum même si tu ne te verses rien.
+
+Pour quelqu'un qui démarre et qui réinvestit ses bénéfices ?
+
+La SASU est souvent plus intéressante.
+Zéro charges tant que tu te verses rien.
+
+Je t'explique tout sur StartBusinessWorld.com — lien dans la description.`},
+
+  {id:'s5',type:'short',pillar:'Hong Kong',title:"0% d'impôt à Hong Kong — comment c'est possible",text:`0% d'impôt sur les bénéfices offshore à Hong Kong.
+
+C'est légal. C'est réel. Et c'est accessible.
+
+À Hong Kong, l'impôt sur les sociétés s'applique uniquement sur les bénéfices générés à Hong Kong.
+
+Si ton activité se passe en dehors de Hong Kong — tu importes depuis la Chine, tu vends en Europe — ces bénéfices sont offshore.
+
+Taux d'imposition offshore : 0%.
+
+Je t'explique tout sur StartBusinessWorld.com — lien dans la description.`},
+
+  {id:'s6',type:'short',pillar:'Hong Kong',title:'Offshore ça veut pas dire illégal — les idées reçues',text:`Le mot "offshore" fait peur.
+
+Les gens entendent offshore et pensent immédiatement à de l'évasion fiscale.
+
+La réalité c'est beaucoup plus simple.
+
+Offshore ça veut juste dire "en dehors du pays d'imposition principal."
+
+Ce qui est illégal c'est la dissimulation.
+Cacher des revenus au fisc. Ne pas déclarer une société étrangère.
+
+Mais créer une société à Hong Kong, la déclarer aux autorités fiscales, et bénéficier d'une fiscalité favorable — c'est parfaitement légal.
+
+Je t'explique comment faire ça correctement sur StartBusinessWorld.com — lien dans la description.`},
+
+  {id:'s7',type:'short',pillar:'E-commerce',title:'Comment trouver un produit qui se vend avant de dépenser un euro',text:`Avant de commander un seul produit, tu dois savoir s'il se vend.
+
+Méthode 1 — Google Trends. Regarde la courbe sur 12 mois.
+Méthode 2 — Analyse la concurrence. Si d'autres vendent depuis longtemps, il y a un marché.
+Méthode 3 — Le volume de recherche. Combien de gens cherchent ce produit ?
+Méthode 4 — Commande un échantillon. Valide avant de scaler.
+
+Tout le reste sur StartBusinessWorld.com — lien dans la description.`},
+
+  {id:'s8',type:'short',pillar:'Mindset',title:"L'erreur numéro 1 que font les débutants",text:`L'erreur numéro 1 quand tu te lances : attendre d'être prêt.
 
 Il y a des gens qui passent six mois à faire des recherches.
 Et ils ne se lancent jamais.
@@ -787,654 +597,514 @@ L'information sans action c'est du divertissement.
 
 Lance-toi avec ce que t'as maintenant.
 Tout le contenu pour démarrer est sur StartBusinessWorld.com — lien dans la description.`},
-s1_4:{meta:"Short · Lundi S1 · Hong Kong",title:"0% d'impôt à Hong Kong — comment c'est possible",text:`0% d'impôt sur les bénéfices offshore à Hong Kong.
 
-C'est légal. C'est réel. Et c'est accessible.
+  {id:'s9',type:'short',pillar:'Mindset',title:'La discipline — ce qui sépare ceux qui réussissent des autres',text:`La motivation c'est surfaite.
 
-À Hong Kong, l'impôt sur les sociétés s'applique uniquement sur les bénéfices générés à Hong Kong.
+Tout le monde est motivé au début.
+Le premier jour. La première semaine.
 
-Si ton activité se passe en dehors de Hong Kong — les bénéfices sont offshore.
-Taux d'imposition offshore : 0%.
+Puis la motivation disparaît.
 
-Ça veut pas dire que tu payes rien nulle part.
-Mais si tu combines une société à HK avec une résidence fiscale adaptée, l'optimisation devient très significative.
+C'est là que la discipline prend le relais.
+
+La discipline c'est faire ce que tu dois faire même quand t'as pas envie.
+
+Les gens qui réussissent ne sont pas plus motivés que les autres.
+Ils sont plus disciplinés.
+
+La motivation te fait démarrer.
+La discipline te fait arriver.
+
+StartBusinessWorld.com — lien dans la description.`},
+
+  {id:'s10',type:'short',pillar:'Expatriation',title:"Dubaï résidence fiscale — ce que personne ne te dit vraiment",text:`Dubaï 0% d'impôt. C'est vrai. Mais c'est plus compliqué que ce qu'on te vend.
+
+Pour être résident fiscal à Dubaï et ne plus être imposable en France, il faut remplir ces 3 conditions.
+
+1 — Couper ta résidence fiscale française.
+Plus de foyer principal en France. Plus d'activité professionnelle principale en France.
+
+2 — Résider à Dubaï au moins 183 jours par an.
+
+3 — Avoir un visa de résidence aux Émirats.
+
+Le fisc français est très regardant sur les faux départs.
+L'expatriation fiscale ça se prépare sérieusement.
 
 Je t'explique tout sur StartBusinessWorld.com — lien dans la description.`},
-s1_5:{meta:"Short · Lundi S1 · E-commerce",title:"Comment trouver un produit qui se vend avant de dépenser un euro",text:`Avant de commander un seul produit, tu dois savoir s'il se vend.
 
-Méthode 1 — Google Trends. Regarde la courbe sur 12 mois.
-Méthode 2 — Analyse la concurrence. Si d'autres vendent depuis longtemps, il y a un marché.
-Méthode 3 — Le volume de recherche. Combien de gens cherchent ce produit ?
-Méthode 4 — Commande un échantillon. Valide avant de scaler.
+  {id:'p1',type:'pub',pillar:'Mindset',title:`Citation — "La liberté financière ne s'achète pas, elle se construit."`,text:`"La liberté financière ne s'achète pas, elle se construit."
 
-Tout le reste sur StartBusinessWorld.com — lien dans la description.`}
-};
+— Start Business World
 
-function getScripts(){
-  const saved = JSON.parse(localStorage.getItem('sbw_scripts')||'{}');
-  return {...BASE_SCRIPTS,...saved};
-}
+Beaucoup de gens cherchent le raccourci.
+Le bon plan. La bonne opportunité. Le bon moment.
 
-function saveScript(key, data){
-  const saved = JSON.parse(localStorage.getItem('sbw_scripts')||'{}');
-  saved[key] = data;
-  localStorage.setItem('sbw_scripts', JSON.stringify(saved));
-}
+Il n'y en a pas.
 
-// ══════════════════════════════════════════════
-// PLANNING DATA
-// ══════════════════════════════════════════════
-const MONTHS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-let currentMonth = new Date().getMonth();
-let currentYear = new Date().getFullYear();
-let currentWeek = 0;
+Il y a des gens qui construisent.
+Et des gens qui attendent.
 
-const WEEK_DATA = [
-  {videos:[{key:'vl1',title:"Les Incoterms de A à Z — EXW, FOB, CIF, DDP",dur:"~12 min"}],days:[
-    {name:"Lundi",shorts:[{key:'s1_1',pill:'p-ie',label:'Import/Export',title:"C'est quoi un Incoterm"},{key:'s1_2',pill:'p-fi',label:'Fiscalité',title:"La micro-entreprise c'est un piège"},{key:'s1_3',pill:'p-ms',label:'Mindset',title:"L'erreur numéro 1 des débutants"},{key:'s1_4',pill:'p-hk',label:'Hong Kong',title:"0% d'impôt à Hong Kong"},{key:'s1_5',pill:'p-ec',label:'E-commerce',title:"Trouver un produit qui se vend"}],
-     pubs:[{pill:'p-ms',label:'Mindset',title:`Citation — "La liberté financière ne s'achète pas"`,fmt:"Citation visuelle"},{pill:'p-ie',label:'Import/Export',title:"Les 4 Incoterms essentiels",fmt:"Carrousel"}]},
-    {name:"Mardi",shorts:[{key:'s2_1',pill:'p-ie',label:'Import/Export',title:"FOB — l'Incoterm préféré des importateurs"},{key:'s2_2',pill:'p-hk',label:'Hong Kong',title:"Pourquoi ouvrir une société à HK"},{key:'s2_3',pill:'p-ec',label:'E-commerce',title:"Shopify ou pas — la vraie question"},{key:'s2_4',pill:'p-fi',label:'Fiscalité',title:"SASU ou EURL — laquelle choisir"},{key:'s2_5',pill:'p-ms',label:'Mindset',title:"La liberté ça se mérite"}],
-     pubs:[{pill:'p-fi',label:'Fiscalité',title:"SASU vs Micro-entreprise",fmt:"Carrousel"},{pill:'p-hk',label:'Hong Kong',title:`Citation — "La meilleure structure c'est celle que tu comprends"`,fmt:"Citation visuelle"}]},
-    {name:"Mercredi",shorts:[{key:'s3_1',pill:'p-ie',label:'Import/Export',title:"CIF — pourquoi c'est risqué"},{key:'s3_2',pill:'p-ex',label:'Expatriation',title:"Dubaï résidence fiscale"},{key:'s3_3',pill:'p-fi',label:'Fiscalité',title:"La holding — à quoi ça sert"},{key:'s3_4',pill:'p-ms',label:'Mindset',title:"L'argent c'est un outil"},{key:'s3_5',pill:'p-ec',label:'E-commerce',title:"Calculer ta vraie marge"}],
-     pubs:[{pill:'p-ex',label:'Expatriation',title:"Les 3 conditions pour être résident à Dubaï",fmt:"Texte"},{pill:'p-ec',label:'E-commerce',title:`Citation — "Une marge mal calculée c'est un business qui coule"`,fmt:"Citation visuelle"}]},
-    {name:"Jeudi",shorts:[{key:'s4_1',pill:'p-ie',label:'Import/Export',title:"DDP — le piège de l'Incoterm"},{key:'s4_2',pill:'p-ms',label:'Mindset',title:"Pourquoi les gens n'arrivent pas à se lancer"},{key:'s4_3',pill:'p-hk',label:'Hong Kong',title:"Airwallex — le meilleur outil HK"},{key:'s4_4',pill:'p-fi',label:'Fiscalité',title:"Se verser des dividendes"},{key:'s4_5',pill:'p-ec',label:'E-commerce',title:"Publicité Meta — les erreurs"}],
-     pubs:[{pill:'p-hk',label:'Hong Kong',title:"Société HK vs Société France",fmt:"Carrousel"},{pill:'p-ms',label:'Mindset',title:`Citation — "L'action imparfaite bat le plan parfait"`,fmt:"Citation visuelle"}]},
-    {name:"Vendredi",shorts:[{key:'s5_1',pill:'p-ie',label:'Import/Export',title:"Le transitaire — l'acteur le plus important"},{key:'s5_2',pill:'p-fi',label:'Fiscalité',title:"L'optimisation fiscale c'est légal"},{key:'s5_3',pill:'p-ex',label:'Expatriation',title:"Résidence fiscale — quand tu n'es plus imposable"},{key:'s5_4',pill:'p-ec',label:'E-commerce',title:"Stock ou dropshipping"},{key:'s5_5',pill:'p-ms',label:'Mindset',title:"La patience c'est pas l'inaction"}],
-     pubs:[{pill:'p-ie',label:'Import/Export',title:"Choisir son transitaire : les 5 critères",fmt:"Texte"},{pill:'p-fi',label:'Fiscalité',title:`Citation — "Payer moins d'impôts légalement c'est de la gestion"`,fmt:"Citation visuelle"}]},
-    {name:"Samedi",shorts:[{key:'s6_1',pill:'p-ie',label:'Import/Export',title:"La douane — ce qui se passe au port"},{key:'s6_2',pill:'p-hk',label:'Hong Kong',title:"Ouvrir un compte bancaire à HK"},{key:'s6_3',pill:'p-ec',label:'E-commerce',title:"Trouver un fournisseur au-delà d'Alibaba"},{key:'s6_4',pill:'p-ms',label:'Mindset',title:"Ton réseau vaut plus que ton diplôme"},{key:'s6_5',pill:'p-fi',label:'Fiscalité',title:"TVA à l'import — évite les surprises"}],
-     pubs:[{pill:'p-ie',label:'Import/Export',title:"Le parcours d'un produit de l'usine à ton entrepôt",fmt:"Carrousel"},{pill:'p-ms',label:'Mindset',title:"Pourquoi j'ai tout quitté pour ma liberté",fmt:"Texte"}]},
-    {name:"Dimanche",shorts:[{key:'s7_1',pill:'p-ie',label:'Import/Export',title:"Le Bill of Lading"},{key:'s7_2',pill:'p-im',label:'Immobilier',title:"Investir à l'étranger — par où commencer"},{key:'s7_3',pill:'p-fi',label:'Fiscalité',title:"Les charges en SASU"},{key:'s7_4',pill:'p-ms',label:'Mindset',title:"La discipline — ce qui sépare les gens"},{key:'s7_5',pill:'p-hk',label:'Hong Kong',title:"Offshore ≠ illégal"}],
-     pubs:[{pill:'p-im',label:'Immobilier',title:`Citation — "L'immobilier à l'étranger c'est accessible"`,fmt:"Citation visuelle"},{pill:'p-hk',label:'Hong Kong',title:"Hong Kong en 2025 — toujours la meilleure option ?",fmt:"Texte"}]}
-  ]},
-  {videos:[{key:'vl2',title:"Transport maritime — tout ce qu'il faut savoir",dur:"~10 min"}],days:[
-    {name:"Lundi",shorts:[{key:'s1_1',pill:'p-ie',label:'Import/Export',title:"Le dédouanement expliqué"},{key:'s1_2',pill:'p-fi',label:'Fiscalité',title:"L'IS en SASU — comment ça fonctionne"},{key:'s1_3',pill:'p-ms',label:'Mindset',title:"Arrête de consommer, commence à produire"},{key:'s1_4',pill:'p-hk',label:'Hong Kong',title:"Créer sa société à HK — les étapes"},{key:'s1_5',pill:'p-ec',label:'E-commerce',title:"Les 5 niches e-commerce en 2025"}],pubs:[{pill:'p-ie',label:'Import/Export',title:"Les 6 étapes d'un import réussi",fmt:"Texte"},{pill:'p-ms',label:'Mindset',title:`Citation — "Produis plus que tu ne consommes"`,fmt:"Citation visuelle"}]},
-    {name:"Mardi",shorts:[{key:'s2_1',pill:'p-ie',label:'Import/Export',title:"FCL vs LCL"},{key:'s2_2',pill:'p-hk',label:'Hong Kong',title:"Le coût réel d'une société à HK"},{key:'s2_3',pill:'p-ec',label:'E-commerce',title:"Amazon FBA ou ta boutique"},{key:'s2_4',pill:'p-fi',label:'Fiscalité',title:"La holding — quand ça devient intéressant"},{key:'s2_5',pill:'p-ms',label:'Mindset',title:"Les 3 mensonges sur l'entrepreneuriat"}],pubs:[{pill:'p-hk',label:'Hong Kong',title:"Créer sa société à HK — le guide",fmt:"Carrousel"},{pill:'p-ec',label:'E-commerce',title:`Citation — "Le meilleur moment pour lancer c'est maintenant"`,fmt:"Citation visuelle"}]},
-    {name:"Mercredi",shorts:[{key:'s3_1',pill:'p-ie',label:'Import/Export',title:"Les droits de douane"},{key:'s3_2',pill:'p-ex',label:'Expatriation',title:"Portugal NHR"},{key:'s3_3',pill:'p-fi',label:'Fiscalité',title:"Flat tax à 30% — quand c'est avantageux"},{key:'s3_4',pill:'p-ms',label:'Mindset',title:"Investis en toi d'abord"},{key:'s3_5',pill:'p-ec',label:'E-commerce',title:"Le copywriting qui vend"}],pubs:[{pill:'p-fi',label:'Fiscalité',title:"Flat tax vs Barème progressif",fmt:"Carrousel"},{pill:'p-ex',label:'Expatriation',title:"Portugal NHR — le guide complet",fmt:"Texte"}]},
-    {name:"Jeudi",shorts:[{key:'s4_1',pill:'p-ie',label:'Import/Export',title:"Les normes CE"},{key:'s4_2',pill:'p-ms',label:'Mindset',title:"Gérer l'échec sans se décourager"},{key:'s4_3',pill:'p-hk',label:'Hong Kong',title:"HK vs Singapour"},{key:'s4_4',pill:'p-fi',label:'Fiscalité',title:"Les frais déductibles en SASU"},{key:'s4_5',pill:'p-ec',label:'E-commerce',title:"Fiche produit qui convertit"}],pubs:[{pill:'p-ie',label:'Import/Export',title:`Citation — "Comprendre les Incoterms c'est comprendre les risques"`,fmt:"Citation visuelle"},{pill:'p-ec',label:'E-commerce',title:"Amazon FBA — les vrais frais",fmt:"Texte"}]},
-    {name:"Vendredi",shorts:[{key:'s5_1',pill:'p-ie',label:'Import/Export',title:"Paiement fournisseur — se protéger"},{key:'s5_2',pill:'p-fi',label:'Fiscalité',title:"Compte courant d'associé"},{key:'s5_3',pill:'p-ex',label:'Expatriation',title:"Maurice — le paradis fiscal méconnu"},{key:'s5_4',pill:'p-ec',label:'E-commerce',title:"Les 3 indicateurs clés en e-commerce"},{key:'s5_5',pill:'p-ms',label:'Mindset',title:"La différence entre ceux qui réussissent"}],pubs:[{pill:'p-ex',label:'Expatriation',title:"5 pays avec la meilleure fiscalité",fmt:"Carrousel"},{pill:'p-ms',label:'Mindset',title:`Citation — "Le succès c'est la somme de petits efforts répétés"`,fmt:"Citation visuelle"}]},
-    {name:"Samedi",shorts:[{key:'s6_1',pill:'p-ie',label:'Import/Export',title:"La lettre de crédit"},{key:'s6_2',pill:'p-hk',label:'Hong Kong',title:"Vivre à HK — le coût réel"},{key:'s6_3',pill:'p-ec',label:'E-commerce',title:"TikTok Shop"},{key:'s6_4',pill:'p-ms',label:'Mindset',title:"Construis des systèmes pas de la motivation"},{key:'s6_5',pill:'p-fi',label:'Fiscalité',title:"L'assurance vie pour entrepreneurs"}],pubs:[{pill:'p-ec',label:'E-commerce',title:"TikTok Shop — comment en profiter",fmt:"Texte"},{pill:'p-fi',label:'Fiscalité',title:`Citation — "Payer l'impôt c'est obligatoire. Payer trop c'est optionnel."`,fmt:"Citation visuelle"}]},
-    {name:"Dimanche",shorts:[{key:'s7_1',pill:'p-ie',label:'Import/Export',title:"Importer depuis la Turquie"},{key:'s7_2',pill:'p-im',label:'Immobilier',title:"Investir à Dubaï — les vrais rendements"},{key:'s7_3',pill:'p-fi',label:'Fiscalité',title:"SCI — utile pour un entrepreneur ?"},{key:'s7_4',pill:'p-ms',label:'Mindset',title:"Pourquoi les entrepreneurs lisent autant"},{key:'s7_5',pill:'p-hk',label:'Hong Kong',title:"Négocier avec les fournisseurs chinois"}],pubs:[{pill:'p-im',label:'Immobilier',title:"Les 4 marchés immobiliers à surveiller",fmt:"Carrousel"},{pill:'p-ie',label:'Import/Export',title:"Turquie vs Chine : le comparatif",fmt:"Texte"}]}
-  ]},
-  {videos:[],days:[
-    {name:"Lundi",shorts:[{key:'s1_1',pill:'p-ie',label:'Import/Export',title:"Le code SH"},{key:'s1_2',pill:'p-fi',label:'Fiscalité',title:"Créer une entreprise à 18 ans"},{key:'s1_3',pill:'p-ms',label:'Mindset',title:"Développer une mentalité de gagnant"},{key:'s1_4',pill:'p-hk',label:'Hong Kong',title:"Les 5 idées reçues sur HK"},{key:'s1_5',pill:'p-ec',label:'E-commerce',title:"Les erreurs de débutant qui coûtent cher"}],pubs:[{pill:'p-fi',label:'Fiscalité',title:"Créer sa société avant 25 ans",fmt:"Texte"},{pill:'p-ms',label:'Mindset',title:`Citation — "Tu deviens ce que tu répètes"`,fmt:"Citation visuelle"}]},
-    {name:"Mardi",shorts:[{key:'s2_1',pill:'p-ie',label:'Import/Export',title:"L'inspection qualité"},{key:'s2_2',pill:'p-hk',label:'Hong Kong',title:"Vivre et travailler à HK"},{key:'s2_3',pill:'p-ec',label:'E-commerce',title:"Le taux de conversion"},{key:'s2_4',pill:'p-fi',label:'Fiscalité',title:"Gérer sa trésorerie en SASU"},{key:'s2_5',pill:'p-ms',label:'Mindset',title:"Arrête de te comparer aux autres"}],pubs:[{pill:'p-ec',label:'E-commerce',title:"Les 5 métriques e-commerce",fmt:"Carrousel"},{pill:'p-hk',label:'Hong Kong',title:`Citation — "HK c'est pas juste une adresse, c'est un avantage compétitif"`,fmt:"Citation visuelle"}]},
-    {name:"Mercredi",shorts:[{key:'s3_1',pill:'p-ie',label:'Import/Export',title:"Wise vs Airwallex"},{key:'s3_2',pill:'p-ex',label:'Expatriation',title:"Géorgie — la destination méconnue"},{key:'s3_3',pill:'p-fi',label:'Fiscalité',title:"TVA quand tu vends à l'étranger"},{key:'s3_4',pill:'p-ms',label:'Mindset',title:"La règle des 1%"},{key:'s3_5',pill:'p-ec',label:'E-commerce',title:"Email marketing — l'arme secrète"}],pubs:[{pill:'p-ie',label:'Import/Export',title:"Wise vs Airwallex — le comparatif",fmt:"Texte"},{pill:'p-ex',label:'Expatriation',title:`Citation — "La géographie fiscale c'est une compétence"`,fmt:"Citation visuelle"}]},
-    {name:"Jeudi",shorts:[{key:'s4_1',pill:'p-ie',label:'Import/Export',title:"L'assurance marchandise"},{key:'s4_2',pill:'p-ms',label:'Mindset',title:"Pourquoi travailler seul c'est un frein"},{key:'s4_3',pill:'p-hk',label:'Hong Kong',title:"Dividendes depuis une société HK"},{key:'s4_4',pill:'p-fi',label:'Fiscalité',title:"Cotisations TNS en EURL"},{key:'s4_5',pill:'p-ec',label:'E-commerce',title:"Gérer les retours clients"}],pubs:[{pill:'p-ms',label:'Mindset',title:"Les 5 habitudes des entrepreneurs qui réussissent",fmt:"Carrousel"},{pill:'p-fi',label:'Fiscalité',title:`Citation — "La structure c'est les fondations. Mal posées, tout s'effondre."`,fmt:"Citation visuelle"}]},
-    {name:"Vendredi",shorts:[{key:'s5_1',pill:'p-ie',label:'Import/Export',title:"Sourcing en Inde vs Chine"},{key:'s5_2',pill:'p-fi',label:'Fiscalité',title:"Séparer ta société de ta vie perso"},{key:'s5_3',pill:'p-ex',label:'Expatriation',title:"Les 3 erreurs des Français à Dubaï"},{key:'s5_4',pill:'p-ec',label:'E-commerce',title:"Automatiser son e-commerce"},{key:'s5_5',pill:'p-ms',label:'Mindset',title:"La gestion du temps"}],pubs:[{pill:'p-ex',label:'Expatriation',title:"Les 3 erreurs classiques à Dubaï",fmt:"Texte"},{pill:'p-ec',label:'E-commerce',title:`Citation — "L'automatisation libère ton temps"`,fmt:"Citation visuelle"}]},
-    {name:"Samedi",shorts:[{key:'s6_1',pill:'p-ie',label:'Import/Export',title:"Le Canton Fair"},{key:'s6_2',pill:'p-hk',label:'Hong Kong',title:"Renouveler sa société HK"},{key:'s6_3',pill:'p-ec',label:'E-commerce',title:"Personal branding"},{key:'s6_4',pill:'p-ms',label:'Mindset',title:"Prendre de meilleures décisions"},{key:'s6_5',pill:'p-fi',label:'Fiscalité',title:"PER — utile pour un entrepreneur ?"}],pubs:[{pill:'p-hk',label:'Hong Kong',title:"Le coût annuel d'une société à HK",fmt:"Texte"},{pill:'p-ms',label:'Mindset',title:`Citation — "Décider vite et ajuster bat attendre et décider parfaitement"`,fmt:"Citation visuelle"}]},
-    {name:"Dimanche",shorts:[{key:'s7_1',pill:'p-ie',label:'Import/Export',title:"Importer du Maroc"},{key:'s7_2',pill:'p-im',label:'Immobilier',title:"L'immobilier locatif court terme à l'étranger"},{key:'s7_3',pill:'p-fi',label:'Fiscalité',title:"LMNP à l'étranger"},{key:'s7_4',pill:'p-ms',label:'Mindset',title:"Documenter ton parcours"},{key:'s7_5',pill:'p-hk',label:'Hong Kong',title:"Commerce B2B depuis HK"}],pubs:[{pill:'p-im',label:'Immobilier',title:`Citation — "L'immobilier c'est l'actif qui travaille quand tu dors"`,fmt:"Citation visuelle"},{pill:'p-ie',label:'Import/Export',title:"Maroc vs Chine vs Turquie : le comparatif sourcing",fmt:"Carrousel"}]}
-  ]},
-  {videos:[],days:[
-    {name:"Lundi",shorts:[{key:'s1_1',pill:'p-ie',label:'Import/Export',title:"Protéger ta marque en Chine"},{key:'s1_2',pill:'p-fi',label:'Fiscalité',title:"Les 5 dépenses déductibles oubliées"},{key:'s1_3',pill:'p-ms',label:'Mindset',title:"Le syndrome de l'imposteur"},{key:'s1_4',pill:'p-hk',label:'Hong Kong',title:"Optimisation fiscale légale"},{key:'s1_5',pill:'p-ec',label:'E-commerce',title:"Les publicités UGC"}],pubs:[{pill:'p-ie',label:'Import/Export',title:"Protéger sa marque en Chine — le guide",fmt:"Texte"},{pill:'p-ms',label:'Mindset',title:`Citation — "L'imposteur en toi te protège. Le vrai toi te propulse."`,fmt:"Citation visuelle"}]},
-    {name:"Mardi",shorts:[{key:'s2_1',pill:'p-ie',label:'Import/Export',title:"Les contrats fournisseurs"},{key:'s2_2',pill:'p-hk',label:'Hong Kong',title:"Luminos — s'installer à HK"},{key:'s2_3',pill:'p-ec',label:'E-commerce',title:"Scaler son e-commerce"},{key:'s2_4',pill:'p-fi',label:'Fiscalité',title:"L'exit fiscale"},{key:'s2_5',pill:'p-ms',label:'Mindset',title:"Ce que j'ai appris de mes erreurs"}],pubs:[{pill:'p-hk',label:'Hong Kong',title:"Pourquoi des entrepreneurs choisissent HK",fmt:"Carrousel"},{pill:'p-ms',label:'Mindset',title:`Citation — "Tes erreurs sont ton MBA le plus utile"`,fmt:"Citation visuelle"}]},
-    {name:"Mercredi",shorts:[{key:'s3_1',pill:'p-ie',label:'Import/Export',title:"Suivi qualité après livraison"},{key:'s3_2',pill:'p-ex',label:'Expatriation',title:"Chypre — résidence fiscale européenne"},{key:'s3_3',pill:'p-fi',label:'Fiscalité',title:"Construire son patrimoine"},{key:'s3_4',pill:'p-ms',label:'Mindset',title:"S'entourer de mentors"},{key:'s3_5',pill:'p-ec',label:'E-commerce',title:"SAV — en faire un avantage compétitif"}],pubs:[{pill:'p-fi',label:'Fiscalité',title:"Construire son patrimoine entrepreneur",fmt:"Texte"},{pill:'p-ex',label:'Expatriation',title:`Citation — "Optimiser sa fiscalité c'est respecter la loi à 100%"`,fmt:"Citation visuelle"}]},
-    {name:"Jeudi",shorts:[{key:'s4_1',pill:'p-ie',label:'Import/Export',title:"Automatiser ses commandes import"},{key:'s4_2',pill:'p-ms',label:'Mindset',title:"Rester motivé quand les résultats tardent"},{key:'s4_3',pill:'p-hk',label:'Hong Kong',title:"Taxes sur les salaires à HK"},{key:'s4_4',pill:'p-fi',label:'Fiscalité',title:"IS ou IR — quand choisir l'IR"},{key:'s4_5',pill:'p-ec',label:'E-commerce',title:"Fidéliser ses clients — LTV"}],pubs:[{pill:'p-ec',label:'E-commerce',title:"5 stratégies de fidélisation client",fmt:"Carrousel"},{pill:'p-ms',label:'Mindset',title:`Citation — "Construire prend du temps. Protège ce que tu construis."`,fmt:"Citation visuelle"}]},
-    {name:"Vendredi",shorts:[{key:'s5_1',pill:'p-ie',label:'Import/Export',title:"Incoterms en transport aérien"},{key:'s5_2',pill:'p-fi',label:'Fiscalité',title:"Intérêts du compte courant d'associé"},{key:'s5_3',pill:'p-ex',label:'Expatriation',title:"Garder sa banque française quand on s'expatrie"},{key:'s5_4',pill:'p-ec',label:'E-commerce',title:"Marketplaces africaines"},{key:'s5_5',pill:'p-ms',label:'Mindset',title:"La règle des 5 ans"}],pubs:[{pill:'p-ie',label:'Import/Export',title:"Aérien vs Maritime — quand choisir quoi",fmt:"Texte"},{pill:'p-ms',label:'Mindset',title:`Citation — "Dans 5 ans tu seras la somme de tes décisions d'aujourd'hui"`,fmt:"Citation visuelle"}]},
-    {name:"Samedi",shorts:[{key:'s6_1',pill:'p-ie',label:'Import/Export',title:"Plateformes transitaires en ligne"},{key:'s6_2',pill:'p-hk',label:'Hong Kong',title:"Opportunités business à HK 2025"},{key:'s6_3',pill:'p-ec',label:'E-commerce',title:"Pinterest pour l'e-commerce"},{key:'s6_4',pill:'p-ms',label:'Mindset',title:"3 questions avant chaque décision"},{key:'s6_5',pill:'p-fi',label:'Fiscalité',title:"Donations et transmission de patrimoine"}],pubs:[{pill:'p-hk',label:'Hong Kong',title:`Citation — "HK c'est pas un plan B. C'est une vision long terme."`,fmt:"Citation visuelle"},{pill:'p-ec',label:'E-commerce',title:"Les canaux de vente les plus rentables en 2025",fmt:"Carrousel"}]},
-    {name:"Dimanche",shorts:[{key:'s7_1',pill:'p-ie',label:'Import/Export',title:"Bilan du mois — tendances import-export"},{key:'s7_2',pill:'p-im',label:'Immobilier',title:"L'immobilier à Bali"},{key:'s7_3',pill:'p-fi',label:'Fiscalité',title:"Récapitulatif fiscal du mois"},{key:'s7_4',pill:'p-ms',label:'Mindset',title:"Terminer le mois fort"},{key:'s7_5',pill:'p-hk',label:'Hong Kong',title:"Récapitulatif SBW — le mois en résumé"}],pubs:[{pill:'p-ms',label:'Mindset',title:"Ce que ce mois m'a appris",fmt:"Texte"},{pill:'p-ie',label:'Import/Export',title:`Citation — "L'import-export c'est accessible à qui veut apprendre"`,fmt:"Citation visuelle"}]}
-  ]}
+Tu choisis ton camp.
+
+📍 StartBusinessWorld.com — lien dans la bio.`},
+
+  {id:'p2',type:'pub',pillar:'Import / Export',title:'Carrousel — Les 4 Incoterms essentiels expliqués simplement',text:`SLIDE 1 — COUVERTURE
+Les 4 Incoterms que tout importateur doit connaître
+Start Business World
+
+SLIDE 2 — EXW
+EXW — Ex Works
+Le vendeur pose la marchandise dans son usine. Tu gères tout le reste.
+⚠️ Maximum de responsabilités pour l'acheteur.
+
+SLIDE 3 — FOB
+FOB — Free On Board
+L'exportateur livre au port et charge sur le bateau. Après : tout est pour toi.
+✅ Le meilleur choix pour débuter.
+
+SLIDE 4 — CIF
+CIF — Cost Insurance Freight
+Le logisticien gère le fret et l'assurance jusqu'au port.
+⚠️ Risque de surfacturation sur le fret.
+
+SLIDE 5 — DDP
+DDP — Delivered Duty Paid
+Le logisticien gère absolument tout jusqu'à ta porte.
+⚠️ Le plus cher. Zéro contrôle.
+
+SLIDE 6 — RÈGLE D'OR
+Négocie toujours en FOB quand tu débutes.
+📍 StartBusinessWorld.com`},
+
+  {id:'p3',type:'pub',pillar:'Fiscalité',title:'Carrousel — SASU vs Micro-entreprise : le comparatif',text:`SLIDE 1 — COUVERTURE
+SASU vs Micro-entreprise
+Le comparatif que personne ne t'a fait
+Start Business World
+
+SLIDE 2 — DÉDUCTION DES CHARGES
+Micro-entreprise ✗ — Zéro déduction possible.
+SASU ✓ — Toutes tes charges sont déductibles.
+
+SLIDE 3 — CHARGES SOCIALES
+Micro-entreprise — Entre 12,3% et 21,2% du CA. Même sans bénéfice.
+SASU — Zéro si tu ne te verses pas de salaire.
+
+SLIDE 4 — PLAFOND DE CA
+Micro-entreprise — 188 000€ pour la vente de produits.
+SASU — Pas de plafond.
+
+SLIDE 5 — CONCLUSION
+Micro-entreprise ✓ Pour tester rapidement.
+SASU ✓ Pour construire un vrai business.
+📍 StartBusinessWorld.com`}
 ];
 
 // ══════════════════════════════════════════════
-// RENDER PLANNING
+// DATA MANAGEMENT
 // ══════════════════════════════════════════════
-function initApp(){
-  updateMonthLabel();
-  renderWeek(0);
+function getAllScripts(){
+  const custom = JSON.parse(localStorage.getItem('sbw_scripts')||'[]');
+  return [...BASE_SCRIPTS, ...custom];
 }
 
-function updateMonthLabel(){
-  document.getElementById('month-label').textContent=MONTHS_FR[currentMonth]+' '+currentYear;
+function getCustomScripts(){
+  return JSON.parse(localStorage.getItem('sbw_scripts')||'[]');
 }
-function changeMonth(d){
-  currentMonth+=d;
-  if(currentMonth<0){currentMonth=11;currentYear--;}
-  if(currentMonth>11){currentMonth=0;currentYear++;}
-  updateMonthLabel();
+
+function saveCustomScript(s){
+  const custom = getCustomScripts();
+  const idx = custom.findIndex(c=>c.id===s.id);
+  if(idx>=0) custom[idx]=s; else custom.push(s);
+  localStorage.setItem('sbw_scripts', JSON.stringify(custom));
 }
-function showWeek(idx){
-  currentWeek=idx;
-  document.querySelectorAll('.wtab').forEach((t,i)=>t.classList.toggle('active',i===idx));
-  renderWeek(idx);
+
+function deleteCustomScript(id){
+  const custom = getCustomScripts().filter(c=>c.id!==id);
+  localStorage.setItem('sbw_scripts', JSON.stringify(custom));
 }
-function renderWeek(idx){
-  const w=WEEK_DATA[idx]||WEEK_DATA[0];
-  const SCRIPTS=getScripts();
-  let html='';
-  if(w.videos&&w.videos.length){
-    w.videos.forEach(v=>{
-      html+=`<div class="vbanner" onclick="openScript('${v.key}')">
-        <div class="vb-left"><div class="vb-icon">🎥</div>
-        <div><div class="vb-type">Vidéo Longue</div><div class="vb-title">${v.title}</div></div></div>
-        <div class="vb-right"><div class="vb-dur">${v.dur}</div><button class="open-btn">Ouvrir</button></div>
-      </div>`;
-    });
-  }
-  w.days.forEach(day=>{
-    html+=`<div class="day-block"><div class="day-hdr">
-      <div class="day-name">${day.name}</div>
-      <div class="day-count">${day.shorts.length} shorts · ${day.pubs.length} pubs</div>
-    </div><div class="shorts-grid">`;
-    day.shorts.forEach(s=>{
-      const sc=SCRIPTS[s.key];
-      const t=sc?sc.title:s.title;
-      html+=`<div class="ccard short" onclick="openScript('${s.key}')">
-        <div class="cc-type s">Short</div>
-        <div class="pill ${s.pill}">${s.label}</div>
-        <div class="cc-title">${t}</div>
-      </div>`;
-    });
-    html+=`</div><div class="pubs-grid">`;
-    day.pubs.forEach((p,i)=>{
-      html+=`<div class="ccard pub" onclick="openPubVisual(${JSON.stringify(p).replace(/"/g,'&quot;')})">
-        <div class="cc-type p">Publication</div>
-        <div class="pill ${p.pill}">${p.label}</div>
-        <div class="cc-title">${p.title}</div>
-        <div class="cc-fmt">${p.fmt}</div>
-      </div>`;
-    });
-    html+=`</div></div>`;
+
+function isCustom(id){
+  return getCustomScripts().some(c=>c.id===id);
+}
+
+// ══════════════════════════════════════════════
+// PILLAR COLORS
+// ══════════════════════════════════════════════
+const PILLAR_PILL = {
+  'Import / Export':'p-ie','Fiscalité':'p-fi','Hong Kong':'p-hk',
+  'E-commerce':'p-ec','Mindset':'p-ms','Expatriation':'p-ex','Immobilier':'p-im'
+};
+
+const TYPE_BADGE = {
+  short:{cls:'badge-short',label:'Short'},
+  video:{cls:'badge-video',label:'Vidéo longue'},
+  pub:{cls:'badge-pub',label:'Publication'}
+};
+
+// ══════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════
+let currentFilter = 'all';
+
+function setFilter(f){
+  currentFilter = f;
+  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+  renderList();
+}
+
+function renderList(){
+  const all = getAllScripts();
+  const filtered = all.filter(s=>{
+    if(currentFilter==='all') return true;
+    if(currentFilter==='short'||currentFilter==='video'||currentFilter==='pub') return s.type===currentFilter;
+    return s.pillar===currentFilter;
   });
-  document.getElementById('week-content').innerHTML=html;
-  document.getElementById('week-content').scrollTop=0;
+
+  const container = document.getElementById('script-list');
+
+  if(!filtered.length){
+    container.innerHTML=`<div class="empty-state">
+      <div class="big">📝</div>
+      <div class="title">Aucun script ici</div>
+      <div class="sub">Clique sur "+ Nouveau script" pour en créer un.</div>
+    </div>`;
+    return;
+  }
+
+  container.innerHTML = filtered.map(s=>{
+    const b = TYPE_BADGE[s.type]||TYPE_BADGE.short;
+    const p = PILLAR_PILL[s.pillar]||'p-ms';
+    return `<div class="script-card type-${s.type}" onclick="openDrawer('${s.id}')">
+      <div class="card-top">
+        <span class="card-badge ${b.cls}">${b.label}</span>
+        <span class="pill ${p}">${s.pillar}</span>
+        <span class="card-title">${s.title}</span>
+        <span class="card-arrow">›</span>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 // ══════════════════════════════════════════════
-// SCRIPT OVERLAY
+// DRAWER
 // ══════════════════════════════════════════════
-let currentScriptKey=null;
-let editMode=false;
+let currentId = null;
+let editMode = false;
 
-function openScript(key){
-  const SCRIPTS=getScripts();
-  const s=SCRIPTS[key];
-  if(!s)return;
-  currentScriptKey=key;
-  editMode=false;
-  document.getElementById('ph-meta').textContent=s.meta||'';
-  document.getElementById('ph-title').textContent=s.title||'';
-  document.getElementById('script-render').textContent=s.text||'';
-  document.getElementById('script-render').style.display='block';
-  document.getElementById('script-edit-area').style.display='none';
-  document.getElementById('edit-actions').style.display='none';
-  document.getElementById('btn-cp').textContent='Copier';
-  document.getElementById('btn-cp').classList.remove('ok');
-  document.getElementById('script-overlay').classList.add('on');
-  document.getElementById('popup-body').scrollTop=0;
+function openDrawer(id){
+  const all = getAllScripts();
+  const s = all.find(x=>x.id===id);
+  if(!s) return;
+  currentId = id;
+  editMode = false;
+  const b = TYPE_BADGE[s.type]||TYPE_BADGE.short;
+  document.getElementById('d-meta').textContent = b.label + ' · ' + s.pillar;
+  document.getElementById('d-title').textContent = s.title;
+  document.getElementById('view-text').textContent = s.text||'';
+  document.getElementById('view-text').style.display = 'block';
+  document.getElementById('edit-area').style.display = 'none';
+  document.getElementById('edit-footer').style.display = 'none';
+  document.getElementById('dact-copy').textContent = 'Copier';
+  document.getElementById('dact-copy').classList.remove('ok');
+  // Show delete only for custom scripts
+  document.querySelector('.dact-del').style.display = isCustom(id) ? '' : 'none';
+  document.getElementById('drawer-overlay').classList.add('on');
+  document.querySelector('.drawer-body').scrollTop = 0;
 }
 
-function closeScriptOverlay(){document.getElementById('script-overlay').classList.remove('on');}
-function closeScriptOverlayBg(e){if(e.target===document.getElementById('script-overlay'))closeScriptOverlay();}
+function closeDrawer(){ document.getElementById('drawer-overlay').classList.remove('on'); }
+function closeDrawerBg(e){ if(e.target===document.getElementById('drawer-overlay')) closeDrawer(); }
 
 function toggleEdit(){
-  const SCRIPTS=getScripts();
-  const s=SCRIPTS[currentScriptKey];
-  if(!s)return;
-  editMode=!editMode;
+  const all = getAllScripts();
+  const s = all.find(x=>x.id===currentId);
+  if(!s) return;
+  editMode = !editMode;
   if(editMode){
-    document.getElementById('script-render').style.display='none';
-    document.getElementById('script-edit-area').value=s.text||'';
-    document.getElementById('script-edit-area').style.display='block';
-    document.getElementById('edit-actions').style.display='flex';
-    document.getElementById('script-edit-area').focus();
+    document.getElementById('view-text').style.display='none';
+    document.getElementById('edit-area').value = s.text||'';
+    document.getElementById('edit-area').style.display='block';
+    document.getElementById('edit-footer').style.display='flex';
+    document.getElementById('edit-area').focus();
   } else {
     cancelEdit();
   }
 }
 
 function saveEdit(){
-  const SCRIPTS=getScripts();
-  const s=SCRIPTS[currentScriptKey];
-  if(!s)return;
-  const newText=document.getElementById('script-edit-area').value;
-  saveScript(currentScriptKey,{...s,text:newText});
-  document.getElementById('script-render').textContent=newText;
-  editMode=false;
-  document.getElementById('script-render').style.display='block';
-  document.getElementById('script-edit-area').style.display='none';
-  document.getElementById('edit-actions').style.display='none';
+  const all = getAllScripts();
+  const s = all.find(x=>x.id===currentId);
+  if(!s) return;
+  const newText = document.getElementById('edit-area').value;
+  const updated = {...s, text:newText};
+  saveCustomScript(updated);
+  document.getElementById('view-text').textContent = newText;
+  editMode = false;
+  document.getElementById('view-text').style.display='block';
+  document.getElementById('edit-area').style.display='none';
+  document.getElementById('edit-footer').style.display='none';
   showToast('Script sauvegardé ✓');
-  renderWeek(currentWeek);
 }
 
 function cancelEdit(){
-  editMode=false;
-  document.getElementById('script-render').style.display='block';
-  document.getElementById('script-edit-area').style.display='none';
-  document.getElementById('edit-actions').style.display='none';
+  editMode = false;
+  document.getElementById('view-text').style.display='block';
+  document.getElementById('edit-area').style.display='none';
+  document.getElementById('edit-footer').style.display='none';
 }
 
-function copyScript(){
-  const SCRIPTS=getScripts();
-  const s=SCRIPTS[currentScriptKey];
-  if(!s)return;
+function copyDrawer(){
+  const all = getAllScripts();
+  const s = all.find(x=>x.id===currentId);
+  if(!s) return;
   navigator.clipboard.writeText(s.text||'').then(()=>{
-    const b=document.getElementById('btn-cp');
-    b.textContent='✓ Copié !';b.classList.add('ok');
-    setTimeout(()=>{b.textContent='Copier';b.classList.remove('ok');},2000);
+    const b = document.getElementById('dact-copy');
+    b.textContent='✓ Copié'; b.classList.add('ok');
+    setTimeout(()=>{ b.textContent='Copier'; b.classList.remove('ok'); }, 2000);
   });
 }
 
-// ══════════════════════════════════════════════
-// PUBLICATION VISUAL
-// ══════════════════════════════════════════════
-function openPubVisual(p){
-  document.getElementById('pub-modal-title').textContent=p.title;
-  const container=document.getElementById('pub-visual-container');
-
-  if(p.fmt==='Citation visuelle'||p.fmt==='Citation'){
-    const quote=p.title.replace(/^Citation — /,'').replace(/^"|"$/g,'');
-    container.innerHTML=renderCitationCard(quote,'Start Business World','');
-  } else if(p.fmt==='Carrousel'){
-    container.innerHTML=renderCarrouselCard(p.title,[
-      {num:'01',title:'Introduction',content:'Retrouve le détail complet dans la vidéo et sur StartBusinessWorld.com'},
-      {num:'02',title:'Point clé',content:'Ce contenu est généré depuis ton planning SBW Studio'},
-      {num:'03',title:'À retenir',content:'📍 StartBusinessWorld.com — lien dans la bio'}
-    ]);
-  } else {
-    container.innerHTML=renderTexteCard(p.title,'Ce contenu texte est à compléter selon ton script.\n\nRetrouve tout le contenu sur StartBusinessWorld.com\n📍 Lien dans la bio.');
-  }
-
-  document.getElementById('pub-visual-modal').classList.add('on');
-}
-
-function closePubModal(e){
-  if(e.target===document.getElementById('pub-visual-modal')) document.getElementById('pub-visual-modal').classList.remove('on');
-}
-
-function renderCitationCard(quote,attr,context){
-  return `<div class="visual-card vc-citation">
-    <div class="vc-brand">Start Business World</div>
-    <div class="vc-quote-mark">"</div>
-    <div class="vc-quote">${quote}</div>
-    <div class="vc-divider"></div>
-    <div class="vc-attr">— ${attr}</div>
-    ${context?`<div class="vc-context" style="margin-top:10px">${context}</div>`:''}
-    <div class="vc-logo-corner">SBW</div>
-  </div>`;
-}
-
-let currentSlide=0;
-let totalSlides=0;
-function renderCarrouselCard(title,slides){
-  totalSlides=slides.length;
-  currentSlide=0;
-  const slidesHTML=slides.map((s,i)=>`
-    <div class="vc-slide">
-      <div class="vc-slide-num">${s.num||String(i+1).padStart(2,'0')}</div>
-      <div class="vc-slide-title">${s.title}</div>
-      <div class="vc-slide-content">${s.content}</div>
-      <div class="vc-slide-dot">${slides.map((_,j)=>`<div class="vc-dot ${j===i?'active':''}"></div>`).join('')}</div>
-    </div>
-  `).join('');
-  return `<div class="visual-card vc-carrousel">
-    <div class="vc-slides" id="vc-slides-wrap">${slidesHTML}</div>
-  </div>
-  <div class="vc-nav">
-    <button class="vc-nav-btn" onclick="prevSlide()">‹</button>
-    <span style="font-size:11px;color:var(--grey);align-self:center">${slides.length} slides</span>
-    <button class="vc-nav-btn" onclick="nextSlide()">›</button>
-  </div>`;
-}
-
-function prevSlide(){
-  if(currentSlide>0){currentSlide--;updateSlidePos();}
-}
-function nextSlide(){
-  if(currentSlide<totalSlides-1){currentSlide++;updateSlidePos();}
-}
-function updateSlidePos(){
-  const el=document.getElementById('vc-slides-wrap');
-  if(el) el.style.transform=`translateX(-${currentSlide*100}%)`;
-}
-
-function renderTexteCard(heading,body){
-  return `<div class="visual-card vc-texte">
-    <div class="vc-brand">Start Business World</div>
-    <div class="vc-heading">${heading.replace(/^Texte — /,'')}</div>
-    <div class="vc-body">${body.replace(/\n/g,'<br>')}</div>
-    <div class="vc-cta">📍 StartBusinessWorld.com</div>
-    <div class="vc-logo-corner">SBW</div>
-  </div>`;
+function deleteScript(){
+  if(!confirm('Supprimer ce script définitivement ?')) return;
+  deleteCustomScript(currentId);
+  closeDrawer();
+  renderList();
+  showToast('Script supprimé');
 }
 
 // ══════════════════════════════════════════════
-// AI GENERATION
+// NEW SCRIPT
 // ══════════════════════════════════════════════
-let selectedPillar='Import / Export';
-let generatedContent={};
-
-function openAI(){
-  document.getElementById('ai-panel').classList.add('on');
-  document.getElementById('ai-form').style.display='block';
-  document.getElementById('ai-loading').classList.remove('on');
-  document.getElementById('ai-results').style.display='none';
+function openNew(){
+  document.getElementById('new-title-input').value='';
+  document.getElementById('new-text-input').value='';
+  document.getElementById('new-overlay').classList.add('on');
 }
-function closeAI(){ document.getElementById('ai-panel').classList.remove('on'); }
+function closeNew(){ document.getElementById('new-overlay').classList.remove('on'); }
+function closeNewBg(e){ if(e.target===document.getElementById('new-overlay')) closeNew(); }
 
-function selectPillar(btn,pillar){
-  document.querySelectorAll('.pillar-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  selectedPillar=pillar;
-}
-
-function resetAI(){
-  document.getElementById('ai-form').style.display='block';
-  document.getElementById('ai-results').style.display='none';
-  document.getElementById('ai-loading').classList.remove('on');
-  generatedContent={};
-}
-
-async function generateContent(){
-  const apiKey=localStorage.getItem('sbw_api_key');
-  if(!apiKey){
-    openSettings();
-    showToast('⚠️ Entre ta clé API Anthropic dans les paramètres');
-    return;
-  }
-
-  const subject=document.getElementById('ai-subject').value.trim();
-  if(!subject){ showToast('Donne un sujet pour la génération'); return; }
-  const context=document.getElementById('ai-context').value.trim();
-
-  document.getElementById('ai-form').style.display='none';
-  document.getElementById('ai-loading').classList.add('on');
-  document.getElementById('ai-generate-btn').disabled=true;
-
-  const loadingMsgs=['Analyse du sujet...','Rédaction du short...','Rédaction de la vidéo longue...','Création des publications visuelles...','Finalisation...'];
-  let mi=0;
-  const loadInt=setInterval(()=>{ document.getElementById('ai-loading-text').textContent=loadingMsgs[mi%loadingMsgs.length]; mi++; },1800);
-
-  const prompt=`Tu es le créateur de contenu de Start Business World (SBW), une plateforme d'entrepreneuriat francophone.
-
-Sujet : ${subject}
-Pilier : ${selectedPillar}
-${context?`Précisions : ${context}`:''}
-
-Génère du contenu pour les réseaux sociaux en français. Style direct, familier, sans jargon inutile.
-CTA systématique : "Tout le contenu gratuit est sur StartBusinessWorld.com — lien dans la description."
-
-Retourne UNIQUEMENT un objet JSON valide (sans markdown, sans backticks) avec exactement cette structure :
-{
-  "shortTitle": "titre accrocheur du short (max 10 mots)",
-  "short": "script complet du short YouTube 60 secondes, bien aéré avec sauts de ligne",
-  "videoTitle": "titre de la vidéo longue YouTube optimisé SEO",
-  "video": "script complet vidéo longue ~10 min avec sections ACCROCHE / CTA / PARTIE 1 / PARTIE 2 / PARTIE 3 / CONCLUSION, bien aéré",
-  "pub1": {
-    "type": "citation",
-    "quote": "citation percutante et mémorable de max 20 mots",
-    "context": "2-3 lignes de contexte ou d'explication sous la citation"
-  },
-  "pub2": {
-    "type": "carrousel",
-    "title": "titre du carrousel",
-    "slides": [
-      {"num": "01", "title": "titre slide 1", "content": "contenu slide 1 (2-3 lignes max)"},
-      {"num": "02", "title": "titre slide 2", "content": "contenu slide 2"},
-      {"num": "03", "title": "titre slide 3", "content": "contenu slide 3"},
-      {"num": "04", "title": "titre slide 4", "content": "contenu slide 4"},
-      {"num": "05", "title": "Règle d'or / À retenir", "content": "conclusion + 📍 StartBusinessWorld.com"}
-    ]
-  }
-}`;
-
-  try {
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:4000,
-        messages:[{role:'user',content:prompt}]
-      })
-    });
-
-    clearInterval(loadInt);
-
-    if(!resp.ok){
-      const err=await resp.json();
-      throw new Error(err.error?.message||'Erreur API');
-    }
-
-    const data=await resp.json();
-    const raw=data.content[0].text.trim().replace(/^```json\n?/,'').replace(/\n?```$/,'');
-    const parsed=JSON.parse(raw);
-    generatedContent=parsed;
-
-    // Display results
-    document.getElementById('ai-loading').classList.remove('on');
-    document.getElementById('ai-results').style.display='block';
-
-    document.getElementById('res-short-title').textContent=parsed.shortTitle||'Short généré';
-    document.getElementById('res-short-text').textContent=parsed.short||'';
-
-    document.getElementById('res-video-title').textContent=parsed.videoTitle||'Vidéo générée';
-    document.getElementById('res-video-text').textContent=parsed.video||'';
-
-    document.getElementById('res-pub1-title').textContent=parsed.pub1?.quote?.substring(0,50)+'...'||'Citation';
-    document.getElementById('res-pub1-text').textContent=`"${parsed.pub1?.quote}"\n\n${parsed.pub1?.context}`;
-
-    document.getElementById('res-pub2-title').textContent=parsed.pub2?.title||'Carrousel';
-    document.getElementById('res-pub2-text').textContent=parsed.pub2?.slides?.map(s=>`${s.num} — ${s.title}\n${s.content}`).join('\n\n')||'';
-
-  } catch(e){
-    clearInterval(loadInt);
-    document.getElementById('ai-loading').classList.remove('on');
-    document.getElementById('ai-form').style.display='block';
-    showToast('Erreur : '+e.message);
-    console.error(e);
-  }
-  document.getElementById('ai-generate-btn').disabled=false;
+function createScript(){
+  const title = document.getElementById('new-title-input').value.trim();
+  if(!title){ showToast('⚠️ Donne un titre au script'); return; }
+  const s = {
+    id: 'custom_' + Date.now(),
+    type: document.getElementById('new-type').value,
+    pillar: document.getElementById('new-pillar').value,
+    title: title,
+    text: document.getElementById('new-text-input').value.trim()
+  };
+  saveCustomScript(s);
+  closeNew();
+  renderList();
+  showToast('Script créé ✓');
+  // Open it directly
+  setTimeout(()=>openDrawer(s.id), 200);
 }
 
-function toggleResult(id){
-  const el=document.getElementById(id);
-  el.classList.toggle('open');
+// ══════════════════════════════════════════════
+// SETTINGS
+// ══════════════════════════════════════════════
+function openSettings(){
+  document.getElementById('api-key-input').value = localStorage.getItem('sbw_api_key')||'';
+  document.getElementById('settings-overlay').classList.add('on');
+}
+function closeSettings(){ document.getElementById('settings-overlay').classList.remove('on'); }
+function closeSettingsBg(e){ if(e.target===document.getElementById('settings-overlay')) closeSettings(); }
+function saveSettings(){
+  const k = document.getElementById('api-key-input').value.trim();
+  if(k) localStorage.setItem('sbw_api_key', k);
+  closeSettings();
+  showToast('Paramètres sauvegardés ✓');
 }
 
-function copyResult(type){
-  let text='';
-  if(type==='short') text=generatedContent.short||'';
-  if(type==='video') text=generatedContent.video||'';
-  navigator.clipboard.writeText(text).then(()=>showToast('Copié ✓'));
+// ══════════════════════════════════════════════
+// DOWNLOAD APP
+// ══════════════════════════════════════════════
+function downloadApp(){
+  const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  const blob = new Blob([html], {type:'text/html;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'index.html';
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('✓ Téléchargé — dépose-le sur GitHub');
 }
 
-function openTPText(type){
-  let text='',title='';
-  if(type==='short'){text=generatedContent.short||'';title=generatedContent.shortTitle||'Short';}
-  if(type==='video'){text=generatedContent.video||'';title=generatedContent.videoTitle||'Vidéo';}
-  closeAI();
-  openTPDirect(title,text);
-}
-
-function showVisual(pub){
-  const p=generatedContent[pub];
-  if(!p)return;
-  document.getElementById('pub-visual-modal').classList.add('on');
-  const container=document.getElementById('pub-visual-container');
-  if(pub==='pub1'){
-    document.getElementById('pub-modal-title').textContent='Citation visuelle';
-    container.innerHTML=renderCitationCard(p.quote,'Start Business World',p.context||'');
-  } else {
-    document.getElementById('pub-modal-title').textContent=p.title||'Carrousel';
-    container.innerHTML=renderCarrouselCard(p.title,p.slides||[]);
-  }
+// ══════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════
+function showToast(msg){
+  const t = document.createElement('div');
+  t.className = 'toast'; t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(), 2500);
 }
 
 // ══════════════════════════════════════════════
 // TELEPROMPTER
 // ══════════════════════════════════════════════
-let tpWords=[];
-let tpCurrentIdx=0;
-let tpFontSize=36;
-let tpAutoPlaying=false;
-let tpAnimFrame=null;
-let tpScrollSpeed=0.8;
-let tpSpeed=3;
-let tpVoiceActive=false;
-let recognition=null;
+let tpLines = [];
+let tpIdx = 0;
+let tpFontSize = 32;
+let tpAutoOn = false;
+let tpAnimFrame = null;
+let tpScrollSpeed = 0.8;
+let tpSpeed = 3;
+let tpVoiceOn = false;
+let recognition = null;
 
-function openTP(){
-  const SCRIPTS=getScripts();
-  const s=SCRIPTS[currentScriptKey];
-  if(!s)return;
-  openTPDirect(s.title||'',s.text||'');
+function openTPFromDrawer(){
+  const all = getAllScripts();
+  const s = all.find(x=>x.id===currentId);
+  if(!s) return;
+  openTP(s.title, s.text||'');
 }
 
-function openTPDirect(title,text){
-  document.getElementById('tp-lesson-name').textContent=title;
-  buildWordDisplay(text);
-  document.getElementById('tp-words').style.fontSize=tpFontSize+'px';
+function openTP(title, text){
+  document.getElementById('tp-name').textContent = title;
+  buildLines(text);
+  document.getElementById('tp-lines').style.fontSize = tpFontSize + 'px';
   document.getElementById('teleprompter').classList.add('on');
-  document.getElementById('tp-scroll').scrollTop=0;
-  tpCurrentIdx=0;
-  tpAutoPlaying=false;
-  tpVoiceActive=false;
-  updateScrollBtn();
-  updateVoiceBtn();
-  document.getElementById('tp-voice-status').classList.remove('on');
+  document.getElementById('tp-scroll').scrollTop = 0;
+  tpIdx = 0; tpAutoOn = false; tpVoiceOn = false;
+  updateAutoBtn(); updateVoiceBtn();
+  document.getElementById('tp-voice-ind').classList.remove('on');
 }
 
-function buildWordDisplay(text){
-  const container=document.getElementById('tp-words');
-  container.innerHTML='';
-  tpWords=[];
-  text.split('\n').forEach(function(line){
-    const div=document.createElement('div');
-    const trimmed=line.trim();
-    if(!trimmed){
-      div.className='tp-line empty';
-      div.textContent=' ';
+function buildLines(text){
+  const container = document.getElementById('tp-lines');
+  container.innerHTML = '';
+  tpLines = [];
+  text.split('\n').forEach(line=>{
+    const div = document.createElement('div');
+    const t = line.trim();
+    if(!t){
+      div.className = 'tp-line empty';
+      div.textContent = ' ';
       container.appendChild(div);
-      tpWords.push({el:div,words:[],text:''});
+      tpLines.push({el:div, words:[], text:''});
       return;
     }
-    div.className='tp-line upcoming';
-    div.textContent=trimmed;
+    div.className = 'tp-line upcoming';
+    div.textContent = t;
     container.appendChild(div);
-    var words=trimmed.toLowerCase().split(/\s+/).filter(function(w){return w.length>1;});
-    tpWords.push({el:div,words:words,text:trimmed});
+    const words = t.toLowerCase().replace(/[^a-z0-9\u00e0-\u00ff\s]/g,'').split(/\s+/).filter(w=>w.length>1);
+    tpLines.push({el:div, words, text:t});
   });
-  tpWords.forEach(function(w,i){
-    if(!w.el.classList.contains('empty'))
-      w.el.onclick=function(){jumpToLine(i);};
+  tpLines.forEach((l,i)=>{
+    if(!l.el.classList.contains('empty'))
+      l.el.onclick = ()=>jumpTo(i);
   });
   highlightLine(0);
 }
 
 function highlightLine(idx){
-  tpCurrentIdx=idx;
-  tpWords.forEach(function(w,i){
-    w.el.classList.remove('spoken','current','upcoming');
-    if(i<idx) w.el.classList.add('spoken');
-    else if(i===idx) w.el.classList.add('current');
-    else w.el.classList.add('upcoming');
+  tpIdx = idx;
+  tpLines.forEach((l,i)=>{
+    l.el.classList.remove('spoken','current','upcoming');
+    if(i<idx) l.el.classList.add('spoken');
+    else if(i===idx) l.el.classList.add('current');
+    else l.el.classList.add('upcoming');
   });
 }
 
-function highlightWord(idx){ highlightLine(idx); }
-
-function scrollToCurrentLine(){
-  if(!tpWords[tpCurrentIdx])return;
-  var el=tpWords[tpCurrentIdx].el;
-  var scroll=document.getElementById('tp-scroll');
-  scroll.scrollTo({top:Math.max(0,el.offsetTop-(window.innerHeight*0.28)),behavior:'smooth'});
+function scrollToLine(){
+  if(!tpLines[tpIdx]) return;
+  const el = tpLines[tpIdx].el;
+  const scroll = document.getElementById('tp-scroll');
+  scroll.scrollTo({top:Math.max(0, el.offsetTop-(window.innerHeight*.28)), behavior:'smooth'});
 }
 
-function scrollToCurrentWord(){ scrollToCurrentLine(); }
-
-function updateHighlightByPosition(){
-  var guideY=window.innerHeight*0.30;
-  var best=tpCurrentIdx;
-  var bestDist=Infinity;
-  tpWords.forEach(function(w,i){
-    var rect=w.el.getBoundingClientRect();
-    if(!rect.height)return;
-    var mid=rect.top+rect.height/2;
-    var dist=Math.abs(mid-guideY);
-    if(dist<bestDist){bestDist=dist;best=i;}
+function updateByPos(){
+  const guideY = window.innerHeight * .30;
+  let best = tpIdx, bestDist = Infinity;
+  tpLines.forEach((l,i)=>{
+    const r = l.el.getBoundingClientRect();
+    if(!r.height) return;
+    const d = Math.abs(r.top + r.height/2 - guideY);
+    if(d<bestDist){ bestDist=d; best=i; }
   });
-  if(best!==tpCurrentIdx) highlightLine(best);
+  if(best!==tpIdx) highlightLine(best);
 }
 
-function jumpToLine(idx){
-  stopAutoScroll(); stopVoice();
-  highlightLine(idx);
-  scrollToCurrentLine();
+function jumpTo(idx){
+  stopAuto(); stopVoice();
+  highlightLine(idx); scrollToLine();
 }
 
-function jumpToWord(idx){ jumpToLine(idx); }
+function toggleAuto(){
+  if(tpAutoOn) stopAuto(); else startAuto();
+  updateAutoBtn();
+}
 
-function toggleAutoScroll(){ if(tpAutoPlaying)stopAutoScroll(); else startAutoScroll(); updateScrollBtn(); }
-
-function startAutoScroll(){
-  stopAutoScroll();
-  tpAutoPlaying=true;
-  const scroll=document.getElementById('tp-scroll');
+function startAuto(){
+  stopAuto(); tpAutoOn = true;
+  const scroll = document.getElementById('tp-scroll');
   function step(){
-    scroll.scrollTop+=tpScrollSpeed;
-    updateHighlightByPosition();
-    if(scroll.scrollTop<scroll.scrollHeight-scroll.clientHeight-2){
-      tpAnimFrame=requestAnimationFrame(step);
+    scroll.scrollTop += tpScrollSpeed;
+    updateByPos();
+    if(scroll.scrollTop < scroll.scrollHeight - scroll.clientHeight - 2){
+      tpAnimFrame = requestAnimationFrame(step);
     } else {
-      tpAutoPlaying=false;
-      updateScrollBtn();
+      tpAutoOn = false; updateAutoBtn();
     }
   }
-  tpAnimFrame=requestAnimationFrame(step);
+  tpAnimFrame = requestAnimationFrame(step);
 }
 
-function stopAutoScroll(){
-  if(tpAnimFrame){cancelAnimationFrame(tpAnimFrame);tpAnimFrame=null;}
-  tpAutoPlaying=false;
+function stopAuto(){
+  if(tpAnimFrame){ cancelAnimationFrame(tpAnimFrame); tpAnimFrame=null; }
+  tpAutoOn = false;
 }
 
-function updateScrollBtn(){
-  const b=document.getElementById('tp-scroll-btn');
-  b.textContent=tpAutoPlaying?'⏸ Pause':'▶ Auto';
-  b.classList.toggle('playing',tpAutoPlaying);
+function updateAutoBtn(){
+  const b = document.getElementById('tp-auto-btn');
+  b.textContent = tpAutoOn ? '⏸ Pause' : '▶ Auto';
+  b.classList.toggle('playing', tpAutoOn);
 }
 
 function updateSpeed(){
-  tpSpeed=parseInt(document.getElementById('tp-speed').value);
-  document.getElementById('tp-speed-val').textContent=tpSpeed;
-  // 1→0.3 px/frame  10→4 px/frame
-  tpScrollSpeed=0.3+(tpSpeed-1)*(4-0.3)/9;
-  if(tpAutoPlaying){stopAutoScroll();startAutoScroll();}
+  tpSpeed = parseInt(document.getElementById('tp-speed').value);
+  document.getElementById('tp-speed-val').textContent = tpSpeed;
+  tpScrollSpeed = 0.3 + (tpSpeed-1) * (4-0.3)/9;
+  if(tpAutoOn){ stopAuto(); startAuto(); }
 }
 
-function toggleVoice(){ if(tpVoiceActive)stopVoice(); else startVoice(); }
+function toggleVoice(){ if(tpVoiceOn) stopVoice(); else startVoice(); }
+
 function startVoice(){
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){alert('La reconnaissance vocale nécessite Chrome ou Safari.');return;}
-  stopAutoScroll();
-  recognition=new SR();
-  recognition.lang='fr-FR';
-  recognition.continuous=true;
-  recognition.interimResults=true;
-  recognition.maxAlternatives=3;
-  recognition.onstart=()=>{
-    tpVoiceActive=true;
-    updateVoiceBtn();
-    document.getElementById('tp-voice-status').classList.add('on');
+  const SR = window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){ alert('La reconnaissance vocale nécessite Chrome ou Safari.'); return; }
+  stopAuto();
+  recognition = new SR();
+  recognition.lang = 'fr-FR';
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.maxAlternatives = 2;
+  recognition.onstart = ()=>{
+    tpVoiceOn = true; updateVoiceBtn();
+    document.getElementById('tp-voice-ind').classList.add('on');
   };
-  recognition.onresult=function(event){
+  recognition.onresult = function(event){
     for(var i=event.resultIndex;i<event.results.length;i++){
-      var transcript=event.results[i][0].transcript.toLowerCase()
-        .replace(/[^a-z0-9\s]/gi,'').trim();
-      var spoken=transcript.split(/\s+/).filter(function(w){return w.length>2;});
+      var transcript = event.results[i][0].transcript.toLowerCase()
+        .replace(/[^a-z0-9\u00e0-\u00ff\s]/g,'').trim();
+      var spoken = transcript.split(/\s+/).filter(function(w){return w.length>2;});
       if(!spoken.length) continue;
-      var searchEnd=Math.min(tpCurrentIdx+10,tpWords.length);
-      var bestMatch=-1;
-      var bestScore=0;
-      for(var j=tpCurrentIdx;j<searchEnd;j++){
-        var lws=tpWords[j].words||[];
+      var searchEnd = Math.min(tpIdx+10, tpLines.length);
+      var bestMatch = -1, bestScore = 0;
+      for(var j=tpIdx;j<searchEnd;j++){
+        var lws = tpLines[j].words||[];
         if(!lws.length) continue;
-        var score=0;
+        var score = 0;
         for(var s=0;s<spoken.length;s++){
-          var sw=spoken[s];
+          var sw = spoken[s];
           for(var l=0;l<lws.length;l++){
-            var lw=lws[l];
+            var lw = lws[l];
             if(lw===sw||(sw.length>=4&&lw.indexOf(sw.slice(0,4))===0)||(lw.length>=4&&sw.indexOf(lw.slice(0,4))===0)){
               score++;break;
             }
@@ -1442,295 +1112,67 @@ function startVoice(){
         }
         if(score>bestScore){bestScore=score;bestMatch=j;}
       }
-      if(bestMatch>tpCurrentIdx&&bestScore>=1){
-        highlightLine(bestMatch);
-        scrollToCurrentLine();
+      if(bestMatch>tpIdx&&bestScore>=1){
+        highlightLine(bestMatch); scrollToLine();
       }
     }
   };
-  recognition.onerror=(e)=>{ if(e.error!=='no-speech'&&e.error!=='aborted') stopVoice(); };
-  recognition.onend=()=>{ if(tpVoiceActive){try{recognition.start();}catch(e){}} };
-  try{recognition.start();}catch(e){tpVoiceActive=false;updateVoiceBtn();}
+  recognition.onerror = function(e){ if(e.error!=='no-speech'&&e.error!=='aborted') stopVoice(); };
+  recognition.onend = function(){ if(tpVoiceOn){ try{recognition.start();}catch(e){} } };
+  try{ recognition.start(); }catch(e){ tpVoiceOn=false; updateVoiceBtn(); }
 }
+
 function stopVoice(){
-  tpVoiceActive=false;
-  if(recognition){try{recognition.stop();}catch(e){} recognition=null;}
+  tpVoiceOn = false;
+  if(recognition){ try{recognition.stop();}catch(e){} recognition=null; }
   updateVoiceBtn();
-  document.getElementById('tp-voice-status').classList.remove('on');
+  document.getElementById('tp-voice-ind').classList.remove('on');
 }
+
 function updateVoiceBtn(){
-  const b=document.getElementById('tp-voice-btn');
-  b.textContent=tpVoiceActive?'🎤 Arrêter écoute':'🎤 Défilement vocal';
-  b.classList.toggle('listening',tpVoiceActive);
+  const b = document.getElementById('tp-voice-btn');
+  b.textContent = tpVoiceOn ? '🎤 Arrêter' : '🎤 Défilement vocal';
+  b.classList.toggle('on', tpVoiceOn);
 }
+
 function resetTP(){
-  stopAutoScroll();stopVoice();
+  stopAuto(); stopVoice();
   highlightLine(0);
-  document.getElementById('tp-scroll').scrollTop=0;
+  document.getElementById('tp-scroll').scrollTop = 0;
 }
+
 function closeTP(){
-  stopAutoScroll();stopVoice();
+  stopAuto(); stopVoice();
   document.getElementById('teleprompter').classList.remove('on');
 }
+
 function changeSize(d){
-  tpFontSize=Math.max(18,Math.min(72,tpFontSize+d));
-  document.getElementById('tp-words').style.fontSize=tpFontSize+'px';
+  tpFontSize = Math.max(18, Math.min(72, tpFontSize+d));
+  document.getElementById('tp-lines').style.fontSize = tpFontSize + 'px';
 }
 
 // ══════════════════════════════════════════════
 // KEYBOARD
 // ══════════════════════════════════════════════
-document.addEventListener('keydown',e=>{
+document.addEventListener('keydown', e=>{
   if(document.getElementById('teleprompter').classList.contains('on')){
-    if(e.code==='Space'){e.preventDefault();toggleAutoScroll();}
-    if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();if(tpCurrentIdx<tpWords.length-1){highlightLine(tpCurrentIdx+1);scrollToCurrentLine();}}
-    if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();if(tpCurrentIdx>0){highlightLine(tpCurrentIdx-1);scrollToCurrentLine();}}
-    if(e.key==='Escape'){closeTP();}
+    if(e.code==='Space'){e.preventDefault();toggleAuto();}
+    if(e.key==='ArrowDown'||e.key==='ArrowRight'){e.preventDefault();if(tpIdx<tpLines.length-1){highlightLine(tpIdx+1);scrollToLine();}}
+    if(e.key==='ArrowUp'||e.key==='ArrowLeft'){e.preventDefault();if(tpIdx>0){highlightLine(tpIdx-1);scrollToLine();}}
+    if(e.key==='Escape') closeTP();
   } else {
-    if(e.key==='Escape'){closeScriptOverlay();document.getElementById('pub-visual-modal').classList.remove('on');document.getElementById('settings-modal').classList.remove('on');}
+    if(e.key==='Escape'){
+      closeDrawer();
+      closeNew();
+      closeSettings();
+    }
   }
 });
-
-
-
-// ══════════════════════════════════════════════
-// VIEW SWITCHER
-// ══════════════════════════════════════════════
-let currentView = 'planning';
-
-function switchView(view){
-  currentView = view;
-  document.querySelectorAll('.view-tab').forEach((t,i)=>{
-    t.classList.toggle('active', (i===0&&view==='planning')||(i===1&&view==='agenda'));
-  });
-  document.getElementById('planning-view').style.display = view==='planning' ? 'block' : 'none';
-  if(view==='agenda'){
-    document.getElementById('agenda-view').style.display = 'block';
-    renderAgenda();
-  } else {
-    document.getElementById('agenda-view').style.display = 'none';
-  }
-}
-
-// ══════════════════════════════════════════════
-// AGENDA DATA & RENDER
-// ══════════════════════════════════════════════
-const AGENDA_DAYS = [
-  {
-    name:'Lundi', type:'tournage', emoji:'🔴',
-    tip:'<strong>Jour 1 — Vidéos longues + Shorts Import/Export & Fiscalité.</strong> Commence par les vidéos longues quand tu es frais. Enchaîne avec les shorts.',
-    tasks:[
-      {id:'vl-s1',label:'Vidéo Longue',pill:'p-ie',title:'Vidéo longue S1 — Les Incoterms de A à Z',duration:'30 min'},
-      {id:'vl-s2',label:'Vidéo Longue',pill:'p-ie',title:'Vidéo longue S2 — Transport maritime',duration:'30 min'},
-      {id:'sh-ie-1',label:'Short',pill:'p-ie',title:'Short Import/Export du lundi',duration:'5 min'},
-      {id:'sh-fi-1',label:'Short',pill:'p-fi',title:'Short Fiscalité du lundi',duration:'5 min'},
-      {id:'sh-ie-2',label:'Short',pill:'p-ie',title:'Short Import/Export du mardi',duration:'5 min'},
-      {id:'sh-fi-2',label:'Short',pill:'p-fi',title:'Short Fiscalité du mardi',duration:'5 min'},
-    ]
-  },
-  {
-    name:'Mardi', type:'tournage', emoji:'🔴',
-    tip:'<strong>Jour 2 — Shorts Hong Kong & E-commerce.</strong> Ces sujets vont bien ensemble, garde le même setup.',
-    tasks:[
-      {id:'sh-hk-1',label:'Short',pill:'p-hk',title:'Short Hong Kong du lundi',duration:'5 min'},
-      {id:'sh-ec-1',label:'Short',pill:'p-ec',title:'Short E-commerce du lundi',duration:'5 min'},
-      {id:'sh-hk-2',label:'Short',pill:'p-hk',title:'Short Hong Kong du mardi',duration:'5 min'},
-      {id:'sh-ec-2',label:'Short',pill:'p-ec',title:'Short E-commerce du mardi',duration:'5 min'},
-      {id:'sh-hk-3',label:'Short',pill:'p-hk',title:'Short Hong Kong du mercredi',duration:'5 min'},
-      {id:'sh-ec-3',label:'Short',pill:'p-ec',title:'Short E-commerce du mercredi',duration:'5 min'},
-    ]
-  },
-  {
-    name:'Mercredi', type:'tournage', emoji:'🔴',
-    tip:'<strong>Jour 3 — Shorts Mindset, Expatriation & Immobilier.</strong> Contenu plus personnel, prends le temps d'être dans le bon état d'esprit.',
-    tasks:[
-      {id:'sh-ms-1',label:'Short',pill:'p-ms',title:'Short Mindset du lundi',duration:'5 min'},
-      {id:'sh-ms-2',label:'Short',pill:'p-ms',title:'Short Mindset du mardi',duration:'5 min'},
-      {id:'sh-ms-3',label:'Short',pill:'p-ms',title:'Short Mindset du mercredi',duration:'5 min'},
-      {id:'sh-ex-1',label:'Short',pill:'p-ex',title:'Short Expatriation du mercredi',duration:'5 min'},
-      {id:'sh-im-1',label:'Short',pill:'p-im',title:'Short Immobilier du dimanche',duration:'5 min'},
-      {id:'sh-ms-4',label:'Short',pill:'p-ms',title:'Short Mindset du jeudi',duration:'5 min'},
-    ]
-  },
-  {
-    name:'Jeudi', type:'tournage', emoji:'🔴',
-    tip:'<strong>Jour 4 — Rattrapages + Publications visuelles.</strong> Capture toutes les cartes visuelles depuis l'onglet Planning. Tourne ce qui manque.',
-    tasks:[
-      {id:'sh-ie-3',label:'Short',pill:'p-ie',title:'Short Import/Export du mercredi',duration:'5 min'},
-      {id:'sh-fi-3',label:'Short',pill:'p-fi',title:'Short Fiscalité du mercredi',duration:'5 min'},
-      {id:'sh-ie-4',label:'Short',pill:'p-ie',title:'Short Import/Export du jeudi',duration:'5 min'},
-      {id:'sh-hk-4',label:'Short',pill:'p-hk',title:'Short Hong Kong du jeudi',duration:'5 min'},
-      {id:'pub-vis-1',label:'Capture',pill:'p-ms',title:'Capturer toutes les publications visuelles de la semaine',duration:'20 min'},
-      {id:'sh-rattrap',label:'Short',pill:'p-fi',title:'Rattrapage — shorts en retard',duration:'15 min'},
-    ]
-  },
-  {
-    name:'Vendredi', type:'montage', emoji:'🟢',
-    tip:'<strong>Jour 5 — Montage vidéos longues.</strong> Monte les 2 vidéos longues en priorité. Elles prennent plus de temps.',
-    tasks:[
-      {id:'mont-vl1',label:'Montage',pill:'p-ie',title:'Montage vidéo longue 1',duration:'2-3h'},
-      {id:'mont-vl2',label:'Montage',pill:'p-ie',title:'Montage vidéo longue 2',duration:'2-3h'},
-      {id:'thumb-1',label:'Montage',pill:'p-ms',title:'Créer les miniatures YouTube',duration:'45 min'},
-      {id:'desc-1',label:'Montage',pill:'p-ms',title:'Rédiger les descriptions YouTube',duration:'30 min'},
-    ]
-  },
-  {
-    name:'Samedi', type:'montage', emoji:'🟢',
-    tip:'<strong>Jour 6 — Montage shorts.</strong> Monte tous les shorts de la semaine. Objectif : tout terminer avant ce soir.',
-    tasks:[
-      {id:'mont-sh-1',label:'Montage',pill:'p-ie',title:'Montage shorts Import/Export (x4)',duration:'2h'},
-      {id:'mont-sh-2',label:'Montage',pill:'p-hk',title:'Montage shorts Hong Kong (x4)',duration:'1h30'},
-      {id:'mont-sh-3',label:'Montage',pill:'p-ec',title:'Montage shorts E-commerce (x3)',duration:'1h'},
-      {id:'mont-sh-4',label:'Montage',pill:'p-ms',title:'Montage shorts Mindset (x4)',duration:'1h30'},
-      {id:'mont-sh-5',label:'Montage',pill:'p-fi',title:'Montage shorts Fiscalité (x3)',duration:'1h'},
-      {id:'mont-sh-6',label:'Montage',pill:'p-ex',title:'Montage shorts Expatriation + Immobilier (x2)',duration:'45 min'},
-    ]
-  },
-  {
-    name:'Dimanche', type:'planning', emoji:'🔵',
-    tip:'<strong>Jour 7 — Planification.</strong> Prépare ta semaine suivante. Lis les scripts dans le téléprompter pour t'en imprégner avant de tourner lundi.',
-    tasks:[
-      {id:'plan-1',label:'Planning',pill:'p-ms',title:'Vérifier le planning de la semaine suivante',duration:'20 min'},
-      {id:'plan-2',label:'Planning',pill:'p-ms',title:'Lire les scripts de lundi dans le téléprompter',duration:'30 min'},
-      {id:'plan-3',label:'Planning',pill:'p-ms',title:'Préparer le décor et le matériel de tournage',duration:'20 min'},
-      {id:'plan-4',label:'Planning',pill:'p-ms',title:'Publier / programmer le contenu monté',duration:'30 min'},
-    ]
-  }
-];
-
-let agendaWeekOffset = 0;
-
-function getAgendaKey(weekOffset){
-  return 'sbw_agenda_' + weekOffset;
-}
-
-function getAgendaChecks(weekOffset){
-  return JSON.parse(localStorage.getItem(getAgendaKey(weekOffset)) || '{}');
-}
-
-function saveAgendaCheck(weekOffset, taskId, checked){
-  const checks = getAgendaChecks(weekOffset);
-  checks[taskId] = checked;
-  localStorage.setItem(getAgendaKey(weekOffset), JSON.stringify(checks));
-}
-
-function renderAgenda(){
-  const container = document.getElementById('agenda-view');
-  const checks = getAgendaChecks(agendaWeekOffset);
-
-  // Calc week dates
-  const now = new Date();
-  const dayOfWeek = now.getDay() === 0 ? 6 : now.getDay() - 1;
-  const monday = new Date(now);
-  monday.setDate(now.getDate() - dayOfWeek + (agendaWeekOffset * 7));
-
-  const weekLabel = formatWeekLabel(monday);
-
-  // Count progress
-  let totalTasks = 0;
-  let doneTasks = 0;
-  AGENDA_DAYS.forEach(day => {
-    day.tasks.forEach(t => {
-      totalTasks++;
-      if(checks[t.id]) doneTasks++;
-    });
-  });
-  const pct = totalTasks ? Math.round((doneTasks/totalTasks)*100) : 0;
-
-  let html = `
-  <div class="agenda-week-nav">
-    <button class="agenda-week-btn" onclick="changeAgendaWeek(-1)">‹</button>
-    <div class="agenda-week-label">${weekLabel}</div>
-    <button class="agenda-week-btn" onclick="changeAgendaWeek(1)">›</button>
-  </div>
-  <div class="agenda-progress">
-    <div>
-      <div class="agenda-progress-val">${pct}%</div>
-      <div class="agenda-progress-label">Semaine complétée</div>
-    </div>
-    <div class="agenda-progress-bar">
-      <div class="agenda-progress-fill" style="width:${pct}%"></div>
-    </div>
-    <div class="agenda-progress-label">${doneTasks} / ${totalTasks} tâches</div>
-  </div>`;
-
-  AGENDA_DAYS.forEach((day, di) => {
-    const dayDate = new Date(monday);
-    dayDate.setDate(monday.getDate() + di);
-    const dateStr = dayDate.toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
-    const isToday = dayDate.toDateString() === now.toDateString();
-
-    const dayDone = day.tasks.filter(t => checks[t.id]).length;
-    const dayTotal = day.tasks.length;
-    const dayPct = Math.round((dayDone/dayTotal)*100);
-
-    html += `
-    <div class="agenda-day">
-      <div class="agenda-day-hdr ${day.type}" onclick="toggleAgendaDay(${di})">
-        <span>${day.emoji}</span>
-        <div>
-          <div class="agenda-day-name">${day.name} ${isToday ? '· <span style="color:var(--red);font-size:10px">Aujourd'hui</span>' : ''}</div>
-          <div style="font-size:10px;color:var(--grey)">${dateStr}</div>
-        </div>
-        <span class="agenda-day-type ${day.type}">${day.type}</span>
-        <div style="margin-left:auto;text-align:right">
-          ${dayDone===dayTotal ? '<div class="agenda-day-done">✓ Terminé</div>' : `<div class="agenda-day-count">${dayDone}/${dayTotal}</div>`}
-        </div>
-      </div>
-      <div class="agenda-day-body ${isToday?'open':''}" id="agenda-day-${di}">
-        <div class="agenda-tip">${day.tip}</div>
-        <div class="agenda-tasks">`;
-
-    day.tasks.forEach(task => {
-      const done = !!checks[task.id];
-      html += `
-        <div class="agenda-task ${done?'done':''}" onclick="toggleTask('${task.id}', ${di})">
-          <div class="task-check"></div>
-          <div class="task-pill ${task.pill}">${task.label}</div>
-          <div class="task-title">${task.title}</div>
-          <div class="task-duration">${task.duration}</div>
-        </div>`;
-    });
-
-    html += `</div></div></div>`;
-  });
-
-  container.innerHTML = html;
-}
-
-function toggleAgendaDay(di){
-  const body = document.getElementById('agenda-day-' + di);
-  if(body) body.classList.toggle('open');
-}
-
-function toggleTask(taskId, di){
-  const checks = getAgendaChecks(agendaWeekOffset);
-  const newVal = !checks[taskId];
-  saveAgendaCheck(agendaWeekOffset, taskId, newVal);
-  renderAgenda();
-  // Re-open the day that was toggled
-  setTimeout(()=>{
-    const body = document.getElementById('agenda-day-' + di);
-    if(body) body.classList.add('open');
-  }, 10);
-}
-
-function changeAgendaWeek(d){
-  agendaWeekOffset += d;
-  renderAgenda();
-}
-
-function formatWeekLabel(monday){
-  const sunday = new Date(monday);
-  sunday.setDate(monday.getDate() + 6);
-  const opts = {day:'numeric',month:'short'};
-  return monday.toLocaleDateString('fr-FR',opts) + ' — ' + sunday.toLocaleDateString('fr-FR',opts);
-}
 
 // ══════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════
-initApp();
+renderList();
 </script>
 </body>
 </html>
